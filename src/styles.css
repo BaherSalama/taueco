@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.slides{
+    transition: linear 1s;
+}

@@ -54,7 +54,7 @@ function graph() {
           pie
         </li>
       </ul>
-      <div class="tab -mr-5 -ml-8" classList={{ pending: pending() }}>
+      <div class="tab -mr-2 -ml-5" classList={{ pending: pending() }}>
         <Suspense fallback={<div class="loader">Loading...</div>}>
           <Switch>
             <Match when={tab() === 0}>

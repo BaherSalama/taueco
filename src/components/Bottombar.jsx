@@ -1,15 +1,11 @@
+import { createSelector } from "solid-js";
+
+
 function add_code(e){
   this.style.setProperty('--underline-width', `${e.target.offsetWidth}px`)
   this.style.setProperty('--underline-offset-x', `${encodeURIComponent.target.offsetLeft}px`);
 }
 
-// function ele (a,to,name){
-//   return (
-//     <li class="grow" onMouseOver={(e) => add_code(e,this)} onClick={a.updateTab(to)}>
-//     <a>{name}</a>
-//     </li>
-//   )
-// }
 
 function Ele (props){
   return (

@@ -27,13 +27,13 @@ function colorthem(a){
   let amount = a.amount
   let is_goal = a.is_goal
   if (amount > 0 && !is_goal){
-    sad = "+ " + amount +"$";
+    sad = "+ " + amount +" $";
     mat = "text-green-600"
   }else if (amount < 0 && !is_goal){
-    sad = "- "+ -amount +"$";
+    sad = "- "+ -amount +" $";
     mat = "text-red-600"
   }else{
-    sad = -amount +"%";
+    sad = amount +" %";
     mat = "text-blue-600"
   }
   return <p class={mat} >{sad}</p>
