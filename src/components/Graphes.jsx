@@ -23,6 +23,9 @@ function graph() {
     },
     grid: {
       show: false
+    },
+    chartOptions: {
+      labels: ['Apple', 'Mango', 'Orange', 'Watermelon']
     }
   });
   const [series] = createSignal([
@@ -30,11 +33,52 @@ function graph() {
       data: [30, 40, 35, 50, 49, 60, 70, 100],
     },
   ]);
-
+  const [series3] = createSignal([
+    {
+      data: [30, 70],
+    },
+  ]);
+  const [options2] = createSignal({
+    series: [70,30],
+    labels: ['Income', 'spent'],
+    dataLabels: {
+      enabled: true,
+      formatter: function (val) {
+        return val + "%"
+      },
+    },
+    legend: {
+      show: true,
+      position: 'top',
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          labels: {
+            show: true,
+            name: {
+              show:true,
+            },
+            value: {
+              show:true,
+              formatter: function (val){
+                return val + "$"
+              }
+            },
+            total:{
+              show:true,
+              label:"total",
+              color:"red"
+            }
+          }
+        }
+      }
+    }
+  });
   const [tab, setTab] = createSignal(0);
   const [pending, start] = useTransition();
   const updateTab = (index) => () => start(() => setTab(index));
-  const stuff = ["Income","Spent","Goal"];
+  const stuff = ["Tansactions","Goals"];
   const days = ["M","T","W","T","F","S","S"];
   return (
     <div>
@@ -45,26 +89,20 @@ function graph() {
       </ul>
       <ul class="flex row justify-start gap-5">
         <li classList={{ selected: tab() === 0 }} onClick={updateTab(0)}>
-          bar
+          Pi
         </li>
         <li classList={{ selected: tab() === 1 }} onClick={updateTab(1)}>
           line
         </li>
-        <li classList={{ selected: tab() === 2 }} onClick={updateTab(2)}>
-          pie
-        </li>
       </ul>
-      <div class="tab -mr-2 -ml-5" classList={{ pending: pending() }}>
+      <div class="tab  -ml-9" classList={{ pending: pending() }}>
         <Suspense fallback={<div class="loader">Loading...</div>}>
           <Switch>
             <Match when={tab() === 0}>
-                <SolidApexCharts width="100%" height="300" type="area" options={options()} series={series()} />
+                <SolidApexCharts width="106%" height="300" type="donut"  options={options2()} />
             </Match>
             <Match when={tab() === 1}>
-                <SolidApexCharts width="100%" height="300" type="line" options={options()} series={series()} />
-            </Match>
-            <Match when={tab() === 2}>
-                <SolidApexCharts width="100%" height="300" type="donut" series={series()} />
+                <SolidApexCharts width="106%" height="300" type="area" options={options()} series={series()} />
             </Match>
           </Switch>
         </Suspense>

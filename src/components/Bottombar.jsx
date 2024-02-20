@@ -20,7 +20,7 @@ function Ele (props){
 
 function bottombar(a) {
   return (
-    <div class="left-0 fixed bottom-6 h-16 w-full bg-white  drop-shadow-lg rounded-3xl">
+    <div class="left-1/2 fixed bottom-6 h-20 w-11/12 bg-white  drop-shadow-lg rounded-3xl -translate-x-1/2">
       <ul class="size-full flex row menu__list">
         <Ele a={a} to={0} name="home" svg="home" tab={a.tab}/>
         <Ele a={a} to={1} name="trans" svg="arrow-2" tab={a.tab} />

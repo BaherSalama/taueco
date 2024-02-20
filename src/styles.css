@@ -10,10 +10,10 @@
     content: "";
     margin-top: 3px;
     background-color: black;
-    border-radius: 30%;
-    height: 0.2rem;
-    width: 50%;
-    transform: translateX(50%);
+    border-radius: 2px;
+    height: 0.25rem;
+    width: 40%;
+    transform: translateX(75%);
     box-shadow:
     0 2px 8px rgb(255, 162, 232);
 }
