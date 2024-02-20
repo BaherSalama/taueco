@@ -5,3 +5,15 @@
 .slides{
     transition: linear 1s;
 }
+
+.pageon ::after{
+    content: "";
+    margin-top: 3px;
+    background-color: black;
+    border-radius: 30%;
+    height: 0.2rem;
+    width: 50%;
+    transform: translateX(50%);
+    box-shadow:
+    0 2px 8px rgb(255, 162, 232);
+}

@@ -1,17 +1,8 @@
-import { createSignal, Suspense, Switch, Match, useTransition } from "solid-js";
-
-
-
-
-
-
-
 function Slides(props) {
   return (
-    <div class="mt-14 overflow-hidden">
-        <div class="flex flex-row transition-transform"  style={{transform:`translateX(${props.tab()*-100}%)`}} >
+    <div class="pt-14 ">
+        <div class="flex flex-row transition-transform h-screen"  style={{transform:`translateX(${props.tab()*-100}%)`}} >
         {props.children}
-        <div>{props.tab}</div>
         </div>
     </div>
   );

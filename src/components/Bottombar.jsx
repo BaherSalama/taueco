@@ -9,10 +9,10 @@ function add_code(e){
 
 function Ele (props){
   return (
-    <li class="w-full my-auto"  onClick={props.a.updateTab(props.to)}>
+    <li class="w-full my-auto"  classList={{ pageon: props.tab() === props.to }} onClick={props.a.updateTab(props.to)}>
     <a class="flex flex-col">
-      <img src={props.svg+".svg"} class="h-10"></img>
-      <p class="text-center">{props.name}</p>
+      <img src={props.svg+".svg"} class="h-8"></img>
+      <p class="text-center text-xs">{props.name}</p>
     </a>
     </li>
   )
@@ -22,13 +22,13 @@ function bottombar(a) {
   return (
     <div class="left-0 fixed bottom-6 h-16 w-full bg-white  drop-shadow-lg rounded-3xl">
       <ul class="size-full flex row menu__list">
-        <Ele a={a} to={0} name="home" svg="home"/>
-        <Ele a={a} to={1} name="trans" svg="arrow-2" />
+        <Ele a={a} to={0} name="home" svg="home" tab={a.tab}/>
+        <Ele a={a} to={1} name="trans" svg="arrow-2" tab={a.tab} />
         <li class="size-full">
-          <img src="add-circle.svg" class="mx-auto h-full"></img>
+          <img src="add-circle.svg" class="mx-auto h-full " > </img>
         </li>
-        <Ele a={a} to={2} name="goals" svg="cup" />
-        <Ele a={a} to={3} name="wallets" svg="wallet-3" />
+        <Ele a={a} to={2} name="goals" svg="cup" tab={a.tab}/>
+        <Ele a={a} to={3} name="wallets" svg="wallet-3" tab={a.tab}/>
       </ul>
     </div>
   );

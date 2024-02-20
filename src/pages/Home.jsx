@@ -10,6 +10,7 @@ function Home() {
   const [tab, setTab] = createSignal(0);
   const [pending, start] = useTransition();
   const updateTab = (index) => () => start(() => setTab(index));
+  const [settings, setSettings] = createSignal(false);
   let sad = {
     "income":[
       {
@@ -130,7 +131,8 @@ function Home() {
     ]
   }
   return (
-    <div class="mx-5">
+    <div class="overflow-hidden">
+      
       <Topbar></Topbar>
       <Slides tab={tab}>
         <Slide>
@@ -140,16 +142,16 @@ function Home() {
           <Transaction a="income" b={sad}></Transaction>
         </Slide>
         <Slide>
-          <p class="dark:text-white  text-center">Current balance</p>
-          <h1 class="dark:text-white  text-center">3000</h1>
-          <Graphes/>
           <Transaction a="income" b={sad}></Transaction>
         </Slide>
         <Slide>
-          <Graphes/>
+          <Transaction a="income" b={sad}></Transaction>
+        </Slide>
+        <Slide>
+          <Transaction a="income" b={sad}></Transaction>
         </Slide>
       </Slides>
-      <Bottombar updateTab={updateTab}></Bottombar>
+      <Bottombar updateTab={updateTab} tab={tab}></Bottombar>
     </div>
   );
 }
