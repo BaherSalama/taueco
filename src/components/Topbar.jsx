@@ -1,9 +1,5 @@
 import { createSignal , Switch, Match, useTransition} from "solid-js";
-
 import { SolidApexCharts } from 'solid-apexcharts';
-
-
-
 
 function Topbar() {
   function toggle_theme(){
