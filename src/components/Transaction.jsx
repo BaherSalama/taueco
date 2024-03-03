@@ -41,7 +41,6 @@ function colorthem(a){
 
 
 function Transaction(p) {
-
   return (
     <div>
     <h1>{p.a}</h1>

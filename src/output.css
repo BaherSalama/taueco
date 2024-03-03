@@ -635,10 +635,6 @@ video {
   width: 100%;
 }
 
-.min-w-full {
-  min-width: 100%;
-}
-
 .-translate-x-1\/2 {
   --tw-translate-x: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -676,10 +672,6 @@ video {
   overflow: hidden;
 }
 
-.overflow-y-auto {
-  overflow-y: auto;
-}
-
 .rounded-3xl {
   border-radius: 1.5rem;
 }
@@ -687,10 +679,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.p-5 {
-  padding: 1.25rem;
 }
 
 .pt-14 {
@@ -741,6 +729,18 @@ video {
   transition: linear 1s;
 }
 
+.slide{
+  min-width:100%;
+  overflow-y:hidden;
+  overflow-x: hidden;
+  height:100%;
+  padding:1.25rem;
+}
+
+.slide:hover{
+  overflow-y: scroll;
+}
+
 .pageon ::after{
   content: "";
   margin-top: 3px;
@@ -753,6 +753,32 @@ video {
     0 2px 8px rgb(255, 162, 232);
 }
 
+/* width */
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+  background: rgb(81, 81, 81);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+  background: #150067;
+}
+
 :is(.dark .dark\:bg-gray-950) {
   --tw-bg-opacity: 1;
   background-color: rgb(3 7 18 / var(--tw-bg-opacity));
@@ -762,3 +788,4 @@ video {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
+
