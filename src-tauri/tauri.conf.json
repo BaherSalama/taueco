@@ -1,5 +1,5 @@
 {
-  "productName": "econome",
+  "productName": "test",
   "version": "0.0.0",
   "identifier": "com.tauri.dev",
   "build": {
@@ -10,9 +10,7 @@
   },
   "app": {"windows": [
       {
-        "fullscreen": false,
-        "resizable": true,
-        "title": "econome",
+        "title": "test",
         "width": 800,
         "height": 600
       }

@@ -95,14 +95,14 @@ function graph() {
           line
         </li>
       </ul>
-      <div class="tab  -ml-9" classList={{ pending: pending() }}>
+      <div class="tab" classList={{ pending: pending() }}>
         <Suspense fallback={<div class="loader">Loading...</div>}>
           <Switch>
             <Match when={tab() === 0}>
-                <SolidApexCharts width="106%" height="300" type="donut"  options={options2()} />
+                <SolidApexCharts width="100%" height="300" type="donut"  options={options2()} />
             </Match>
             <Match when={tab() === 1}>
-                <SolidApexCharts width="106%" height="300" type="area" options={options()} series={series()} />
+                <SolidApexCharts width="100%" height="300" type="area" options={options()} series={series()} />
             </Match>
           </Switch>
         </Suspense>
