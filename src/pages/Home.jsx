@@ -140,8 +140,8 @@ function Home() {
       <Topbar></Topbar>
       <Slides tab={tab}>
         <Slide>
-          <p class="dark:text-white  text-center">Current balance</p>
-          <h1 class="dark:text-white  text-center">3000</h1>
+          <p class="SfProBold text-gray-500 dark:text-white text-center text-base">Current Balance</p>
+          <h1 class="SfProBold dark:text-white text-center text-5xl py-5"><span class="text-xl">$</span>3,745.40</h1>          
           <Graphes/>
           <Transaction a="income" b={sad}></Transaction>
         </Slide>

@@ -78,7 +78,7 @@ function graph() {
   const [tab, setTab] = createSignal(0);
   const [pending, start] = useTransition();
   const updateTab = (index) => () => start(() => setTab(index));
-  const stuff = ["Tansactions","Goals"];
+  const stuff = ["Transactions","Goals"];
   const days = ["M","T","W","T","F","S","S"];
   return (
     <div>

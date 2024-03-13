@@ -604,6 +604,8 @@ video {
 
 .z-10 {
   z-index: 10;
+.m-auto {
+  margin: auto;
 }
 
 .mx-auto {
@@ -638,6 +640,11 @@ video {
 
 .grid {
   display: grid;
+}
+
+.size-5\/6 {
+  width: 83.333333%;
+  height: 83.333333%;
 }
 
 .size-full {
@@ -732,6 +739,8 @@ video {
 
 .rounded-3xl {
   border-radius: 1.5rem;
+.rounded-full {
+  border-radius: 9999px;
 }
 
 .bg-red-700 {
@@ -751,6 +760,14 @@ video {
 
 .bg-opacity-40 {
   --tw-bg-opacity: 0.4;
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 .pt-14 {
@@ -761,9 +778,24 @@ video {
   text-align: center;
 }
 
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .text-xs {
@@ -776,6 +808,11 @@ video {
   color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 
+.text-gray-500 {
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+
 .text-green-600 {
   --tw-text-opacity: 1;
   color: rgb(22 163 74 / var(--tw-text-opacity));
@@ -784,11 +821,6 @@ video {
 .text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity));
-}
-
-.drop-shadow-lg {
-  --tw-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .transition-transform {
@@ -822,7 +854,12 @@ video {
   width: 40%;
   transform: translateX(75%);
   box-shadow:
-    0 2px 8px rgb(255, 162, 232);
+    0 2px 8px rgb(211, 189, 255);
+}
+
+.BarShadow{
+  box-shadow:
+  0 6px 15px rgb(235, 233, 248);
 }
 
 /* width */
@@ -860,6 +897,37 @@ video {
   .slide-fade-exit-to {
   bottom: -100%;
   opacity: 1;
+/* Font */
+
+.ZenDot {
+  font-family: "ZenDots", sans-serif;
+  letter-spacing: 5px;
+}
+
+.SfProMeduim{
+  font-family: "SfProMeduim", sans-serif;
+}
+
+.SfProBold{
+  font-family: "SfProBold", sans-serif;
+}
+
+@font-face {
+  font-family: "ZenDots";
+
+  src: url("/public/Fonts/ZenDots-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SfProMeduim";
+
+  src: url("/public/Fonts/SFPRODISPLAYMEDIUM.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SfProBold";
+
+  src: url("/public/Fonts/SFPRODISPLAYBOLD.ttf") format("truetype");
 }
 
 :is(.dark .dark\:bg-gray-950) {

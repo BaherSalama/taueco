@@ -27,7 +27,13 @@
     width: 40%;
     transform: translateX(75%);
     box-shadow:
-    0 2px 8px rgb(255, 162, 232);
+    0 2px 8px rgb(211, 189, 255);
+}
+
+.BarShadow{
+  box-shadow:
+  0 6px 15px rgb(235, 233, 248); 
+
 }
 
 /* width */
@@ -63,3 +69,32 @@
     bottom: -100%;
     opacity: 1;
   }
+/* Font */
+.ZenDot {
+  font-family: "ZenDots", sans-serif; 
+  letter-spacing: 5px;
+}
+
+.SfProMeduim{
+  font-family: "SfProMeduim", sans-serif; 
+}
+
+.SfProBold{
+  font-family: "SfProBold", sans-serif; 
+}
+
+
+@font-face {
+  font-family: "ZenDots"; 
+  src: url("/public/Fonts/ZenDots-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SfProMeduim"; 
+  src: url("/public/Fonts/SFPRODISPLAYMEDIUM.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SfProBold"; 
+  src: url("/public/Fonts/SFPRODISPLAYBOLD.ttf") format("truetype");
+}
