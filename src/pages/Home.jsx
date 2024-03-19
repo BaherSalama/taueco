@@ -5,6 +5,7 @@ import Transaction from "../components/Transaction"
 import Bottombar from "../components/Bottombar"
 import Slides from "../components/Slides";
 import Slide from "../components/Slide";
+import BottomSheet from "../components/Bottomsheet";
 
 function Home() {
   const [tab, setTab] = createSignal(0);
@@ -130,9 +131,12 @@ function Home() {
       }
     ]
   }
+  const [on, seton] = createSignal(true);
   return (
     <div class="overflow-hidden">
-      
+      <Show when={on()}>
+      <div class="size-full bg-stone-800 bg-opacity-40 absolute z-10" onClick={()=> seton(false)}></div>
+      </Show>
       <Topbar></Topbar>
       <Slides tab={tab}>
         <Slide>
@@ -151,7 +155,8 @@ function Home() {
           <Transaction a="income" b={sad}></Transaction>
         </Slide>
       </Slides>
-      <Bottombar updateTab={updateTab} tab={tab}></Bottombar>
+      <Bottombar updateTab={updateTab} seton={seton} tab={tab}></Bottombar>
+      <BottomSheet on={on} sad={seton} ></BottomSheet>
     </div>
   );
 }

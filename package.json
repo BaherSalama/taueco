@@ -17,7 +17,8 @@
     "@tauri-apps/plugin-shell": ">=2.0.0-beta.0",
     "apexcharts": "^3.46.0",
     "solid-apexcharts": "^0.3.4",
-    "solid-js": "^1.7.8"
+    "solid-js": "^1.7.8",
+    "solid-transition-group": "^0.2.3"
   },
   "devDependencies": {
     "vite": "^5.0.0",

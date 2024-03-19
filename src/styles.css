@@ -52,3 +52,14 @@
     background: #150067; 
   }
 
+
+
+  .slide-fade-enter-active, .slide-fade-exit-active {
+    transition: all 0.3s ease;
+    /* transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1); */
+  }
+  .slide-fade-enter,
+  .slide-fade-exit-to {
+    bottom: -100%;
+    opacity: 1;
+  }

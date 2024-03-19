@@ -24,7 +24,7 @@ function bottombar(a) {
       <ul class="size-full flex row menu__list">
         <Ele a={a} to={0} name="home" svg="home" tab={a.tab}/>
         <Ele a={a} to={1} name="trans" svg="arrow-2" tab={a.tab} />
-        <li class="size-full">
+        <li class="size-full" onClick={()=> a.seton(true)}>
           <img src="add-circle.svg" class="mx-auto h-full " > </img>
         </li>
         <Ele a={a} to={2} name="goals" svg="cup" tab={a.tab}/>
