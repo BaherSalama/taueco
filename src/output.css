@@ -949,6 +949,16 @@ video {
   src: url("/public/Fonts/SFPRODISPLAYBOLD.ttf") format("truetype");
 }
 
+.stack-right-enter-active, .stack-left-exit-active {
+  transition: all 0.3s ease;
+}
+
+.stack-right-enter,
+  .stack-right-exit-to {
+  left: -100%;
+  opacity: 1;
+}
+
 :is(.dark .dark\:bg-gray-950) {
   --tw-bg-opacity: 1;
   background-color: rgb(3 7 18 / var(--tw-bg-opacity));
