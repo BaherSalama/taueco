@@ -95,17 +95,17 @@
 
 @font-face {
   font-family: "ZenDots"; 
-  src: url("/public/Fonts/ZenDots-Regular.ttf") format("truetype");
+  src: url("/Fonts/ZenDots-Regular.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SfProMeduim"; 
-  src: url("/public/Fonts/SFPRODISPLAYMEDIUM.ttf") format("truetype");
+  src: url("/Fonts/SFPRODISPLAYMEDIUM.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SfProBold"; 
-  src: url("/public/Fonts/SFPRODISPLAYBOLD.ttf") format("truetype");
+  src: url("/Fonts/SFPRODISPLAYBOLD.ttf") format("truetype");
 }
 
   .stack-right-enter-active, .stack-left-exit-active {

@@ -610,6 +610,10 @@ video {
   margin: auto;
 }
 
+.m-4 {
+  margin: 1rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -658,10 +662,6 @@ video {
   height: 33.333333%;
 }
 
-.h-14 {
-  height: 3.5rem;
-}
-
 .h-20 {
   height: 5rem;
 }
@@ -674,16 +674,20 @@ video {
   height: 2rem;
 }
 
-.h-96 {
-  height: 24rem;
-}
-
 .h-full {
   height: 100%;
 }
 
 .h-screen {
   height: 100vh;
+}
+
+.h-5 {
+  height: 1.25rem;
+}
+
+.h-10 {
+  height: 2.5rem;
 }
 
 .w-10 {
@@ -709,6 +713,10 @@ video {
 
 .flex-row {
   flex-direction: row;
+}
+
+.flex-row-reverse {
+  flex-direction: row-reverse;
 }
 
 .flex-col {
@@ -762,6 +770,14 @@ video {
   --tw-bg-opacity: 0.4;
 }
 
+.p-5 {
+  padding: 1.25rem;
+}
+
+.p-10 {
+  padding: 2.5rem;
+}
+
 .px-5 {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
@@ -772,8 +788,21 @@ video {
   padding-bottom: 1.25rem;
 }
 
+.py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
 .pt-14 {
   padding-top: 3.5rem;
+}
+
+.pt-5 {
+  padding-top: 1.25rem;
+}
+
+.pt-10 {
+  padding-top: 2.5rem;
 }
 
 .text-center {
@@ -803,11 +832,6 @@ video {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
 }
 
 .text-blue-600 {
@@ -939,19 +963,19 @@ video {
 @font-face {
   font-family: "ZenDots";
 
-  src: url("/public/Fonts/ZenDots-Regular.ttf") format("truetype");
+  src: url("/Fonts/ZenDots-Regular.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SfProMeduim";
 
-  src: url("/public/Fonts/SFPRODISPLAYMEDIUM.ttf") format("truetype");
+  src: url("/Fonts/SFPRODISPLAYMEDIUM.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SfProBold";
 
-  src: url("/public/Fonts/SFPRODISPLAYBOLD.ttf") format("truetype");
+  src: url("/Fonts/SFPRODISPLAYBOLD.ttf") format("truetype");
 }
 
 .stack-right-enter-active, .stack-left-exit-active {

@@ -7,6 +7,7 @@ import Slides from "../components/Slides";
 import Slide from "../components/Slide";
 import BottomSheet from "../components/Bottomsheet";
 import Stack from "../components/Stack";
+import Page from "../components/Page";
 
 
 function Home() {
@@ -135,12 +136,21 @@ function Home() {
   }
   const [sheeton, sheet_set] = createSignal(false);
   const [stackon, stack_set] = createSignal(false);
+  
+  function toggle_theme(){
+    document.documentElement.classList.toggle("dark")
+  }
+  
   return (
     <div class="overflow-hidden">
       <Show when={sheeton()}>
       <div class="size-full bg-stone-800 bg-opacity-40 absolute z-10" onClick={()=> sheet_set(false)}></div>
       </Show>
-      <Topbar stack_set={stack_set}></Topbar>
+      <Topbar>
+        <img src="/menu.svg" onClick={() => stack_set(true)}></img>
+        <a class="ZenDot dark:text-white text-2xl">econome</a>
+        <img src="/moon.svg" onClick={toggle_theme}></img>
+      </Topbar>
       <Slides tab={tab}>
         <Slide>
           <p class="SfProBold text-gray-500 dark:text-white text-center text-base">Current Balance</p>
@@ -159,8 +169,22 @@ function Home() {
         </Slide>
       </Slides>
       <Bottombar updateTab={updateTab} seton={sheet_set} tab={tab}></Bottombar>
-      <BottomSheet on={sheeton} sad={sheet_set} ></BottomSheet>
-      <Stack anim={"stack-left"} on={stackon} sad={stack_set} ></Stack>
+      <BottomSheet on={sheeton} sad={sheet_set}>
+        <Page pad={"py-10 px-5"}>
+          <Topbar cls="flex-row-reverse h-10">
+            <img src="/close-circle.svg" onClick={()=> sheet_set(false)}></img>
+          </Topbar>
+          <h1>sad</h1>
+        </Page>
+      </BottomSheet>
+      <Stack anim={"stack-left"} on={stackon}>
+        <Page pad={"py-10 px-5"}>
+          <Topbar cls="flex-row-reverse h-10">
+            <img src="/close-circle.svg" onClick={()=> stack_set(false)}></img>
+          </Topbar>
+          <h1>sad</h1>
+        </Page>
+      </Stack>
     </div>
   );
 }
