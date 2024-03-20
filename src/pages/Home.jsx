@@ -134,7 +134,7 @@ function Home() {
     ]
   }
   const [sheeton, sheet_set] = createSignal(false);
-  const [stackon, stack_set] = createSignal(true);
+  const [stackon, stack_set] = createSignal(false);
   return (
     <div class="overflow-hidden">
       <Show when={sheeton()}>
