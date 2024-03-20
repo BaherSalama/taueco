@@ -6,6 +6,8 @@ import Bottombar from "../components/Bottombar"
 import Slides from "../components/Slides";
 import Slide from "../components/Slide";
 import BottomSheet from "../components/Bottomsheet";
+import Stack from "../components/Stack";
+
 
 function Home() {
   const [tab, setTab] = createSignal(0);
@@ -131,13 +133,14 @@ function Home() {
       }
     ]
   }
-  const [on, seton] = createSignal(true);
+  const [sheeton, sheet_set] = createSignal(false);
+  const [stackon, stack_set] = createSignal(true);
   return (
     <div class="overflow-hidden">
-      <Show when={on()}>
-      <div class="size-full bg-stone-800 bg-opacity-40 absolute z-10" onClick={()=> seton(false)}></div>
+      <Show when={sheeton()}>
+      <div class="size-full bg-stone-800 bg-opacity-40 absolute z-10" onClick={()=> sheet_set(false)}></div>
       </Show>
-      <Topbar></Topbar>
+      <Topbar stack_set={stack_set}></Topbar>
       <Slides tab={tab}>
         <Slide>
           <p class="SfProBold text-gray-500 dark:text-white text-center text-base">Current Balance</p>
@@ -155,8 +158,9 @@ function Home() {
           <Transaction a="income" b={sad}></Transaction>
         </Slide>
       </Slides>
-      <Bottombar updateTab={updateTab} seton={seton} tab={tab}></Bottombar>
-      <BottomSheet on={on} sad={seton} ></BottomSheet>
+      <Bottombar updateTab={updateTab} seton={sheet_set} tab={tab}></Bottombar>
+      <BottomSheet on={sheeton} sad={sheet_set} ></BottomSheet>
+      <Stack anim={"stack-left"} on={stackon} sad={stack_set} ></Stack>
     </div>
   );
 }
