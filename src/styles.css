@@ -11,11 +11,22 @@
   overflow-y:hidden;
   overflow-x: hidden;
   height:100%;
-  padding:1.25rem;
+  padding:2rem;
+  scrollbar-gutter: stable;
 }
 
 .slide:hover{
-  overflow-y: scroll;
+  overflow-y: overlay;
+}
+
+.showbar{
+  overflow-y:hidden;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+
+.showbar:hover{
+  overflow-y: overlay;
 }
 
 .pageon ::after{
@@ -38,19 +49,19 @@
 
 /* width */
 ::-webkit-scrollbar {
-    width: 7px;
+    width: 5px;
   }
   
   /* Track */
   ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px grey; 
-    border-radius: 10px;
+    border-radius: 5px;
   }
    
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background: rgb(81, 81, 81); 
-    border-radius: 10px;
+    border-radius: 5px;
   }
   
   /* Handle on hover */

@@ -1,7 +1,8 @@
 function Page(props) {
     return (
       <div class={"size-full " + props.pad}>
-        <div class="px-5 overflow-y-auto h-full">
+        {props.bar}
+        <div class="px-5 showbar h-full">
          {props.children}
         </div>
       </div>

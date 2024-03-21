@@ -8,6 +8,7 @@ import Slide from "../components/Slide";
 import BottomSheet from "../components/Bottomsheet";
 import Stack from "../components/Stack";
 import Page from "../components/Page";
+import Sprofile from "../components/Sprofile";
 
 
 function Home() {
@@ -178,14 +179,12 @@ function Home() {
         </Page>
       </BottomSheet>
       <Stack anim={"stack-left"} on={stackon}>
-        <Page pad={"pt-10"}>
-          <Topbar cls="flex-row-reverse h-10">
+        <Page pad={"pt-20"} bar={
+          <Topbar cls="flex-row h-20 m-auto">
+            <Sprofile></Sprofile>
             <img src="/close-circle.svg" onClick={()=> stack_set(false)}></img>
           </Topbar>
-          <h1>sad</h1>
-          <div class="h-96 bg-slate-600"></div>
-          <div class="h-96 bg-orange-700"></div>
-          <div class="h-96 bg-orange-700"></div>
+        }>
         </Page>
       </Stack>
     </div>
