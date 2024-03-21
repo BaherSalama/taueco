@@ -49,19 +49,18 @@
 
 /* width */
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 0.3rem;
   }
   
   /* Track */
   ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey; 
-    border-radius: 5px;
+
   }
    
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background: rgb(81, 81, 81); 
-    border-radius: 5px;
+    border-radius: 0px;
   }
   
   /* Handle on hover */
