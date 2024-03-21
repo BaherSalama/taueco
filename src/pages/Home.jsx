@@ -178,11 +178,14 @@ function Home() {
         </Page>
       </BottomSheet>
       <Stack anim={"stack-left"} on={stackon}>
-        <Page pad={"py-10 px-5"}>
+        <Page pad={"pt-10"}>
           <Topbar cls="flex-row-reverse h-10">
             <img src="/close-circle.svg" onClick={()=> stack_set(false)}></img>
           </Topbar>
           <h1>sad</h1>
+          <div class="h-96 bg-slate-600"></div>
+          <div class="h-96 bg-orange-700"></div>
+          <div class="h-96 bg-orange-700"></div>
         </Page>
       </Stack>
     </div>
