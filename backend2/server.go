@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"encoding/json"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -11,6 +12,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", handler)
+	http.HandleFunc("GET /user/{id}", handler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

@@ -682,6 +682,10 @@ video {
   height: 100vh;
 }
 
+.h-14 {
+  height: 3.5rem;
+}
+
 .w-11\/12 {
   width: 91.666667%;
 }
@@ -849,26 +853,26 @@ video {
   transition-duration: 150ms;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 .slides{
   transition: linear 1s;
 }
 
 .slide{
   min-width:100%;
-  overflow-y:hidden;
+  overflow-y:auto;
   overflow-x: hidden;
   height:100%;
   padding:2rem;
   scrollbar-gutter: stable;
 }
 
-.slide:hover{
-  overflow-y: overlay;
-}
-
 .showbar{
   overflow-y:hidden;
-  overflow-x: hidden;
+  overflow-x: auto;
   scrollbar-gutter: stable;
 }
 

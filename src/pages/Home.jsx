@@ -9,6 +9,7 @@ import BottomSheet from "../components/Bottomsheet";
 import Stack from "../components/Stack";
 import Page from "../components/Page";
 import Sprofile from "../components/Sprofile";
+import Iconitem from "../components/Iconitem";
 
 
 function Home() {
@@ -147,7 +148,7 @@ function Home() {
       <Show when={sheeton()}>
       <div class="size-full bg-stone-800 bg-opacity-40 absolute z-10" onClick={()=> sheet_set(false)}></div>
       </Show>
-      <Topbar>
+      <Topbar cls="h-14 m-auto">
         <img src="/menu.svg" onClick={() => stack_set(true)}></img>
         <a class="ZenDot dark:text-white text-2xl">econome</a>
         <img src="/moon.svg" onClick={toggle_theme}></img>
@@ -178,13 +179,14 @@ function Home() {
           <h1>sad</h1>
         </Page>
       </BottomSheet>
-      <Stack anim={"stack-left"} on={stackon}>
+      <Stack anim={"stack-left"} on={stackon} set={stack_set}>
         <Page pad={"pt-20"} bar={
           <Topbar cls="flex-row h-20 m-auto">
             <Sprofile></Sprofile>
             <img src="/close-circle.svg" onClick={()=> stack_set(false)}></img>
           </Topbar>
         }>
+        <Iconitem icon="/close-circle.svg" text="sad"  ></Iconitem>
         </Page>
       </Stack>
     </div>
