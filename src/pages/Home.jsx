@@ -137,8 +137,9 @@ function Home() {
     ]
   }
   const [sheeton, sheet_set] = createSignal(false);
-  const [stackon, stack_set] = createSignal(false);
-  
+  const [setting, settings_set] = createSignal(false);
+  const [about, about_set] = createSignal(false);  
+
   function toggle_theme(){
     document.documentElement.classList.toggle("dark")
   }
@@ -149,7 +150,7 @@ function Home() {
       <div class="size-full bg-stone-800 bg-opacity-40 absolute z-10" onClick={()=> sheet_set(false)}></div>
       </Show>
       <Topbar cls="h-14 m-auto">
-        <img src="/menu.svg" onClick={() => stack_set(true)}></img>
+        <img src="/menu.svg" onClick={() => settings_set(true)}></img>
         <a class="ZenDot dark:text-white text-2xl">econome</a>
         <img src="/moon.svg" onClick={toggle_theme}></img>
       </Topbar>
@@ -179,14 +180,23 @@ function Home() {
           <h1>sad</h1>
         </Page>
       </BottomSheet>
-      <Stack anim={"stack-left"} on={stackon} set={stack_set}>
+      <Stack anim={"stack-left"} on={setting} set={settings_set}>
         <Page pad={"pt-20"} bar={
           <Topbar cls="flex-row h-20 m-auto">
             <Sprofile></Sprofile>
-            <img src="/close-circle.svg" onClick={()=> stack_set(false)}></img>
+            <img src="/close-circle.svg" onClick={()=> settings_set(false)}></img>
           </Topbar>
         }>
-        <Iconitem icon="/close-circle.svg" text="sad"  ></Iconitem>
+        <Iconitem icon="/close-circle.svg" text="sad" act={()=> about_set(true)}></Iconitem>
+        </Page>
+      </Stack>
+    <Stack anim={"stack-left"} on={about} set={about_set}>
+        <Page pad={"pt-20"} bar={
+          <Topbar cls="flex-row h-20 m-auto">
+            <h1 className="text-center">about</h1>
+            <img src="/close-circle.svg" onClick={()=> about_set(false)}></img>
+          </Topbar>
+        }>
         </Page>
       </Stack>
     </div>
