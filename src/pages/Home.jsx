@@ -1,4 +1,4 @@
-import { createSignal, Suspense, Switch, Match, useTransition } from "solid-js";
+import { createSignal, useTransition } from "solid-js";
 import Topbar from "../components/Topbar";
 import Graphes from "../components/Graphes"
 import Transaction from "../components/Transaction"
@@ -10,13 +10,33 @@ import Stack from "../components/Stack";
 import Page from "../components/Page";
 import Sprofile from "../components/Sprofile";
 import Iconitem from "../components/Iconitem";
+import {
+  isPermissionGranted,
+  requestPermission,
+  sendNotification,
+} from '@tauri-apps/plugin-notification';
 
+async function notify(){
+  let permissionGranted = await isPermissionGranted();
 
+  // If not we need to request it
+  if (!permissionGranted) {
+    const permission = await requestPermission();
+    console.log(permission)
+    permissionGranted = permission === 'granted';
+  }
+
+  // Once permission has been granted we can send the notification
+  if (permissionGranted) {
+    sendNotification({ title: 'Tauri', body: 'Tauri is awesome!' });
+  }
+}
 function Home() {
   const [tab, setTab] = createSignal(0);
   const [pending, start] = useTransition();
   const updateTab = (index) => () => start(() => setTab(index));
-  const [settings, setSettings] = createSignal(false);
+  // Do you have permission to send a notification?
+  
   let sad = {
     "income":[
       {
@@ -143,7 +163,7 @@ function Home() {
   function toggle_theme(){
     document.documentElement.classList.toggle("dark")
   }
-  
+
   return (
     <div class="overflow-hidden">
       <Show when={sheeton()}>
@@ -190,13 +210,14 @@ function Home() {
         <Iconitem icon="/close-circle.svg" text="sad" act={()=> about_set(true)}></Iconitem>
         </Page>
       </Stack>
-    <Stack anim={"stack-left"} on={about} set={about_set}>
+    <Stack anim={"stack-right"} on={about} set={about_set}>
         <Page pad={"pt-20"} bar={
           <Topbar cls="flex-row h-20 m-auto">
-            <h1 className="text-center">about</h1>
+            <h1 className="text-center m-auto SfProBold dark:text-white text-3xl">about</h1>
             <img src="/close-circle.svg" onClick={()=> about_set(false)}></img>
           </Topbar>
         }>
+          <button>sad</button>
         </Page>
       </Stack>
     </div>
