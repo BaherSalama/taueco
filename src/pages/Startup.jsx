@@ -89,7 +89,7 @@ function Startup() {
             <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Forget password</h1>
           </Topbar>
         }>
-          <div class= "flex flex-col justify-center size-full mb-4 ">
+          <div class= "flex flex-col justify-center size-full mb-4 " onClick={()=> re_type_pin_set(true)}>
             <p class="text-left SfProBold tracking-wide font-medium text-4xl mt-8">Don’t worry.</p>
             <p class="text-left SfProBold tracking-wide font-medium text-4xl mr-26"> 
             Enter your email and we’ll send you a link to reset your password.</p>
@@ -148,11 +148,18 @@ function Startup() {
       <Stack anim={"stack-right"} on={setup_account} set={setup_account_set}>
         <Page pad={"pt-16"} bar={
           <Topbar cls="flex-row h-16 m-auto">
-            <img class="z-10" src="/arrow-left.svg" onClick={()=> setup_account_set(false)}></img>
-            <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Setup account</h1>
+            <a onClick={()=> setup_account_data_set(true)}>
+              <p class="fixed w-full text-right m-auto SfPromedium dark:text-white text-gray-500 text-s">Skip</p>
+            </a>
           </Topbar>
         }>
-          <button onClick={()=> setup_account_data_set(true)}>10</button>
+          <div class= "flex flex-col justify-center size-full mb-4 ">
+          <p class="text-left SfProBold tracking-wide font-medium text-5xl mt-8 mr-12">Let’s setup your account!</p>
+          <p class="text-left SfProBold tracking-wide font-medium  text-gray-500 mt-4 text-s mr-28"> 
+           Account can be your bank, credit card or your wallet.</p>
+          <Pushv/>
+            <img class="object-none object-right w-16" src="/arrow-right.svg" onClick={()=>setup_account_data_set(true)}></img>
+          </div>
         </Page>
       </Stack>
       {/* 11 */}
