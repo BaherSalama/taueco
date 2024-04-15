@@ -17,6 +17,7 @@ import {
   sendNotification,
 } from '@tauri-apps/plugin-notification';
 import Item2names from "../components/Item2names";
+import MainSettings from "../components/MainSettings";
 
 async function notify(){
   let permissionGranted = await isPermissionGranted();
@@ -165,12 +166,6 @@ function Home() {
   const [privacy, privacy_set] = createSignal(false);  
   const [terms, terms_set] = createSignal(false);  
   const [exo, exo_set] = createSignal(false);  
-  const [curnancy, curnancy_set] = createSignal(false);  
-  const [lang, lang_set] = createSignal(false);  
-  const [theme, theme_set] = createSignal(false);  
-  const [security, security_set] = createSignal(false);  
-  const [notifi, notifi_set] = createSignal(false);  
-
   function toggle_theme(){
     document.documentElement.classList.toggle("dark")
   }
@@ -248,7 +243,6 @@ function Home() {
             <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">privacy</h1>
           </Topbar>
         }>
-          <button>what</button>
         </Page>
       </Stack>
       {/*terms*/}
@@ -262,28 +256,7 @@ function Home() {
           <button>what</button>
         </Page>
       </Stack>
-      {/*Settings*/}
-      <Stack anim={"stack-right"} on={setting2} set={setting2_set}>
-        <Page pad={"pt-16"} bar={
-          <Topbar cls="flex-row h-16 m-auto">
-            <img class="z-10" src="/arrow-left.svg" onClick={()=> setting2_set(false)}></img>
-            <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Settings</h1>
-          </Topbar>
-        }>
-          <Item2names icon="/unlock.svg" text="Privacy Policy" act={()=> curnancy_set(true)}/>
-        </Page>
-      </Stack>
-      {/*Settings/cur*/}
-      <Stack anim={"stack-right"} on={curnancy} set={curnancy_set}>
-        <Page pad={"pt-16"} bar={
-          <Topbar cls="flex-row h-16 m-auto">
-            <img class="z-10" src="/arrow-left.svg" onClick={()=> curnancy_set(false)}></img>
-            <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">curnancy</h1>
-          </Topbar>
-        }>
-          <button>what</button>
-        </Page>
-      </Stack>
+      <MainSettings setting2={setting2} setting2_set={setting2_set}/>
       <BottomSheet on={exo} sad={exo_set}>
         <Page pad={"py-10 px-5"}>
           <Topbar cls="flex-row-reverse h-10">

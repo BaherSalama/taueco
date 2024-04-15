@@ -10,7 +10,6 @@ function Startup() {
   const [tab, setTab] = createSignal(0);
   const [pending, start] = useTransition();
   const updateTab = (index) => () => start(() => setTab(index));
-  // Do you have permission to send a notification?
   const sheet_set = createSignal(false);
   const [login, login_set] = createSignal(false);  
   const [signup, signup_set] = createSignal(false);  

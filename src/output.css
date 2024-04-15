@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.3 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -211,6 +211,8 @@ textarea {
   /* 1 */
   line-height: inherit;
   /* 1 */
+  letter-spacing: inherit;
+  /* 1 */
   color: inherit;
   /* 1 */
   margin: 0;
@@ -234,9 +236,9 @@ select {
 */
 
 button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
+input:where([type='button']),
+input:where([type='reset']),
+input:where([type='submit']) {
   -webkit-appearance: button;
   /* 1 */
   background-color: transparent;
@@ -492,6 +494,10 @@ video {
   --tw-backdrop-opacity:  ;
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
 }
 
 ::backdrop {
@@ -542,6 +548,10 @@ video {
   --tw-backdrop-opacity:  ;
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
 }
 
 .container {
@@ -650,6 +660,14 @@ video {
   margin-left: 1.25rem;
 }
 
+.mr-12 {
+  margin-right: 3rem;
+}
+
+.mr-28 {
+  margin-right: 7rem;
+}
+
 .mr-3 {
   margin-right: 0.75rem;
 }
@@ -670,6 +688,8 @@ video {
   margin-top: 2rem;
 }
 
+.mt-auto {
+  margin-top: auto;
 .mt-auto {
   margin-top: auto;
 }
@@ -750,6 +770,10 @@ video {
 
 .w-11\/12 {
   width: 91.666667%;
+}
+
+.w-16 {
+  width: 4rem;
 }
 
 .w-6 {
@@ -1135,12 +1159,21 @@ html {
   opacity: 1;
 }
 
-:is(.dark .dark\:bg-gray-950) {
+.sad-enter-active, .sad-exit-active {
+  transition: all 0.3s ease;
+}
+
+.sad-enter,
+  .sad-exit-to {
+  opacity: 0;
+}
+
+.dark\:bg-gray-950:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(3 7 18 / var(--tw-bg-opacity));
 }
 
-:is(.dark .dark\:text-white) {
+.dark\:text-white:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }

@@ -128,3 +128,12 @@ html {
     left: -100%;
     opacity: 1;
   }
+
+  
+  .sad-enter-active, .sad-exit-active {
+    transition: all 0.3s ease;
+  }
+  .sad-enter,
+  .sad-exit-to {
+    opacity: 0;
+  }

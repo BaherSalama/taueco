@@ -1,6 +1,3 @@
-import { createSelector } from "solid-js";
-
-
 function add_code(e){
   this.style.setProperty('--underline-width', `${e.target.offsetWidth}px`)
   this.style.setProperty('--underline-offset-x', `${encodeURIComponent.target.offsetLeft}px`);
