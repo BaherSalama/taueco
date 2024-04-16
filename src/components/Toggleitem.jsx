@@ -4,7 +4,6 @@ function Toggleitem(props) {
         <div>
           <h6 class={"w-full SfProBold text-gray-950 dark:text-white my-auto" + (props.center ? " text-center":"")}>{props.text}</h6>
           <h6 class={"w-full SfProBold text-gray-500 dark:text-white my-auto" + (props.center ? " text-center":"")}>{props.text2}</h6>
-          <h1>{props.on}</h1>
         </div>
         <div class="mx-auto"></div>
         <label class={"inline-flex items-center me-5 cursor-pointer "}>

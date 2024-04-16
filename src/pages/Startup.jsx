@@ -4,13 +4,10 @@ import Sbutton from "../components/Sbutton";
 import Stack from "../components/Stack";
 import Topbar from "../components/Topbar";
 import Pushv from "../components/Pushv";
+import Inputtext from "../components/Inputtext";
 
 
 function Startup() {
-  const [tab, setTab] = createSignal(0);
-  const [pending, start] = useTransition();
-  const updateTab = (index) => () => start(() => setTab(index));
-  const sheet_set = createSignal(false);
   const [login, login_set] = createSignal(false);  
   const [signup, signup_set] = createSignal(false);  
   const [verification , verification_set] = createSignal(false);
@@ -28,7 +25,7 @@ function Startup() {
   return (
     <div class="size-full">
       <Page pad={"pt-0"} >
-        <img src="Group.svg" class=" mx-auto h-3/4 w-full fixed" > </img>
+        <img src="Group.svg" class="mx-auto h-3/4 w-full fixed" ></img>
         <div class= "flex flex-col size-full mb-4" >
           <p class="text-center ZenDot text-5xl mt-auto">econome</p>
           <p class="text-center SfProMeduim text-gray-500 text-l mx-20 mt-4 mb-4">econome is an application designed to help, organize, and manage your 
@@ -44,7 +41,12 @@ function Startup() {
             <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">login</h1>
           </Topbar>
         }>
+          <Inputtext text="Email" isemail={true}/>
+          <Inputtext isemail={true}/>
+          <Inputtext text="Password" hint="pass" ispass={true}/>
           <button onClick={()=> signup_set(true)}>1</button>
+          <Pushv/>
+          <Sbutton text="Continue" act={()=> login_set(true)}/>
         </Page>
       </Stack>
       {/* 2 */}
@@ -157,7 +159,7 @@ function Startup() {
           <p class="text-left SfProBold tracking-wide font-medium  text-gray-500 mt-4 text-s mr-28"> 
            Account can be your bank, credit card or your wallet.</p>
           <Pushv/>
-            <img class="object-none object-right w-16" src="/arrow-right.svg" onClick={()=>setup_account_data_set(true)}></img>
+            <img class="object-none object-right w-16 ml-auto" src="/arrow-right.svg" onClick={()=>setup_account_data_set(true)}></img>
           </div>
         </Page>
       </Stack>
