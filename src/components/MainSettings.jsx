@@ -4,6 +4,7 @@ import Stack from "../components/Stack";
 import Topbar from "../components/Topbar";
 import Item2names from "./Item2names";
 import Selectable from "./Selectable";
+import Toggleitem from "./Toggleitem"; 
 function MainSettings(p) {
   const [curnancy, curnancy_set] = createSignal(false);  
   const [lang, lang_set] = createSignal(false);  
@@ -73,7 +74,8 @@ function MainSettings(p) {
               </Topbar>
             }>
               <For each={settings[a]} fallback={<div>Loading...</div>}>
-                {(c,index) => i() != 4 ? <Selectable act={()=> {updateSetting(a,index())}} name={a} text={c} is={index()} on={sad()[a]}></Selectable> : <div/>}
+                {(c,index) => a != "Notification" ? <Selectable act={()=> {updateSetting(a,index())}} name={a} text={c} is={index()} on={sad()[a]}></Selectable> : 
+                <Toggleitem text={c[0]} text2={c[1]} on={ sad()["Notification"] & 1<<index() } act={()=>updateSetting("Notification",1 << index() ^ sad()["Notification"] )}/>}
               </For>
             </Page>
           </Stack>

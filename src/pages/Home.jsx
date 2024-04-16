@@ -166,6 +166,7 @@ function Home() {
   const [privacy, privacy_set] = createSignal(false);  
   const [terms, terms_set] = createSignal(false);  
   const [exo, exo_set] = createSignal(false);  
+  const [buttom, buttom_set] = createSignal(false);  
   function toggle_theme(){
     document.documentElement.classList.toggle("dark")
   }
