@@ -20,7 +20,8 @@ function Startup() {
   const [setup_account, setup_account_set] = createSignal(false);  
   const [setup_account_data, setup_account_data_set] = createSignal(false);  
   const [setup_confirmation, setup_confirmation_set] = createSignal(false);  
-
+  const [isSelected, setIsSelected] = createSignal(false);
+  const handleCheckboxChange = (isChecked) => {setIsSelected(isChecked);};
 
   return (
     <div class="size-full">
@@ -38,29 +39,39 @@ function Startup() {
         <Page pad={"pt-16 "} bar={
           <Topbar cls="flex-row h-16 m-auto">
             <img class="z-10" src="/arrow-left.svg" onClick={()=> login_set(false)}></img>
-            <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">login</h1>
+            <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Login</h1>
           </Topbar>
         }>
           <div class= "flex flex-col justify-center size-full mb-4 ">
             <h1 class="ZenDot text-center dark:text-white text-3xl">econome</h1>
-            <Inputtext text="Email" isemail={true}/>
-            <Inputtext isemail={true}/>
-            <Inputtext text="Password" hint="pass" ispass={true}/>
-            <button onClick={()=> signup_set(true)}>1</button>
+            <Inputtext text="Email"  hint="Enter your email" isemail={true}/>
+            <Inputtext text="Password"  hint="Enter your password" ispass={true}/>
+            <h1 class="SfProBold text-center  dark:text-white text-xl mt-8" onClick={()=> signup_set(true)}>Forgot Password?</h1>
+            <h1 class="SfProBold text-center text-gray-500 dark:text-white text-l mt-6">Don’t have an account yet? <ins class="text-black" onClick={()=> signup_set(true)}>Sign Up</ins></h1>
             <Pushv/>
-            <Sbutton text="Continue" act={()=> login_set(true)}/>
+            <Sbutton text="Login" act={()=> login_set(true)}/>
           </div>
         </Page>
       </Stack>
-      {/* 2 */}
-      <Stack anim={"stack-right"} on={signup} set={signup_set}>
+        {/* 2 */}
+        <Stack anim={"stack-right"} on={signup} set={signup_set}>
         <Page pad={"pt-16"} bar={
           <Topbar cls="flex-row h-16 m-auto">
             <img class="z-10" src="/arrow-left.svg" onClick={()=> signup_set(false)}></img>
             <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Sign Up</h1>
           </Topbar>
         }>
-          <button onClick={()=> verification_set(true)}>2</button>
+          <div class= "flex flex-col justify-center size-full mb-4 ">
+          <h1 class="ZenDot text-center dark:text-white text-3xl">econome</h1>
+          <Inputtext text="Name"  hint="Enter your name" isname={true}/>
+          <Inputtext text="Email"  hint="Enter your email" isemail={true}/>
+          <Inputtext text="Password"  hint="Enter your password" ispass={true}/>
+          {/* <Checkbox label="Select me" checked={isSelected()} onChange={handleCheckboxChange} /> */}
+          {/* <h1 class="SfProBold text-center  dark:text-white text-xl mt-8" onClick={()=> signup_set(true)}>Forgot Password?</h1>
+          <h1 class="SfProBold text-center text-gray-500 dark:text-white text-l mt-6">Don’t have an account yet? <ins class="text-black" onClick={()=> signup_set(true)}>Sign Up</ins></h1> */}
+          <Pushv/>
+          <Sbutton text="Login" act={()=> login_set(true)}/>
+          </div>
         </Page>
       </Stack>
       {/* 3 */}
