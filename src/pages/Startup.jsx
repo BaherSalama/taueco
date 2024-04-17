@@ -35,18 +35,21 @@ function Startup() {
       </Page>
       {/* 1 */}
       <Stack anim={"stack-right"} on={login} set={login_set}>
-        <Page pad={"pt-16"} bar={
+        <Page pad={"pt-16 "} bar={
           <Topbar cls="flex-row h-16 m-auto">
             <img class="z-10" src="/arrow-left.svg" onClick={()=> login_set(false)}></img>
             <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">login</h1>
           </Topbar>
         }>
-          <Inputtext text="Email" isemail={true}/>
-          <Inputtext isemail={true}/>
-          <Inputtext text="Password" hint="pass" ispass={true}/>
-          <button onClick={()=> signup_set(true)}>1</button>
-          <Pushv/>
-          <Sbutton text="Continue" act={()=> login_set(true)}/>
+          <div class= "flex flex-col justify-center size-full mb-4 ">
+            <h1 class="ZenDot text-center dark:text-white text-3xl">econome</h1>
+            <Inputtext text="Email" isemail={true}/>
+            <Inputtext isemail={true}/>
+            <Inputtext text="Password" hint="pass" ispass={true}/>
+            <button onClick={()=> signup_set(true)}>1</button>
+            <Pushv/>
+            <Sbutton text="Continue" act={()=> login_set(true)}/>
+          </div>
         </Page>
       </Stack>
       {/* 2 */}
