@@ -167,6 +167,9 @@ function Home() {
   const [terms, terms_set] = createSignal(false);  
   const [exo, exo_set] = createSignal(false);  
   const [buttom, buttom_set] = createSignal(false);  
+  const [addtrans, addtrans_set] = createSignal(false);  
+  const [addwallet, addwallet_set] = createSignal(false);  
+  const [addgoal, addgoal_set] = createSignal(false);  
   function toggle_theme(){
     document.documentElement.classList.toggle("dark")
   }
@@ -204,7 +207,20 @@ function Home() {
           <Topbar cls="flex-row-reverse h-10">
             <img src="/close-circle.svg" onClick={()=> sheet_set(false)}></img>
           </Topbar>
-          <h1>sad</h1>
+          <div class="flex flex-row h-fit space-x-4">
+            <div class="w-full h-fit rounded-2xl bg-purple-50 flex flex-col justify-center p-8" onClick={()=>addwallet_set(true)}>
+              <img class="h-8" src="/wallet-3.svg"></img>
+              <p class="SfProMeduim text-gray-500 text-center text-2xl">Wallet</p>
+            </div>
+            <div class="w-full h-fit rounded-2xl bg-purple-50 flex flex-col justify-center p-8" onClick={()=>addtrans_set(true)}>
+              <img class="h-8" src="/arrow-2.svg"></img>
+              <p class="SfProMeduim text-gray-500 text-center text-2xl">Trasactions</p>
+            </div>
+            <div class="w-full h-fit rounded-2xl bg-purple-50 flex flex-col justify-center p-8" onClick={()=>addgoal_set(true)}>
+              <img class="h-8" src="/cup.svg"></img>
+              <p class="SfProMeduim text-gray-500 text-center text-2xl">Goal</p>
+            </div>
+          </div>
         </Page>
       </BottomSheet>
       {/*settings*/}
@@ -258,6 +274,34 @@ function Home() {
         </Page>
       </Stack>
       <MainSettings setting2={setting2} setting2_set={setting2_set}/>
+      {/*adds*/}
+      <Stack anim={"stack-right"} on={addtrans} set={addtrans_set}>
+        <Page pad={"pt-16"} bar={
+          <Topbar cls="flex-row h-16 m-auto">
+            <img class="z-10" src="/arrow-left.svg" onClick={()=> addtrans_set(false)}></img>
+            <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Add transactions</h1>
+          </Topbar>
+        }>
+        </Page>
+      </Stack>
+      <Stack anim={"stack-right"} on={addgoal} set={addgoal_set}>
+        <Page pad={"pt-16"} bar={
+          <Topbar cls="flex-row h-16 m-auto">
+            <img class="z-10" src="/arrow-left.svg" onClick={()=> addgoal_set(false)}></img>
+            <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Add goal</h1>
+          </Topbar>
+        }>
+        </Page>
+      </Stack>
+      <Stack anim={"stack-right"} on={addwallet} set={addwallet_set}>
+        <Page pad={"pt-16"} bar={
+          <Topbar cls="flex-row h-16 m-auto">
+            <img class="z-10" src="/arrow-left.svg" onClick={()=> addwallet_set(false)}></img>
+            <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Add wallets</h1>
+          </Topbar>
+        }>
+        </Page>
+      </Stack>
       <BottomSheet on={exo} sad={exo_set}>
         <Page pad={"py-10 px-5"}>
           <Topbar cls="flex-row-reverse h-10">
