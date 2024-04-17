@@ -49,7 +49,7 @@ function Startup() {
             <h1 class="SfProBold text-center  dark:text-white text-xl mt-8" onClick={()=> signup_set(true)}>Forgot Password?</h1>
             <h1 class="SfProBold text-center text-gray-500 dark:text-white text-l mt-6">Don’t have an account yet? <ins class="text-black" onClick={()=> signup_set(true)}>Sign Up</ins></h1>
             <Pushv/>
-            <Sbutton text="Login" act={()=> login_set(true)}/>
+            <Sbutton text="Login" href="/"/>
           </div>
         </Page>
       </Stack>
@@ -67,10 +67,14 @@ function Startup() {
           <Inputtext text="Email"  hint="Enter your email" isemail={true}/>
           <Inputtext text="Password"  hint="Enter your password" ispass={true}/>
           {/* <Checkbox label="Select me" checked={isSelected()} onChange={handleCheckboxChange} /> */}
-          {/* <h1 class="SfProBold text-center  dark:text-white text-xl mt-8" onClick={()=> signup_set(true)}>Forgot Password?</h1>
-          <h1 class="SfProBold text-center text-gray-500 dark:text-white text-l mt-6">Don’t have an account yet? <ins class="text-black" onClick={()=> signup_set(true)}>Sign Up</ins></h1> */}
+          <h1 class="SfProBold text-center text-gray-500 dark:text-white text-l mt-6 mb-4">Or with </h1>
+          <a class= "h-16 w-full border-gray-200 border-solid border-2 rounded-2xl flex flec-col justify-center space-x-2" onClick={()=> login_set(true)}>
+          <img src="google.svg"></img>
+          <p class=" SfProMeduim tracking-wide font-semibold text-xl text-center my-auto">Sign Up with Google</p> 
+          </a>
+          <h1 class="SfProBold text-center text-gray-500 dark:text-white text-l mt-6">Already have an account? <ins class="text-black" onClick={()=>signup_set(false)}>Login</ins> </h1>
           <Pushv/>
-          <Sbutton text="Login" act={()=> login_set(true)}/>
+          <Sbutton text="Sign Up" act={()=> verification_set(true)}/>
           </div>
         </Page>
       </Stack>
@@ -93,7 +97,7 @@ function Startup() {
             <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Enter Verification</h1>
           </Topbar>
         }>
-          <button onClick={()=> forget_password_set(true)}>4</button>
+        <button onClick={()=> forget_password_set(true)}>4</button>
         </Page>
       </Stack>
       {/* 5 */}
@@ -104,24 +108,31 @@ function Startup() {
             <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Forget password</h1>
           </Topbar>
         }>
-          <div class= "flex flex-col justify-center size-full mb-4 " onClick={()=> re_type_pin_set(true)}>
+          <div class= "flex flex-col justify-center size-full mb-4 ">
             <p class="text-left SfProBold tracking-wide font-medium text-4xl mt-8">Don’t worry.</p>
             <p class="text-left SfProBold tracking-wide font-medium text-4xl mr-26"> 
             Enter your email and we’ll send you a link to reset your password.</p>
+            <Inputtext hint="Enter your email" isemail={true}/>
             <Pushv/>
-            <Sbutton text="Continue" act={()=> login_set(true)}/>
+            <Sbutton text="Continue" act={()=> reset_password_set(true)}/>
           </div>
         </Page>
       </Stack>
       {/* 6 */}
       <Stack anim={"stack-right"} on={reset_password} set={reset_password_set}>
-        <Page pad={"pt-16"} bar={
+      <Page pad={"pt-16"} bar={
           <Topbar cls="flex-row h-16 m-auto">
             <img class="z-10" src="/arrow-left.svg" onClick={()=> reset_password_set(false)}></img>
-            <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Reset password</h1>
+            <h1 className="fixed w-full text-center m-auto SfProBold dark:text-white text-2xl">Reset Password</h1>
           </Topbar>
         }>
-          <button onClick={()=> conf_msg_of_fpassword_set(true)}>6</button>
+          <div class= "flex flex-col justify-center size-full mb-4 ">
+          <h1 class="ZenDot text-center dark:text-white text-3xl">econome</h1>
+          <Inputtext  hint="New password" ispass={true}/>
+          <Inputtext  hint="Retype new password" ispass={true}/>
+          <Pushv/>
+          <Sbutton text="Continue" act={()=> conf_msg_of_fpassword_set(true)}/>
+          </div>
         </Page>
       </Stack>
       {/* 7 */}
@@ -133,7 +144,15 @@ function Startup() {
              <p class="text-center SfProMeduim tracking-wide font-semibold text-2xl mt-4">Your email is on the way</p>
               <p class="text-center SfProMeduim text-xl mx-20 mt-4 mb-4">Check your email test@test.com and follow the instructions to reset your password</p>   
             </div>
-          <Sbutton text="Back to Login" act={()=> login_set(true)}/>
+          <Sbutton text="Back to Login" act={()=> { 
+            signup_set(false);
+            verification_set(false);
+            enter_verification_code_set(false);
+            forget_password_set(false);
+            reset_password_set(false);
+            conf_msg_of_fpassword_set(false);
+            login_set(true);
+          }}/>
         </div>
         </Page>
       </Stack>
