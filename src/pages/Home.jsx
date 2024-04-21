@@ -16,7 +16,6 @@ import {
 	requestPermission,
 	sendNotification,
 } from "@tauri-apps/plugin-notification";
-import Item2names from "../components/Item2names";
 import MainSettings from "../components/MainSettings";
 
 async function notify() {
@@ -159,6 +158,17 @@ function Home() {
 			},
 		],
 	};
+	function income (x) {
+		return x["amount"]>=0
+	}
+	function expense(x) {
+		return x["amount"]>=0
+	}
+	function goal(x) {
+		return x["amount"]>=0
+	}
+	
+
 	const [sheeton, sheet_set] = createSignal(false);
 	const [setting, settings_set] = createSignal(false);
 	const [setting2, setting2_set] = createSignal(false);
@@ -202,13 +212,30 @@ function Home() {
 					<Transaction a="income" b={sad}></Transaction>
 				</Slide>
 				<Slide>
+					<p class="SfProBold text-gray-500 dark:text-white text-center text-base">
+						transactions
+					</p>
+					<h1 class="SfProBold dark:text-white text-center text-5xl py-5">
+						this week
+					</h1>
 					<Transaction a="income" b={sad}></Transaction>
 				</Slide>
 				<Slide>
+					<p class="SfProBold text-gray-500 dark:text-white text-center text-base">
+						Current target goal
+					</p>
+					<h1 class="SfProBold dark:text-white text-center text-5xl py-5">
+						BMW
+					</h1>
+					<div class="progress-container w-full">
+					  <progress value="75" max="100">75%</progress>
+					</div>
 					<Transaction a="income" b={sad}></Transaction>
 				</Slide>
 				<Slide>
-					<Transaction a="income" b={sad}></Transaction>
+					<Iconitem text="CIB" icon="cib.svg" center={true}/>
+					<Iconitem text="paypal" icon="paypal.svg" center={true}/>
+					<Iconitem text="QNB" icon="qnb.svg" center={true}/>
 				</Slide>
 			</Slides>
 			<Bottombar updateTab={updateTab} seton={sheet_set} tab={tab}></Bottombar>

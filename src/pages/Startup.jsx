@@ -66,7 +66,7 @@ function Startup() {
 						/>
 						<h1
 							class="SfProBold text-center  dark:text-white text-xl mt-8"
-							onClick={() => signup_set(true)}
+							onClick={() => forget_password_set(true)}
 						>
 							Forgot Password?
 						</h1>
@@ -148,6 +148,12 @@ function Startup() {
 						</Topbar>
 					}
 				>
+					<div class="pin-code">
+						  <input type="number" maxlength="1" autofocus/>
+					    <input type="number" maxlength="1"/>
+						  <input type="number" maxlength="1"/>
+					    <input type="number" maxlength="1"/>
+					 </div>
 					<button onClick={() => enter_verification_code_set(true)}>3</button>
 				</Page>
 			</Stack>

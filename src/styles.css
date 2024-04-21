@@ -137,3 +137,65 @@ html {
   .sad-exit-to {
     opacity: 0;
   }
+
+
+
+.pin-code{ 
+  padding: 0; 
+  margin: 0 auto; 
+  display: flex;
+  justify-content:center;
+  
+} 
+ 
+.pin-code input { 
+  border: none; 
+  text-align: center; 
+  width: 48px;
+  height:48px;
+  font-size: 36px; 
+  background-color: #F3F3F3;
+  margin-right:5px;
+} 
+
+
+
+.pin-code input:focus { 
+  border: 1px solid #573D8B;
+  outline:none;
+} 
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.selected {
+  background : "black",
+}
+
+progress {
+  opacity: 0;
+}
+
+.progress-container {
+  position: relative;
+  display: inline-block;
+  background: gray;
+  height: 20px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+
+.progress-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 75%;
+  background: black;
+}

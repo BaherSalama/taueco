@@ -90,12 +90,12 @@ function graph() {
 					{(item) => <li>{item}</li>}
 				</For>
 			</ul>
-			<ul class="flex row justify-start gap-5">
-				<li classList={{ selected: tab() === 0 }} onClick={updateTab(0)}>
-					Pi
+			<ul class="flex row justify-start bg-transparent rounded-xl overflow-clip w-fit h-10">
+				<li class={ tab() === 0 ? "bg-black": "bg-white"} onClick={updateTab(0)}>
+					<image class="size-8" src={tab() === 0 ? "pie-chart-dark.svg": "pie-chart-light.svg"}/>
 				</li>
-				<li classList={{ selected: tab() === 1 }} onClick={updateTab(1)}>
-					line
+				<li class={tab() === 1 ? "bg-black": "bg-white"} onClick={updateTab(1)}>
+					<image class="size-8" src={tab() === 0 ? "line-chart-light.svg": "line-chart-dark.svg"}/>
 				</li>
 			</ul>
 			<div class="tab" classList={{ pending: pending() }}>
