@@ -1,40 +1,45 @@
-const express = require('express');
-const { Surreal } = require('surrealdb.node');
+const express = require('express'),
+      app = express(),
+      cors = require('cors'),
+      port = process.env.PORT || 3000,
+      getReq = require('./routes/getReq'),
+      postReq = require('./routes/postReq'),
+      patchReq = require('./routes/patchReq'),
+      session = require('express-session'),
+      passport = require('passport');
+    
+// Middlware
+app.use(
+    session({
+      secret: 'key',
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+          maxAge: 1000*60*60*24,
+          }
+    })
+  );
 
-const db = new Surreal();
-const app = express();
-async function check_conn() {
-  try {
-      // Connect to the database
-      await db.connect('ws://127.0.0.1:8000');
-      // Signin as a namespace, database, or root user
-      await db.signin({
-        username: 'root',
-        password: 'root',
-      });
-      // Select a specific namespace / database
-      await db.use({ ns: 'test', db: 'test' });
-      let groups = await db.query('select * from user:baher->has->transactions->contains->node');
-      console.log(groups)
-      return true
-  } catch (e) {
-      console.error('ERROR', e);
-      return false
-  }
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
-}
-async function query(){
-  let groups = await db.query('select * from user:baher->has->transactions->contains->node');
-  return groups
-}
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-
-
-check_conn()
-
-
+app.use('/', getReq);
+app.use('/api', postReq);
+app.use('/mod', patchReq);
 
 
-// app.get('/', (req, res) => {
-//   res.send('Successful response.');
-// });
+passport.serializeUser((user, cb) => {
+  cb(null, user);
+});
+passport.deserializeUser((user, cb) => {
+  cb(null, user);
+});
+
+app.listen(port, ()=>{
+    console.log(`Server is listening on http://localhost:${port}`);
+})
