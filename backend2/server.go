@@ -1,17 +1,24 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"net/http"
-	"encoding/json"
+	"os"
+
+	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/apis"
+	"github.com/pocketbase/pocketbase/core"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
-}
-
 func main() {
-	http.HandleFunc("GET /user/{id}", handler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	app := pocketbase.New()
+
+	// serves static files from the provided public dir (if exists)
+	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
+		e.Router.GET("/*", apis.StaticDirectoryHandler(os.DirFS("./pb_public"), false))
+		return nil
+	})
+
+	if err := app.Start(); err != nil {
+		log.Fatal(err)
+	}
 }
