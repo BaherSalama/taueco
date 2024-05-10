@@ -33,6 +33,13 @@ async function notify() {
 		sendNotification({ title: "Tauri", body: "Tauri is awesome!" });
 	}
 }
+
+
+const fetchUser = async (id) =>
+  (await fetch(`http://localhost:3000/${id}`)).json();
+const fetchNodes = async (id) =>
+  (await fetch(`http://localhost:3000/${id}`)).json();
+
 function Home() {
 	const [tab, setTab] = createSignal(0);
 	const [pending, start] = useTransition();

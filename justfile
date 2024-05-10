@@ -11,3 +11,9 @@ database:create_database
 web:
     bun run dev
 
+backend:
+    node ./backend/server.js
+
+backend2:
+    go run ./backend2/server.go
+

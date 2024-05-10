@@ -17,6 +17,7 @@
     "@tauri-apps/plugin-notification": "^2.0.0-beta.2",
     "@tauri-apps/plugin-shell": ">=2.0.0-beta.0",
     "apexcharts": "^3.46.0",
+    "pocketbase": "^0.21.2",
     "solid-apexcharts": "^0.3.4",
     "solid-js": "^1.7.8",
     "solid-transition-group": "^0.2.3"

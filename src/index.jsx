@@ -8,7 +8,7 @@ import Startup from "./pages/Startup";
 render(
 	() => (
 		<Router>
-			<Route path="/" component={Home} />
+			<Route path="/profile" component={Home} />
 			<Route path="/main" component={Startup} />
 		</Router>
 	),

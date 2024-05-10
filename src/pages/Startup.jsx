@@ -5,6 +5,40 @@ import Stack from "../components/Stack";
 import Topbar from "../components/Topbar";
 import Pushv from "../components/Pushv";
 import Inputtext from "../components/Inputtext";
+import PocketBase from 'pocketbase'
+
+const pb = new PocketBase('http://127.0.0.1:8090');
+
+const pbregisteruser = async (a)  => {return await pb.collection('users').create(a);}
+const pbloginuser = async (a) => {return await pb.collection('users').authWithPassword(a.email,a.password);}
+//const pbregisteruser = async (a)  => {await pb.collection('users').create(a);}c
+
+const registeruser = async (a) =>
+	fetch("http://localhost:3000/api/register", {
+		method: "post",
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(a)
+	}).then((response) => {
+		console.log(response)
+	}).catch((e)=>{
+		console.log(e)}
+	).finally((e)=>{console.log(e)});
+const loginuser = async (a) =>
+	fetch("http://localhost:3000/api/login", {
+		method: "post",
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(a)
+	}).then((response) => {
+		response.json().then((r)=>console.log(r))
+	}).catch((e)=>{
+		console.log(e)}
+	).finally((e)=>{console.log(e)});
 
 function Startup() {
 	const [login, login_set] = createSignal(false);
@@ -25,6 +59,21 @@ function Startup() {
 	const handleCheckboxChange = (isChecked) => {
 		setIsSelected(isChecked);
 	};
+	const [a, set_a] = createSignal(
+		{
+			"username": "",
+			"password": "",
+			"email": "",
+			"passwordConfirm":"",
+		}
+	)
+	const [b, set_b] = createSignal(
+		{
+			"username": "",
+			"password": "",
+		}
+	)
+
 
 	return (
 		<div class="size-full">
@@ -58,11 +107,12 @@ function Startup() {
 				>
 					<div class="flex flex-col justify-center size-full mb-4 ">
 						<h1 class="ZenDot text-center dark:text-white text-3xl">econome</h1>
-						<Inputtext text="Email" hint="Enter your email" isemail={true} />
+						<Inputtext text="Email" hint="Enter your email" isemail={true} ins={set_b} v={b} l={"username"}/>
 						<Inputtext
 							text="Password"
 							hint="Enter your password"
 							ispass={true}
+							ins={set_b} v={b} l={"password"}
 						/>
 						<h1
 							class="SfProBold text-center  dark:text-white text-xl mt-8"
@@ -76,8 +126,8 @@ function Startup() {
 								Sign Up
 							</ins>
 						</h1>
-						<Pushv />
-						<Sbutton text="Login" href="/" />
+						<Pushv/>
+						<Sbutton text="Login" act={()=>{loginuser(b()).then((e)=>console.log(e));console.log("sadawi")}}/>
 					</div>
 				</Page>
 			</Stack>
@@ -100,12 +150,19 @@ function Startup() {
 				>
 					<div class="flex flex-col justify-center size-full mb-4 ">
 						<h1 class="ZenDot text-center dark:text-white text-3xl">econome</h1>
-						<Inputtext text="Name" hint="Enter your name" isname={true} />
-						<Inputtext text="Email" hint="Enter your email" isemail={true} />
+						<Inputtext text="Name" hint="Enter your name" isname={true} ins={set_a} v={a} l={"username"} />
+						<Inputtext text="Email" hint="Enter your email" isemail={true} ins={set_a} v={a} l={"email"} />
 						<Inputtext
 							text="Password"
 							hint="Enter your password"
 							ispass={true}
+							ins={set_a} v={a} l={"password"} 
+						/>
+						<Inputtext
+							text="confirm Password"
+							hint="Enter your password"
+							ispass={true}
+							ins={set_a} v={a} l={"passwordConfirm"} 
 						/>
 						{/* <Checkbox label="Select me" checked={isSelected()} onChange={handleCheckboxChange} /> */}
 						<h1 class="SfProBold text-center text-gray-500 dark:text-white text-l mt-6 mb-4">
@@ -122,12 +179,12 @@ function Startup() {
 						</a>
 						<h1 class="SfProBold text-center text-gray-500 dark:text-white text-l mt-6">
 							Already have an account?{" "}
-							<ins class="text-black" onClick={() => signup_set(false)}>
+							<ins class="text-black" onClick={() => { signup_set(false)}}>
 								Login
 							</ins>{" "}
 						</h1>
 						<Pushv />
-						<Sbutton text="Sign Up" act={() => verification_set(true)} />
+						<Sbutton text="Sign Up" act={() => {registeruser(a()).then((e)=>console.log(e));verification_set(true)}} />
 					</div>
 				</Page>
 			</Stack>
@@ -149,11 +206,11 @@ function Startup() {
 					}
 				>
 					<div class="pin-code">
-						  <input type="number" maxlength="1" autofocus/>
-					    <input type="number" maxlength="1"/>
-						  <input type="number" maxlength="1"/>
-					    <input type="number" maxlength="1"/>
-					 </div>
+						<input type="number" maxlength="1" autofocus />
+						<input type="number" maxlength="1" />
+						<input type="number" maxlength="1" />
+						<input type="number" maxlength="1" />
+					</div>
 					<button onClick={() => enter_verification_code_set(true)}>3</button>
 				</Page>
 			</Stack>

@@ -1,5 +1,12 @@
 import { Show, createSignal, useTransition } from "solid-js";
+
+
+
 function Inputtext(props) {
+	function updateSetting(key, newValue) {
+		props.ins({ ...props.v(), [key]: newValue });
+		console.log(props.v());
+	}
 	const [vis, setvis] = createSignal(false);
 	return (
 		<div class="flex flex-col my-3 w-full" onClick={props.act}>
@@ -10,6 +17,7 @@ function Inputtext(props) {
 			</Show>
 			<div class="relative">
 				<input
+					onInput={(e)=>{updateSetting(props.l,e.target.value)}}
 					placeholder={props.hint}
 					type={
 						props.isemail
