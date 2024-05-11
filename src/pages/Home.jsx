@@ -1,4 +1,4 @@
-import { createSignal, useTransition } from "solid-js";
+import { createResource, createSignal, useTransition } from "solid-js";
 import Topbar from "../components/Topbar";
 import Graphes from "../components/Graphes";
 import Transaction from "../components/Transaction";
@@ -35,12 +35,31 @@ async function notify() {
 }
 
 
+
 const fetchUser = async (id) =>
   (await fetch(`http://localhost:3000/${id}`)).json();
 const fetchNodes = async (id) =>
   (await fetch(`http://localhost:3000/${id}`)).json();
 
-function Home() {
+function Home(p) {
+
+const fetchall = async (a) =>
+	fetch("http://localhost:8080/profile", {
+		method: "get",
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(p.user())
+	}).then(async (response) => {
+		const r = await response.json();
+		console.log(r)
+		return r;
+	}).catch((e) => {
+		console.log("sad")
+	}
+	).finally((e) => { console.log("saad") });
+	const [data] = createResource(p.user().user.id,fetchall)
 	const [tab, setTab] = createSignal(0);
 	const [pending, start] = useTransition();
 	const updateTab = (index) => () => start(() => setTab(index));
@@ -204,7 +223,7 @@ function Home() {
 			</Show>
 			<Topbar cls="h-14 m-auto">
 				<img src="/menu.svg" onClick={() => settings_set(true)}></img>
-				<a class="ZenDot dark:text-white text-2xl">econome</a>
+				<a class="ZenDot dark:text-white text-2xl">{!data.loading ? JSON.stringify(data()): ""}</a>
 				<img src="/moon.svg" onClick={toggle_theme}></img>
 			</Topbar>
 			<Slides tab={tab}>
@@ -216,7 +235,6 @@ function Home() {
 						<span class="text-xl">$</span>3,745.40
 					</h1>
 					<Graphes />
-					<Transaction a="income" b={sad}></Transaction>
 				</Slide>
 				<Slide>
 					<p class="SfProBold text-gray-500 dark:text-white text-center text-base">
@@ -225,7 +243,6 @@ function Home() {
 					<h1 class="SfProBold dark:text-white text-center text-5xl py-5">
 						this week
 					</h1>
-					<Transaction a="income" b={sad}></Transaction>
 				</Slide>
 				<Slide>
 					<p class="SfProBold text-gray-500 dark:text-white text-center text-base">
@@ -237,7 +254,6 @@ function Home() {
 					<div class="progress-container w-full">
 					  <progress value="75" max="100">75%</progress>
 					</div>
-					<Transaction a="income" b={sad}></Transaction>
 				</Slide>
 				<Slide>
 					<Iconitem text="CIB" icon="cib.svg" center={true}/>

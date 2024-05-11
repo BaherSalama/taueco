@@ -42,14 +42,20 @@ function Transaction(p) {
 	return (
 		<div>
 			<h1>{p.a}</h1>
-			<For each={p.b[p.a]} fallback={<div>Loading...</div>}>
-				{(item) => (
-					<div class="ml-5 mt-2 flex flex-row justify-between items-center">
-						<p>{item.name}</p>
-						{colorthem(item)}
-					</div>
-				)}
-			</For>
+			<Switch>
+				<Match when={p.b.loading}>
+				</Match>
+			<Match when={p.b()}>
+				<For each={p.b[p.a]} fallback={<div>Loading...</div>}>
+					{(item) => (
+						<div class="ml-5 mt-2 flex flex-row justify-between items-center">
+							<p>{item.name}</p>
+							{colorthem(item)}
+						</div>
+					)}
+				</For>
+				</Match>
+				</Switch>
 		</div>
 	);
 }

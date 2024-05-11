@@ -6,7 +6,7 @@ db.connect();
 const userProfile = async (req, callback) => {
     try {
       const userId = req.user.user_id;
-      
+      console.log(userId)
       const result = await db.query(
       `SELECT *
       FROM "User" u
