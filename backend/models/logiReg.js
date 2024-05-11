@@ -57,7 +57,7 @@ const loginuser = (req, res, next) => {
                 return next(err);
             }
             // Handle successful login
-            return res.json({ user });
+            return res.json({ "id": user.user_id });
             // return res.redirect('/profile');
         });
     })(req, res, next);
