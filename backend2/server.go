@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"github.com/surrealdb/surrealdb.go"
 	"log"
@@ -9,13 +11,7 @@ import (
 )
 
 var db, err = surrealdb.New("ws://localhost:8000/rpc")
-
-type User struct {
-	Id       string `json:"id,omitempty"`
-	Email    string `json:"email"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
+var mldata [][]string
 
 func CORS(next http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -36,7 +32,25 @@ func adduser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "== %s!", r.Body)
 	w.WriteHeader(http.StatusOK)
 }
+func readfile(a *[][]string) {
+	// Open the CSV file
+	file, err := os.Open("InflationIndicator_pro.csv")
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
+	}
+	defer file.Close() // Close the file after reading
+	// Create a CSV reader
+	reader := csv.NewReader(file)
 
+	// Read all records from the CSV file
+	records, err := reader.ReadAll()
+	if err != nil {
+		fmt.Println("Error reading records:", err)
+		return
+	}
+	a = &records
+}
 func main() {
 	if err != nil {
 		panic(err)

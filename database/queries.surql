@@ -5,4 +5,4 @@ select * from user:baher->has->transactions->contains->node where amount < 0 and
 // goal
 select * from user:baher->has->transactions->contains->node where is_goal;
 // manule filter
-select * from user:baher->has->transactions->contains->node;
+select * from user:baher->has->node;

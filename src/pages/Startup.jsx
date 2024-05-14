@@ -5,12 +5,9 @@ import Stack from "../components/Stack";
 import Topbar from "../components/Topbar";
 import Pushv from "../components/Pushv";
 import Inputtext from "../components/Inputtext";
-// const [user,setuser] = createSignal({});
-
-// const pbregisteruser = async (a)  => {await pb.collection('users').create(a);}c
 
 const registeruser = async (a) =>
-	fetch("http://localhost:8080/api/register", {
+	fetch("http://localhost:3000/api/register", {
 		method: "post",
 		headers: {
 			'Accept': 'application/json',
@@ -25,7 +22,7 @@ const registeruser = async (a) =>
 	).finally((e) => { console.log(e) });
 
 const loginuser = async (a) =>
-	fetch("http://localhost:8080/api/login", {
+	fetch("http://localhost:3000/api/login", {
 		method: "post",
 		headers: {
 			'Accept': 'application/json',
@@ -39,8 +36,45 @@ const loginuser = async (a) =>
 		console.log("sad")
 	}
 	).finally((e) => { console.log("saad") });
+	
 
 function Startup(p) {
+	const dbregisteruser= async (a)=> {
+try{
+	return await p.db.create("user",a)
+	}catch (e){
+	console.log(e)
+}
+	
+} 
+
+const auth= async (a)=>{
+	try{
+		return await p.db.signin({
+		namespace: 'test',
+		database: 'test',
+		scope: 'account',
+		email: a.username,
+		password: a.password,
+		})
+	}catch (e){
+		console.log(e)
+	}
+}
+
+const dbloginuser = async (a)=>{
+	try{
+		// return await p.db.query(`select * from user where email=${a.username} and ;`)
+		return await p.db.query(`
+			BEGIN TRANSACTION;
+			let $a = select * from user where email="${a.username}" and crypto::argon2::compare(password,"${a.password}");
+			return array::flatten($a);
+			COMMIT TRANSACTION;
+			`)
+	}catch (e){
+		console.log(e)
+	}
+}
 	// const pbregisteruser = async (a) => { return await p.pb.collection('users').create(a); }
 	// const pbloginuser = async (a) => { return await p.pb.collection('users').authWithPassword(a.username, a.password).then((e) => { return e })}
 	const [login, login_set] = createSignal(false);
@@ -66,7 +100,6 @@ function Startup(p) {
 			"username": "",
 			"password": "",
 			"email": "",
-			"passwordConfirm": "",
 		}
 	)
 	const [b, set_b] = createSignal(
@@ -129,7 +162,8 @@ function Startup(p) {
 							</ins>
 						</h1>
 						<Pushv />
-						<Sbutton text="Login" act={() => { loginuser(b()).then((e)=>p.setuser(e)).finally((e)=>{console.log(p.user())})}} />
+						<Sbutton text="Login" act={async () => {dbloginuser(b()).then((e)=> p.setuser(e.pop().pop()))}} 
+	/*loginuser(b()).then((e)=>p.setuser(e)).finally((e)=>{console.log(p.user())})*/ />
 					</div>
 				</Page>
 			</Stack>
@@ -186,7 +220,8 @@ function Startup(p) {
 							</ins>{" "}
 						</h1>
 						<Pushv />
-						<Sbutton text="Sign Up" act={() => { registeruser(a()).then((e) => console.log(e)); signup_set(false) }} />
+						<Sbutton text="Sign Up" act={() => { 
+													dbregisteruser(a()); signup_set(false) }} />
 					</div>
 				</Page>
 			</Stack>

@@ -1,4 +1,4 @@
-import { createResource, createSignal, useTransition } from "solid-js";
+import { For,Show,createResource, createSignal, useTransition } from "solid-js";
 import Topbar from "../components/Topbar";
 import Graphes from "../components/Graphes";
 import Transaction from "../components/Transaction";
@@ -17,6 +17,8 @@ import {
 	sendNotification,
 } from "@tauri-apps/plugin-notification";
 import MainSettings from "../components/MainSettings";
+import Inputtext from "../components/Inputtext";
+import Sbutton from "../components/Sbutton";
 
 async function notify() {
 	let permissionGranted = await isPermissionGranted();
@@ -29,6 +31,7 @@ async function notify() {
 	}
 
 	// Once permission has been granted we can send the notification
+
 	if (permissionGranted) {
 		sendNotification({ title: "Tauri", body: "Tauri is awesome!" });
 	}
@@ -43,147 +46,50 @@ const fetchNodes = async (id) =>
 
 function Home(p) {
 
+
 const fetchall = async (a) =>
-	fetch("http://localhost:8080/profile", {
+	fetch(`http://localhost:3000/profile`, {
 		method: "get",
 		headers: {
 			'Accept': 'application/json',
-			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify(p.user())
+		body: null
 	}).then(async (response) => {
 		const r = await response.json();
 		console.log(r)
 		return r;
 	}).catch((e) => {
-		console.log("sad")
+		console.log(e)
 	}
 	).finally((e) => { console.log("saad") });
-	const [data] = createResource(p.user().user.id,fetchall)
+const dbfetchall = async (a) =>
+{
+	try{
+		return await p.db.query(`select * from node where ${a.id}->has->node;`);
+		}catch(e){
+		console.log(a.id)
+		console.log(e)
+	}
+};
+	// const [data] = createResource(p.user().id,fetchall)
+	const [db,{mutate,refetch}] = createResource(p.user(),dbfetchall)
 	const [tab, setTab] = createSignal(0);
 	const [pending, start] = useTransition();
 	const updateTab = (index) => () => start(() => setTab(index));
+	const [node, nodeset] = createSignal(
+	{
+			"id":"",
+			"name": "",
+			"interval": "",
+			"amout": 1,
+			"startDate": "",
+			"total": -1,
+		}
+	)
+	// const [db,setdb] = createSignal([])
+	setInterval(()=>{refetch()},1000)
 	// Do you have permission to send a notification?
 	// notify()
-	const sad = {
-		income: [
-			{
-				name: "job",
-				amount: 100,
-				is_goal: false,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: 100,
-				is_goal: true,
-			},
-			{
-				name: "job",
-				amount: -100,
-				is_goal: false,
-			},
-		],
-	};
 	function income (x) {
 		return x["amount"]>=0
 	}
@@ -191,7 +97,10 @@ const fetchall = async (a) =>
 		return x["amount"]>=0
 	}
 	function goal(x) {
-		return x["amount"]>=0
+		return x["isgoal"]
+	}
+	function pass(x) {
+		return true
 	}
 	
 
@@ -223,7 +132,7 @@ const fetchall = async (a) =>
 			</Show>
 			<Topbar cls="h-14 m-auto">
 				<img src="/menu.svg" onClick={() => settings_set(true)}></img>
-				<a class="ZenDot dark:text-white text-2xl">{!data.loading ? JSON.stringify(data()): ""}</a>
+				<a class="ZenDot dark:text-white text-2xl">econome</a>
 				<img src="/moon.svg" onClick={toggle_theme}></img>
 			</Topbar>
 			<Slides tab={tab}>
@@ -235,6 +144,7 @@ const fetchall = async (a) =>
 						<span class="text-xl">$</span>3,745.40
 					</h1>
 					<Graphes />
+					<Transaction b={db} fil={pass} a={"yarab"}/>
 				</Slide>
 				<Slide>
 					<p class="SfProBold text-gray-500 dark:text-white text-center text-base">
@@ -243,6 +153,7 @@ const fetchall = async (a) =>
 					<h1 class="SfProBold dark:text-white text-center text-5xl py-5">
 						this week
 					</h1>
+					<Transaction b={db} fil={pass} a={"yarab"}/>
 				</Slide>
 				<Slide>
 					<p class="SfProBold text-gray-500 dark:text-white text-center text-base">
@@ -254,6 +165,7 @@ const fetchall = async (a) =>
 					<div class="progress-container w-full">
 					  <progress value="75" max="100">75%</progress>
 					</div>
+					<Transaction b={db} fil={goal} a={"yarab"}/>
 				</Slide>
 				<Slide>
 					<Iconitem text="CIB" icon="cib.svg" center={true}/>
@@ -302,7 +214,7 @@ const fetchall = async (a) =>
 					pad={"pt-28"}
 					bar={
 						<Topbar cls="flex-row h-28 m-auto">
-							<Sprofile></Sprofile>
+							<Sprofile username={p.user().username}></Sprofile>
 							<img
 								src="/close-circle.svg"
 								onClick={() => settings_set(false)}
@@ -420,7 +332,20 @@ const fetchall = async (a) =>
 							</h1>
 						</Topbar>
 					}
-				></Page>
+				>
+				<For each={[node()]} fallback={<div>Loading...</div>}>
+					{(item,i) => (
+						// <h1>{i()}</h1>
+						<Show when={!item.id}>
+							<Inputtext text="Name" hint="shopping"  ins={nodeset} v={node} l={item.name}/>
+							<Inputtext text="Amount" hint="100"  ins={nodeset} v={node} l={item.amout}/>
+							<Inputtext text="interval" hint="1m"  ins={nodeset} v={node} l={item.interval}/>
+							<Inputtext text="total" hint="1000"  ins={nodeset} v={node} l={item.total}/>
+						</Show>
+					)}
+				</For>
+					<Sbutton text="submit" act={() => {}} />
+				</Page>
 			</Stack>
 			<Stack anim={"stack-right"} on={addgoal} set={addgoal_set}>
 				<Page

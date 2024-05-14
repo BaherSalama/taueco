@@ -1,13 +1,10 @@
-/* @refresh reload */
-
-import PocketBase from 'pocketbase'
-
+import { Surreal } from 'surrealdb.js';
 import { createResource, createSignal, useTransition } from "solid-js";
-import { Router, Route } from "@solidjs/router";
 import { render } from "solid-js/web";
 import Home from "./pages/Home";
 import "./output.css";
 import Startup from "./pages/Startup";
+
 
 // Speed up calls to hasOwnProperty
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -40,14 +37,34 @@ function isEmpty(obj) {
 
 const [user,setuser] = createSignal({});
 
+const db = new Surreal();
+async function start() {
+	try {
+		await db.connect('ws://127.0.0.1:8000/rpc', {
+
+			namespace: 'test',
+			database: 'test',
+			auth: {
+				username: 'root',
+				password: 'root',
+			},
+		});
+		console.log("sad")
+	} catch (e) {
+		console.error('ERROR', e);
+	}
+}
+start()
+
+
 render(
 	() => (
 		<Switch>
       <Match when={isEmpty(user())}>
-				<Startup user={user} setuser={setuser} />
+				<Startup user={user} setuser={setuser} db={db}/>
       </Match>
       <Match when={!isEmpty(user())}>
-				<Home user={user} setuser={setuser} />
+				<Home user={user} setuser={setuser} db={db}/>
       </Match>
 		</Switch>
 	),

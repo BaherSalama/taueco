@@ -24,11 +24,11 @@ function colorthem(a) {
 	let sad;
 	let mat;
 	const amount = a.amount;
-	const is_goal = a.is_goal;
-	if (amount > 0 && !is_goal) {
+	console.log(amount)
+	if (amount > 0 ) {
 		sad = "+ " + amount + " $";
 		mat = "text-green-600";
-	} else if (amount < 0 && !is_goal) {
+	} else if (amount < 0 ) {
 		sad = "- " + -amount + " $";
 		mat = "text-red-600";
 	} else {
@@ -37,6 +37,12 @@ function colorthem(a) {
 	}
 	return <p class={mat}>{sad}</p>;
 }
+	function goal(x) {
+		return x["isgoal"]
+	}
+	function run(x) {
+		return true
+	}
 
 function Transaction(p) {
 	return (
@@ -45,15 +51,15 @@ function Transaction(p) {
 			<Switch>
 				<Match when={p.b.loading}>
 				</Match>
-			<Match when={p.b()}>
-				<For each={p.b[p.a]} fallback={<div>Loading...</div>}>
-					{(item) => (
-						<div class="ml-5 mt-2 flex flex-row justify-between items-center">
-							<p>{item.name}</p>
-							{colorthem(item)}
-						</div>
-					)}
-				</For>
+				<Match when={p.b()}>
+					<For each={p.b()[0].filter(p.fil)} fallback={<div>Loading...</div>}>
+						{(item) => (
+							<div class="ml-5 mt-2 flex flex-row justify-between items-center">
+								<p>{item.name}</p>
+								{colorthem(item)}
+							</div>
+						)}
+					</For>
 				</Match>
 				</Switch>
 		</div>
