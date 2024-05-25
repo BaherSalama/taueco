@@ -1,1 +1,0 @@
-SELECT * from node LEFT JOIN wallet ON wallet.id = node.id j;
