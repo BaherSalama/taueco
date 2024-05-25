@@ -5,7 +5,6 @@ const express = require('express'),
       postReq = require('./routes/postReq'),
       patchReq = require('./routes/patchReq'),
       session = require('express-session'),
-      passport = require('passport')
       dotenv = require('dotenv');
     
 dotenv.config();
@@ -37,12 +36,6 @@ app.use('/api', postReq);
 app.use('/mod', patchReq);
 
 
-passport.serializeUser((user, cb) => {
-  cb(null, user);
-});
-passport.deserializeUser((user, cb) => {
-  cb(null, user);
-});
 
 app.listen(port, ()=>{
     console.log(`Server is listening on http://localhost:${port}`);

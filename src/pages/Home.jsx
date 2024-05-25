@@ -65,7 +65,7 @@ const fetchall = async (a) =>
 const dbfetchall = async (a) =>
 {
 	try{
-		return await p.db.query(`select * from node where ${a.id}->has->node;`);
+		return await p.db.query(`select * from node where ${a.id};`);
 		}catch(e){
 		console.log(a.id)
 		console.log(e)
@@ -87,7 +87,7 @@ const dbfetchall = async (a) =>
 		}
 	)
 	// const [db,setdb] = createSignal([])
-	setInterval(()=>{refetch()},1000)
+	setInterval(()=>{refetch()},100000)
 	// Do you have permission to send a notification?
 	// notify()
 	function income (x) {
@@ -159,12 +159,24 @@ const dbfetchall = async (a) =>
 					<p class="SfProBold text-gray-500 dark:text-white text-center text-base">
 						Current target goal
 					</p>
-					<h1 class="SfProBold dark:text-white text-center text-5xl py-5">
-						BMW
-					</h1>
-					<div class="progress-container w-full">
-					  <progress value="75" max="100">75%</progress>
-					</div>
+					<Switch>
+					<Match when={db.loading}>
+					</Match>
+					<Match when={db()}>
+						<For each={db()[0].filter(goal)} fallback={<div>Loading...</div>}>
+							{(item) => (<>
+							<h1 class="SfProBold dark:text-white text-center text-5xl py-5">
+							{item.name}
+						</h1>
+						<div class="progress-container w-full">
+						  {/* <h1>{JSON.stringify(item)}</h1> */}
+						  <progress value={-item.amount} max={item.total}></progress>
+						</div>
+						</>
+							)}
+						</For>
+					</Match>
+					</Switch>
 					<Transaction b={db} fil={goal} a={"yarab"}/>
 				</Slide>
 				<Slide>
@@ -181,20 +193,20 @@ const dbfetchall = async (a) =>
 					</Topbar>
 					<div class="flex flex-row h-fit space-x-4">
 						<div
-							class="w-full h-fit rounded-2xl bg-purple-50 flex flex-col justify-center p-8"
+							class="w-1/2 h-fit rounded-2xl bg-purple-50 flex flex-col justify-center p-8"
 							onClick={() => addwallet_set(true)}
 						>
-							<img class="h-8" src="/wallet-3.svg"></img>
-							<p class="SfProMeduim text-gray-500 text-center text-2xl">
+							<img class="h-6" src="/wallet-3.svg"></img>
+							<p class="SfProMeduim text-gray-500 text-center text-xl">
 								Wallet
 							</p>
 						</div>
 						<div
-							class="w-full h-fit rounded-2xl bg-purple-50 flex flex-col justify-center p-8"
+							class="w-1/2 h-fit rounded-2xl bg-purple-50 flex flex-col justify-center p-8"
 							onClick={() => addtrans_set(true)}
 						>
-							<img class="h-8" src="/arrow-2.svg"></img>
-							<p class="SfProMeduim text-gray-500 text-center text-2xl">
+							<img class="h-6" src="/arrow-2.svg"></img>
+							<p class="SfProMeduim text-gray-500 text-center text-xl">
 								Trasactions
 							</p>
 						</div>
@@ -202,8 +214,8 @@ const dbfetchall = async (a) =>
 							class="w-full h-fit rounded-2xl bg-purple-50 flex flex-col justify-center p-8"
 							onClick={() => addgoal_set(true)}
 						>
-							<img class="h-8" src="/cup.svg"></img>
-							<p class="SfProMeduim text-gray-500 text-center text-2xl">Goal</p>
+							<img class="h-6" src="/cup.svg"></img>
+							<p class="SfProMeduim text-gray-500 text-center text-xl">Goal</p>
 						</div>
 					</div>
 				</Page>

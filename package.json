@@ -21,12 +21,13 @@
     "solid-apexcharts": "^0.3.4",
     "solid-js": "^1.7.8",
     "solid-transition-group": "^0.2.3",
-    "surrealdb.js": "^1.0.0-beta.6"
+    "surrealdb.js": "^1.0.0-beta.6",
+    "surrealdb.node": "^0.3.0"
   },
   "devDependencies": {
-    "vite": "^5.0.0",
-    "vite-plugin-solid": "^2.8.0",
     "@tauri-apps/cli": ">=2.0.0-beta.0",
-    "internal-ip": "^7.0.0"
+    "internal-ip": "^7.0.0",
+    "vite": "^5.0.0",
+    "vite-plugin-solid": "^2.8.0"
   }
 }
