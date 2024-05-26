@@ -6,9 +6,9 @@ part 'node.g.dart';
 @freezed
 class Node with _$Node {
   factory Node({
-    required String key,
+    String id,
     required String name,
-    required String type,
+    required int type,
     required double amount,
     required double total,
     required Duration interval,

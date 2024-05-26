@@ -22,7 +22,7 @@ Node _$NodeFromJson(Map<String, dynamic> json) {
 mixin _$Node {
   String get key => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  int get type => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   double get total => throw _privateConstructorUsedError;
   Duration get interval => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $NodeCopyWith<$Res> {
   $Res call(
       {String key,
       String name,
-      String type,
+      int type,
       double amount,
       double total,
       Duration interval});
@@ -78,7 +78,7 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -105,7 +105,7 @@ abstract class _$$NodeImplCopyWith<$Res> implements $NodeCopyWith<$Res> {
   $Res call(
       {String key,
       String name,
-      String type,
+      int type,
       double amount,
       double total,
       Duration interval});
@@ -140,7 +140,7 @@ class __$$NodeImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -176,7 +176,7 @@ class _$NodeImpl implements _Node {
   @override
   final String name;
   @override
-  final String type;
+  final int type;
   @override
   final double amount;
   @override
@@ -226,7 +226,7 @@ abstract class _Node implements Node {
   factory _Node(
       {required final String key,
       required final String name,
-      required final String type,
+      required final int type,
       required final double amount,
       required final double total,
       required final Duration interval}) = _$NodeImpl;
@@ -238,7 +238,7 @@ abstract class _Node implements Node {
   @override
   String get name;
   @override
-  String get type;
+  int get type;
   @override
   double get amount;
   @override
