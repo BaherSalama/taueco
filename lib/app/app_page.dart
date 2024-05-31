@@ -31,7 +31,7 @@ class AppPage extends StatelessWidget {
                     )),
 
                 SizedBox(height: 50),
-                BigButton(name: "lets go", tap: ()=> Routefly.push("user/signup")), // TextButton(
+                BigButton(name: "lets go", tap: ()=> Routefly.push("user/login")), // TextButton(
                 //   style: TextButton.styleFrom(
                 //     backgroundColor: Colors.green,
                 //     elevation: 5,

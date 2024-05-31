@@ -6,12 +6,14 @@ part 'node.g.dart';
 @freezed
 class Node with _$Node {
   factory Node({
-    String id,
+    String? id,
     required String name,
     required int type,
     required double amount,
     required double total,
-    required Duration interval,
+    required String wallet,
+    required String tag,
+    required String interval,
   }) = _Node;
 
   factory Node.fromJson(Map<String, dynamic> json) => _$NodeFromJson(json);

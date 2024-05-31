@@ -1,12 +1,14 @@
+import 'package:econome/logic/logic.dart';
 import 'package:econome/routes.dart';
 import 'package:econome/style/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routefly/routefly.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return MaterialApp.router(
       routerConfig: Routefly.routerConfig(
           routes: routes, // GENERATED
@@ -18,8 +20,8 @@ class MyApp extends StatelessWidget {
           }),
       debugShowCheckedModeBanner: false,
       title: 'sad',
-      themeMode: ThemeMode.light,
-      // darkTheme: Style.dark,
+      themeMode:ref.watch(themeMode),
+      darkTheme: Style.dark,
       theme: Style.light,
 
       // home: const Startup(),

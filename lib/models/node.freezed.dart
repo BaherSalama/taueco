@@ -20,12 +20,14 @@ Node _$NodeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Node {
-  String get key => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get type => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   double get total => throw _privateConstructorUsedError;
-  Duration get interval => throw _privateConstructorUsedError;
+  String get wallet => throw _privateConstructorUsedError;
+  String get tag => throw _privateConstructorUsedError;
+  String get interval => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,12 +40,14 @@ abstract class $NodeCopyWith<$Res> {
       _$NodeCopyWithImpl<$Res, Node>;
   @useResult
   $Res call(
-      {String key,
+      {String? id,
       String name,
       int type,
       double amount,
       double total,
-      Duration interval});
+      String wallet,
+      String tag,
+      String interval});
 }
 
 /// @nodoc
@@ -59,18 +63,20 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? key = null,
+    Object? id = freezed,
     Object? name = null,
     Object? type = null,
     Object? amount = null,
     Object? total = null,
+    Object? wallet = null,
+    Object? tag = null,
     Object? interval = null,
   }) {
     return _then(_value.copyWith(
-      key: null == key
-          ? _value.key
-          : key // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -87,10 +93,18 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
               as double,
+      wallet: null == wallet
+          ? _value.wallet
+          : wallet // ignore: cast_nullable_to_non_nullable
+              as String,
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as String,
       interval: null == interval
           ? _value.interval
           : interval // ignore: cast_nullable_to_non_nullable
-              as Duration,
+              as String,
     ) as $Val);
   }
 }
@@ -103,12 +117,14 @@ abstract class _$$NodeImplCopyWith<$Res> implements $NodeCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String key,
+      {String? id,
       String name,
       int type,
       double amount,
       double total,
-      Duration interval});
+      String wallet,
+      String tag,
+      String interval});
 }
 
 /// @nodoc
@@ -121,18 +137,20 @@ class __$$NodeImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? key = null,
+    Object? id = freezed,
     Object? name = null,
     Object? type = null,
     Object? amount = null,
     Object? total = null,
+    Object? wallet = null,
+    Object? tag = null,
     Object? interval = null,
   }) {
     return _then(_$NodeImpl(
-      key: null == key
-          ? _value.key
-          : key // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -149,10 +167,18 @@ class __$$NodeImplCopyWithImpl<$Res>
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
               as double,
+      wallet: null == wallet
+          ? _value.wallet
+          : wallet // ignore: cast_nullable_to_non_nullable
+              as String,
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
+              as String,
       interval: null == interval
           ? _value.interval
           : interval // ignore: cast_nullable_to_non_nullable
-              as Duration,
+              as String,
     ));
   }
 }
@@ -161,18 +187,20 @@ class __$$NodeImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NodeImpl implements _Node {
   _$NodeImpl(
-      {required this.key,
+      {this.id,
       required this.name,
       required this.type,
       required this.amount,
       required this.total,
+      required this.wallet,
+      required this.tag,
       required this.interval});
 
   factory _$NodeImpl.fromJson(Map<String, dynamic> json) =>
       _$$NodeImplFromJson(json);
 
   @override
-  final String key;
+  final String? id;
   @override
   final String name;
   @override
@@ -182,11 +210,15 @@ class _$NodeImpl implements _Node {
   @override
   final double total;
   @override
-  final Duration interval;
+  final String wallet;
+  @override
+  final String tag;
+  @override
+  final String interval;
 
   @override
   String toString() {
-    return 'Node(key: $key, name: $name, type: $type, amount: $amount, total: $total, interval: $interval)';
+    return 'Node(id: $id, name: $name, type: $type, amount: $amount, total: $total, wallet: $wallet, tag: $tag, interval: $interval)';
   }
 
   @override
@@ -194,19 +226,21 @@ class _$NodeImpl implements _Node {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NodeImpl &&
-            (identical(other.key, key) || other.key == key) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.total, total) || other.total == total) &&
+            (identical(other.wallet, wallet) || other.wallet == wallet) &&
+            (identical(other.tag, tag) || other.tag == tag) &&
             (identical(other.interval, interval) ||
                 other.interval == interval));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, key, name, type, amount, total, interval);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, type, amount, total, wallet, tag, interval);
 
   @JsonKey(ignore: true)
   @override
@@ -224,17 +258,19 @@ class _$NodeImpl implements _Node {
 
 abstract class _Node implements Node {
   factory _Node(
-      {required final String key,
+      {final String? id,
       required final String name,
       required final int type,
       required final double amount,
       required final double total,
-      required final Duration interval}) = _$NodeImpl;
+      required final String wallet,
+      required final String tag,
+      required final String interval}) = _$NodeImpl;
 
   factory _Node.fromJson(Map<String, dynamic> json) = _$NodeImpl.fromJson;
 
   @override
-  String get key;
+  String? get id;
   @override
   String get name;
   @override
@@ -244,7 +280,11 @@ abstract class _Node implements Node {
   @override
   double get total;
   @override
-  Duration get interval;
+  String get wallet;
+  @override
+  String get tag;
+  @override
+  String get interval;
   @override
   @JsonKey(ignore: true)
   _$$NodeImplCopyWith<_$NodeImpl> get copyWith =>

@@ -27,16 +27,9 @@ class AppColors {
 class Style {
   static ThemeData light = ThemeData(
     fontFamily: "sfpro",
-    textTheme: const TextTheme().copyWith(
-      bodySmall: const TextStyle(color: Colors.black),
-      bodyMedium: const TextStyle(color: Colors.black),
-      bodyLarge: const TextStyle(color: Colors.black),
-      labelSmall: const TextStyle(color: Colors.black),
-      labelMedium: const TextStyle(color: Colors.black),
-      labelLarge: const TextStyle(color: Colors.black),
-      displaySmall: const TextStyle(color: Colors.black),
-      displayMedium: const TextStyle(color: Colors.black),
-      displayLarge: const TextStyle(color: Colors.black),
+    textTheme: const TextTheme().apply(
+      bodyColor: Colors.pink,
+      displayColor: Colors.pink,
     ),
     appBarTheme: const AppBarTheme(centerTitle: true),
     // colorScheme: const ColorScheme(

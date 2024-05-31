@@ -31,7 +31,7 @@ class _HomePageState extends State<SignupPage> {
         User(password: pass.text, email: email.text, username: username.text);
     debugPrint(a.toJson().toString());
     http.Response response = await http.post(
-        Uri.http("127.0.0.1:8000", "/user"),
+        Uri.http("127.0.0.1:8000", "/user/"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(a.toJson()));
     debugPrint(response.statusCode.toString());
@@ -55,67 +55,69 @@ class _HomePageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Signup'),
-      ),
-      body: Padding(
-          padding: const EdgeInsets.all(25),
-          child: Form(
-            key: _formKey,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  InputText(
-                      controller: email,
-                      name: "Email",
-                      validator: (value) {
-                        if (value!.isEmpty ||
-                            !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                .hasMatch(value)) {
-                          return 'Enter a valid email!';
-                        }
-                        return null;
-                      }),
-                  SizedBox(height: 50),
-                  InputText(
-                      controller: username,
-                      name: "User name",
-                      validator: (value) {
-                        if (value!.isEmpty || value.length < 8) {
-                          return 'Must be more than 8 letters';
-                        }
-                        return null;
-                      }),
-                  SizedBox(height: 50),
-                  PasswordText(
-                      controller: pass,
-                      name: "Password",
-                      hide: _isObscure,
-                      validator: (value) {
-                        if (value!.isEmpty || value.length < 8) {
-                          return 'Must be more than 8 letters';
-                        }
-                        return null;
-                      }),
-                  BigButton(
-                      name: "signup",
-                      tap: () async {
-                        final isValid = _formKey.currentState?.validate();
-                        if (!isValid!) {
-                          return;
-                        }
-                        _formKey.currentState?.save();
-                        if (await _submit()) {
-                          Routefly.push("user/test");
-                        } else {
-                          const s =
-                              SnackBar(content: Text('Email already used'));
-                          ScaffoldMessenger.of(context).showSnackBar(s);
-                        }
-                      })
-                ]),
-          )),
-    );
+        appBar: AppBar(
+          title: const Text('Signup'),
+        ),
+        body: Center(
+          child: Container(
+              constraints: BoxConstraints(maxWidth: 300),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      InputText(
+                          controller: email,
+                          name: "Email",
+                          validator: (value) {
+                            if (value!.isEmpty ||
+                                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(value)) {
+                              return 'Enter a valid email!';
+                            }
+                            return null;
+                          }),
+                      SizedBox(height: 50),
+                      InputText(
+                          controller: username,
+                          name: "User name",
+                          validator: (value) {
+                            if (value!.isEmpty || value.length < 8) {
+                              return 'Must be more than 8 letters';
+                            }
+                            return null;
+                          }),
+                      SizedBox(height: 50),
+                      PasswordText(
+                          controller: pass,
+                          name: "Password",
+                          hide: _isObscure,
+                          validator: (value) {
+                            if (value!.isEmpty || value.length < 8) {
+                              return 'Must be more than 8 letters';
+                            }
+                            return null;
+                          }),
+                      SizedBox(height: 50),
+                      BigButton(
+                          name: "signup",
+                          tap: () async {
+                            final isValid = _formKey.currentState?.validate();
+                            if (!isValid!) {
+                              return;
+                            }
+                            _formKey.currentState?.save();
+                            if (await _submit()) {
+                              Routefly.pop(context);
+                            } else {
+                              const s =
+                                  SnackBar(content: Text('Email already used'));
+                              ScaffoldMessenger.of(context).showSnackBar(s);
+                            }
+                          })
+                    ]),
+              )),
+        ));
   }
 }

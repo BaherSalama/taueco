@@ -7,20 +7,24 @@ part of 'node.dart';
 // **************************************************************************
 
 _$NodeImpl _$$NodeImplFromJson(Map<String, dynamic> json) => _$NodeImpl(
-      key: json['key'] as String,
+      id: json['id'] as String?,
       name: json['name'] as String,
       type: (json['type'] as num).toInt(),
       amount: (json['amount'] as num).toDouble(),
       total: (json['total'] as num).toDouble(),
-      interval: Duration(microseconds: (json['interval'] as num).toInt()),
+      wallet: json['wallet'] as String,
+      tag: json['tag'] as String,
+      interval: json['interval'] as String,
     );
 
 Map<String, dynamic> _$$NodeImplToJson(_$NodeImpl instance) =>
     <String, dynamic>{
-      'key': instance.key,
+      'id': instance.id,
       'name': instance.name,
       'type': instance.type,
       'amount': instance.amount,
       'total': instance.total,
-      'interval': instance.interval.inMicroseconds,
+      'wallet': instance.wallet,
+      'tag': instance.tag,
+      'interval': instance.interval,
     };
