@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:econome/app/user/login_page.dart';
+import 'package:econome/models/tag.dart';
 import 'package:econome/models/wallet.dart';
 import 'package:econome/style/style.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
 part 'logic.g.dart';
 
+var ip = '127.0.0.1:8000';
 // @riverpod
 // Future<List<Wallet>> wallets(WalletsRef ref) async {
 //   try {
@@ -39,7 +41,7 @@ class Wallets extends _$Wallets {
   Future<List<Wallet>> build() async {
     try {
       final response = await http.get(
-        Uri.http('127.0.0.1:8000', '/wallet/'),
+        Uri.http(ip, '/wallet/'),
         headers: {
           'Content-Type': 'application/json',
           'Cookie': rawCookies!
@@ -66,8 +68,7 @@ class Wallets extends _$Wallets {
 
   Future<bool> add(Wallet a) async {
     debugPrint(a.toJson().toString());
-    http.Response response = await http.post(
-        Uri.http("127.0.0.1:8000", "/wallet/"),
+    http.Response response = await http.post(Uri.http(ip, "/wallet/"),
         headers: {'Content-Type': 'application/json', 'Cookie': rawCookies!},
         body: jsonEncode(a.toJson()));
     if (response.statusCode == 200) {
@@ -79,8 +80,7 @@ class Wallets extends _$Wallets {
 
   Future<bool> delete(Wallet a) async {
     debugPrint(a.toJson().toString());
-    http.Response response = await http.delete(
-        Uri.http("127.0.0.1:8000", "/wallet/"),
+    http.Response response = await http.delete(Uri.http(ip, "/wallet/"),
         headers: {'Content-Type': 'application/json', 'Cookie': rawCookies!},
         body: jsonEncode(a.toJson()));
     if (response.statusCode == 200) {
@@ -89,6 +89,22 @@ class Wallets extends _$Wallets {
     }
     return false;
   }
+}
+
+@riverpod
+Future<List<Tag>> tags(TagsRef ref) async {
+  final response = await http.get(
+    Uri.http(ip, '/tag/'),
+    headers: {
+      'Content-Type': 'application/json',
+      'Cookie': rawCookies!
+    }, // Assuming secure cookie handling
+  );
+  final List<dynamic> json = jsonDecode(response.body);
+
+  final List<Tag> x = json.map((tag) => Tag.fromJson(tag)).toList();
+  print(json);
+  return x;
 }
 
 @riverpod

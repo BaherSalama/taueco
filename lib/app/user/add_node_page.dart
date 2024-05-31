@@ -2,28 +2,48 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:duration_time_picker/duration_time_picker.dart';
+import 'package:econome/logic/logic.dart';
+import 'package:econome/models/eduration.dart';
 import 'package:econome/models/node.dart';
+import 'package:econome/models/tag.dart';
 
 import 'package:econome/models/user.dart';
+import 'package:econome/models/wallet.dart';
 import 'package:econome/widget/bigbutton.dart';
 import 'package:econome/widget/passwordinput.dart';
 import 'package:econome/widget/textinput.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routefly/routefly.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class AddNodePage extends StatefulWidget {
+enum ColorLabel {
+  blue('Blue', Colors.blue),
+  pink('Pink', Colors.pink),
+  green('Green', Colors.green),
+  yellow('Orange', Colors.orange),
+  grey('Grey', Colors.grey);
+
+  const ColorLabel(this.label, this.color);
+  final String label;
+  final Color color;
+}
+
+class AddNodePage extends ConsumerStatefulWidget {
   const AddNodePage({super.key});
 
   @override
-  State<AddNodePage> createState() => _AddNodeState();
+  ConsumerState<AddNodePage> createState() => _AddNodeState();
 }
 
-class _AddNodeState extends State<AddNodePage> {
+class _AddNodeState extends ConsumerState<AddNodePage> {
   TextEditingController name = TextEditingController();
   TextEditingController amount = TextEditingController();
   TextEditingController total = TextEditingController();
   TextEditingController interval = TextEditingController();
+  final TextEditingController colorController = TextEditingController();
+  ColorLabel? selectedColor;
   Duration _durationMilli = Duration.zero;
   Duration _durationSecond = Duration.zero;
   Duration _durationMin = Duration.zero;
@@ -65,6 +85,10 @@ class _AddNodeState extends State<AddNodePage> {
 
   @override
   Widget build(BuildContext context) {
+    final AsyncValue<List<Tag>> tags = ref.watch(tagsProvider);
+    final AsyncValue<List<Wallet>> wallets = ref.watch(walletsProvider);
+    Tag selectedTag;
+    Wallet selectedwallet;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Signup'),
@@ -80,68 +104,102 @@ class _AddNodeState extends State<AddNodePage> {
                     children: [
                       InputText(
                           controller: name,
-                          name: "Email",
+                          name: "Name",
                           validator: (value) {
-                            if (value!.isEmpty ||
-                                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(value)) {
-                              return 'Enter a valid email!';
+                            if (value!.isEmpty) {
+                              return 'Cant be empty';
                             }
                             return null;
                           }),
                       SizedBox(height: 50),
                       InputText(
-                          controller:amount,
-                          name: "User name",
+                          controller: amount,
+                          name: "Amount",
                           validator: (value) {
-                            if (value!.isEmpty || value.length < 8) {
+                            if (value!.isEmpty) {
+                              return 'cant be empty';
+                            }
+                            return null;
+                          }),
+                      SizedBox(height: 50),
+                      InputText(
+                          controller: interval,
+                          name: "Interval",
+                          validator: (value) {
+                            if (value!.isEmpty) {
                               return 'Must be more than 8 letters';
                             }
                             return null;
                           }),
                       SizedBox(height: 50),
-                      DurationTimePicker(
-                        duration: _durationMilli,
-                        baseUnit: BaseUnit.hour,
-                        circleColor: Colors.grey.withOpacity(0.5),
-                        progressColor: Colors.blue.withOpacity(1),
-                        onChange: (val) {
-                          setState(
-                            () => _durationMilli = val,
-                          );
+                      InputText(
+                          controller: total,
+                          name: "Total",
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Must be more than 8 letters';
+                            }
+                            return null;
+                          }),
+                      SizedBox(height: 50),
+                      DropdownMenu<Tag>(
+                        label: Text("Tag"),
+                        onSelected: (Tag? newValue) {
+                          setState(() {
+                            selectedTag = newValue!;
+                            print(newValue);
+                          });
                         },
+                        dropdownMenuEntries: tags.when(
+                          data: (data) =>
+                              data.map<DropdownMenuEntry<Tag>>((tag) {
+                            return DropdownMenuEntry<Tag>(
+                              value: tag,
+                              label: tag.name!,
+                            );
+                          }).toList(),
+                          loading: () => [
+                            DropdownMenuEntry(
+                              value: null!,
+                              label: 'loading',
+                            ),
+                          ],
+                          error: (error, stack) => [
+                            DropdownMenuEntry(value: null!, label: "failed"),
+                          ],
+                        ),
                       ),
-                      //     DurationTimePicker(
-                      //       duration: _durationSecond,
-                      //       baseUnit: BaseUnit.second,
-                      //       progressColor: Colors.amber,
-                      //       onChange: (val) {
-                      //         setState(
-                      //           () => _durationSecond = val,
-                      //         );
-                      //       },
-                      //     ),
-                      //     DurationTimePicker(
-                      //       duration: _durationMin,
-                      //       baseUnit: BaseUnit.minute,
-                      //       circleColor: Colors.pink,
-                      //       onChange: (val) {
-                      //         setState(
-                      //           () => _durationMin = val,
-                      //         );
-                      //       },
-                      //     ),
-                      //     DurationTimePicker(
-                      //       duration: _durationHour,
-                      //       baseUnit: BaseUnit.hour,
-                      //       onChange: (val) {
-                      //         setState(
-                      //           () => _durationHour = val,
-                      //         );
-                      //       },
-                      //     )
+                      SizedBox(height: 50),
+                      DropdownMenu<Wallet>(
+                        label: Text("wallet"),
+                        onSelected: (Wallet? newValue) {
+                          setState(() {
+                            selectedwallet = newValue!;
+                            print(newValue);
+                          });
+                        },
+                        dropdownMenuEntries: wallets.when(
+                          data: (data) =>
+                              data.map<DropdownMenuEntry<Wallet>>((tag) {
+                            return DropdownMenuEntry<Wallet>(
+                              value: tag,
+                              label: tag.name!,
+                            );
+                          }).toList(),
+                          loading: () => [
+                            DropdownMenuEntry(
+                              value: null!,
+                              label: 'loading',
+                            ),
+                          ],
+                          error: (error, stack) => [
+                            DropdownMenuEntry(value: null!, label: "failed"),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 50),
                       BigButton(
-                          name: "signup",
+                          name: "add Transaction",
                           tap: () async {
                             final isValid = _formKey.currentState?.validate();
                             if (!isValid!) {

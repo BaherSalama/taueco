@@ -6,7 +6,21 @@ part of 'logic.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$walletsHash() => r'688b150ed1c1df9467411b1639a53302376ce700';
+String _$tagsHash() => r'e244e78d7095cdaa99cb574f33811e77d7a01dc6';
+
+/// See also [tags].
+@ProviderFor(tags)
+final tagsProvider = AutoDisposeFutureProvider<List<Tag>>.internal(
+  tags,
+  name: r'tagsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$tagsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef TagsRef = AutoDisposeFutureProviderRef<List<Tag>>;
+String _$walletsHash() => r'3a3689b4a49229892d9d4e5b1aa2900180ccb371';
 
 /// See also [Wallets].
 @ProviderFor(Wallets)

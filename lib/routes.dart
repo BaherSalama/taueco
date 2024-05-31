@@ -1,10 +1,12 @@
 import 'package:routefly/routefly.dart';
 
-import 'app/app_page.dart' as a6;
-import 'app/user/add_node_page.dart' as a5;
+import 'app/app_page.dart' as a8;
+import 'app/user/add_node_page.dart' as a3;
 import 'app/user/add_wallet_page.dart' as a4;
 import 'app/user/login_page.dart' as a1;
-import 'app/user/main_page.dart' as a3;
+import 'app/user/main_page.dart' as a5;
+import 'app/user/profile_page.dart' as a7;
+import 'app/user/setting_page.dart' as a6;
 import 'app/user/signup_page.dart' as a2;
 import 'app/user/test_page.dart' as a0;
 
@@ -37,12 +39,12 @@ List<RouteEntity> get routes => [
     ),
   ),
   RouteEntity(
-    key: '/user/main',
-    uri: Uri.parse('/user/main'),
+    key: '/user/add_node',
+    uri: Uri.parse('/user/add_node'),
     routeBuilder: (ctx, settings) => Routefly.defaultRouteBuilder(
       ctx,
       settings,
-      const a3.MyHomePage(),
+      const a3.AddNodePage(),
     ),
   ),
   RouteEntity(
@@ -55,12 +57,30 @@ List<RouteEntity> get routes => [
     ),
   ),
   RouteEntity(
-    key: '/user/add_node',
-    uri: Uri.parse('/user/add_node'),
+    key: '/user/main',
+    uri: Uri.parse('/user/main'),
     routeBuilder: (ctx, settings) => Routefly.defaultRouteBuilder(
       ctx,
       settings,
-      const a5.AddNodePage(),
+      const a5.MyHomePage(),
+    ),
+  ),
+  RouteEntity(
+    key: '/user/setting',
+    uri: Uri.parse('/user/setting'),
+    routeBuilder: (ctx, settings) => Routefly.defaultRouteBuilder(
+      ctx,
+      settings,
+      const a6.SettingPage(),
+    ),
+  ),
+  RouteEntity(
+    key: '/user/profile',
+    uri: Uri.parse('/user/profile'),
+    routeBuilder: (ctx, settings) => Routefly.defaultRouteBuilder(
+      ctx,
+      settings,
+      const a7.ProfilePage(),
     ),
   ),
   RouteEntity(
@@ -69,7 +89,7 @@ List<RouteEntity> get routes => [
     routeBuilder: (ctx, settings) => Routefly.defaultRouteBuilder(
       ctx,
       settings,
-      const a6.AppPage(),
+      const a8.AppPage(),
     ),
   ),
 ];
@@ -81,8 +101,10 @@ const routePaths = (
     test: '/user/test',
     login: '/user/login',
     signup: '/user/signup',
-    main: '/user/main',
-    addWallet: '/user/add_wallet',
     addNode: '/user/add_node',
+    addWallet: '/user/add_wallet',
+    main: '/user/main',
+    setting: '/user/setting',
+    profile: '/user/profile',
   ),
 );

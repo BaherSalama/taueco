@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from models import User
 from db import SQLModel, engine
 from sqlmodel import SQLModel
-from routers import node, user, wallet
+from routers import node, user, wallet, tag
 import uvicorn
 
 
@@ -18,6 +18,7 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(user.router)
 app.include_router(node.router)
 app.include_router(wallet.router)
+app.include_router(tag.router)
 
 
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 import 'package:econome/logic/logic.dart';
 import 'package:econome/routes.dart';
 import 'package:econome/style/style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routefly/routefly.dart';
@@ -13,7 +14,7 @@ class MyApp extends ConsumerWidget {
       routerConfig: Routefly.routerConfig(
           routes: routes, // GENERATED
           routeBuilder: (context, settings, child) {
-            return MaterialPageRoute(
+            return CupertinoPageRoute(
               settings: settings,
               builder: (context) => child,
             );

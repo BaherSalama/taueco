@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:econome/logic/logic.dart';
+import 'package:econome/models/tag.dart';
 import 'package:econome/models/wallet.dart';
 import 'package:econome/widget/piechart.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,6 +25,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<Wallet>> wallet = ref.watch(walletsProvider);
+    final AsyncValue<List<Tag>> tag = ref.watch(tagsProvider);
     dynamic media = MediaQuery.of(context);
     List<Widget> _mainContents = [
       CustomScrollView(
@@ -119,7 +121,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Routefly.pushNavigate("profile");
+            },
             icon: SvgPicture.asset(
               "assets/icon/menu.svg",
               semanticsLabel: 'A red up arrow',
@@ -167,6 +171,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             switch (currentPageIndex) {
               case 3:
                 Routefly.pushNavigate("add_wallet");
+                break;
+              case 1:
+                Routefly.pushNavigate("add_node");
                 break;
               default:
                 null;
