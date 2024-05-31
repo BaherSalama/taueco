@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:econome/app/user/login_page.dart';
 import 'package:econome/models/wallet.dart';
+import 'package:econome/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -75,7 +76,7 @@ class Wallets extends _$Wallets {
     }
     return false;
   }
-  
+
   Future<bool> delete(Wallet a) async {
     debugPrint(a.toJson().toString());
     http.Response response = await http.delete(
@@ -87,32 +88,23 @@ class Wallets extends _$Wallets {
       return true;
     }
     return false;
-  }}
+  }
+}
 
+@riverpod
+class theme extends _$theme {
+  var sad = ThemeMode.light;
+  @override
+  ThemeMode build() {
+    return sad;
+  }
 
-
-
-
-
-// @riverpod
-// class theme extends _$theme {
-//   var sad = ThemeMode.light;
-//   @override
-//   ThemeMode build() {
-//     return sad;
-//   }
-//   void toggle(){
-//     if (sad==ThemeMode.light){
-//       sad = ThemeMode.dark;
-//       print("sad dark");
-//     }else{
-//       sad = ThemeMode.light;
-//       print("sad light");
-//     }
-//   }
-
-// }
-
-
-// final helloWorldProvider = Provider<ThemeMode>((_)=> ThemeMode.light);
-final themeMode = StateProvider((ref) => ThemeMode.light);
+  void toggle() {
+    if (sad == ThemeMode.light) {
+      sad = ThemeMode.dark;
+    } else {
+      sad = ThemeMode.light;
+    }
+    ref.invalidateSelf();
+  }
+}

@@ -102,8 +102,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                   PieAction(
                     tooltip: const Text('delete'),
                     onSelect: () async {
-                      await ref.read(walletsProvider.notifier).delete(
-                                value[index]);},
+                      await ref
+                          .read(walletsProvider.notifier)
+                          .delete(value[index]);
+                    },
                     child: const Icon(Icons.delete), // Can be any widget
                   ),
                 ],
@@ -129,8 +131,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 padding: EdgeInsets.all(8),
                 child: IconButton(
                   onPressed: () {
-                    final state = ref.read(themeMode);
-                    state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+                    ref.read(themeProvider.notifier).toggle();
                   },
                   icon: SvgPicture.asset(
                     "assets/icon/moon.svg",

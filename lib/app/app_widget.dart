@@ -8,7 +8,7 @@ import 'package:routefly/routefly.dart';
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       routerConfig: Routefly.routerConfig(
           routes: routes, // GENERATED
@@ -20,11 +20,9 @@ class MyApp extends ConsumerWidget {
           }),
       debugShowCheckedModeBanner: false,
       title: 'sad',
-      themeMode:ref.watch(themeMode),
-      darkTheme: Style.dark,
       theme: Style.light,
-
-      // home: const Startup(),
+      darkTheme: Style.dark,
+      themeMode: ref.watch(themeProvider),
     );
   }
 }
