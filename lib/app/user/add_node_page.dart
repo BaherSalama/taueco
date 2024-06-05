@@ -1,35 +1,13 @@
 // main.dart
-import 'dart:convert';
-import 'dart:ffi';
-import 'package:duration_time_picker/duration_time_picker.dart';
 import 'package:econome/logic/logic.dart';
-import 'package:econome/models/eduration.dart';
-import 'package:econome/models/node.dart';
 import 'package:econome/models/tag.dart';
-
-import 'package:econome/models/user.dart';
 import 'package:econome/models/wallet.dart';
+import 'package:econome/models/node.dart';
 import 'package:econome/widget/bigbutton.dart';
-import 'package:econome/widget/passwordinput.dart';
 import 'package:econome/widget/textinput.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routefly/routefly.dart';
-import 'package:skeletonizer/skeletonizer.dart';
-
-enum ColorLabel {
-  blue('Blue', Colors.blue),
-  pink('Pink', Colors.pink),
-  green('Green', Colors.green),
-  yellow('Orange', Colors.orange),
-  grey('Grey', Colors.grey);
-
-  const ColorLabel(this.label, this.color);
-  final String label;
-  final Color color;
-}
-
 class AddNodePage extends ConsumerStatefulWidget {
   const AddNodePage({super.key});
 
@@ -43,35 +21,10 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
   TextEditingController total = TextEditingController();
   TextEditingController interval = TextEditingController();
   final TextEditingController colorController = TextEditingController();
-  ColorLabel? selectedColor;
-  Duration _durationMilli = Duration.zero;
-  Duration _durationSecond = Duration.zero;
-  Duration _durationMin = Duration.zero;
-  Duration _durationHour = Duration.zero;
+  Tag? selectedTag;
+  Wallet? selectedwallet;
   var _formKey = GlobalKey<FormState>();
   var isLoading = false;
-
-  Future<bool> _submit() async {
-    // var a =
-    //     Node(name: name.text,
-    //     amount:amount.text as double,
-    //     total: total.text as double,
-    //     interval: interval.text,
-    //     tag: ,
-    //     type: ,
-    //     wallet: ,
-    //     );
-    // debugPrint(a.toJson().toString());
-    // http.Response response = await http.post(
-    //     Uri.http("127.0.0.1:8000", "/user/"),
-    //     headers: {'Content-Type': 'application/json'},
-    //     body: jsonEncode(a.toJson()));
-    // debugPrint(response.statusCode.toString());
-    // if (response.statusCode == 200) {
-    //   return true;
-    // }
-    return false;
-  }
 
   @override
   void dispose() {
@@ -87,8 +40,6 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
   Widget build(BuildContext context) {
     final AsyncValue<List<Tag>> tags = ref.watch(tagsProvider);
     final AsyncValue<List<Wallet>> wallets = ref.watch(walletsProvider);
-    Tag selectedTag;
-    Wallet selectedwallet;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Signup'),
@@ -126,9 +77,9 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
                           controller: interval,
                           name: "Interval",
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Must be more than 8 letters';
-                            }
+                            // if (value!.isEmpty) {
+                            //   return 'Must be more than 8 letters';
+                            // }
                             return null;
                           }),
                       SizedBox(height: 50),
@@ -206,11 +157,17 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
                               return;
                             }
                             _formKey.currentState?.save();
-                            if (await _submit()) {
+                            if (await ref.read(nodesProvider.notifier).add(
+                              Node(name: name.text,
+                              amount:double.parse(amount.text),
+                              interval: interval.text,
+                              tag: selectedTag!.name!,
+                              total:double.parse(total.text),
+                              type: 0,wallet: selectedwallet!.id!))
+                            ) {
                               Routefly.pop(context);
                             } else {
-                              const s =
-                                  SnackBar(content: Text('Email already used'));
+                              const s = SnackBar(content: Text('Cant add'));
                               ScaffoldMessenger.of(context).showSnackBar(s);
                             }
                           })

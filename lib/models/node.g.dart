@@ -7,14 +7,16 @@ part of 'node.dart';
 // **************************************************************************
 
 _$NodeImpl _$$NodeImplFromJson(Map<String, dynamic> json) => _$NodeImpl(
-      id: json['id'] as String?,
+      id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String,
       type: (json['type'] as num).toInt(),
       amount: (json['amount'] as num).toDouble(),
       total: (json['total'] as num).toDouble(),
-      wallet: json['wallet'] as String,
+      wallet: (json['wallet'] as num).toInt(),
       tag: json['tag'] as String,
-      interval: json['interval'] as String,
+      interval: json['interval'] as String?,
+      date:
+          json['date'] == null ? null : DateTime.parse(json['date'] as String),
     );
 
 Map<String, dynamic> _$$NodeImplToJson(_$NodeImpl instance) =>
@@ -27,4 +29,5 @@ Map<String, dynamic> _$$NodeImplToJson(_$NodeImpl instance) =>
       'wallet': instance.wallet,
       'tag': instance.tag,
       'interval': instance.interval,
+      'date': instance.date?.toIso8601String(),
     };

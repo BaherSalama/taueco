@@ -1,9 +1,10 @@
+from datetime import datetime
 #from pydantic import BaseModel
-from sqlmodel import Field, Session, SQLModel, create_engine
+from sqlalchemy import text
+from sqlmodel import Field, Session, SQLModel, create_engine,TIMESTAMP
 
 
-
-
+yarab = []
 
 
 class User(SQLModel,table=True):
@@ -26,11 +27,12 @@ class Tag(SQLModel,table=True):
 class Node(SQLModel,table=True):
     id: int | None = Field(default=None, primary_key=True)
     name: str
+    type: int
     total: float
-    amout: float
+    amount: float
     interval : str
     tag: str | None = Field(default=None,foreign_key="tag.name")
-    wallet : str
-    date : str
+    wallet : int| None = Field(default=None,foreign_key="wallet.id")
+    date : str = Field(default=text("datetime('now','+3 hours')"))
     user : str | None = Field(default=None,foreign_key="user.email")
 

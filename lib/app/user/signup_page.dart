@@ -1,6 +1,7 @@
 // main.dart
 import 'dart:convert';
 
+import 'package:econome/logic/logic.dart';
 import 'package:econome/models/user.dart';
 import 'package:econome/widget/bigbutton.dart';
 import 'package:econome/widget/passwordinput.dart';
@@ -31,7 +32,7 @@ class _HomePageState extends State<SignupPage> {
         User(password: pass.text, email: email.text, username: username.text);
     debugPrint(a.toJson().toString());
     http.Response response = await http.post(
-        Uri.http("127.0.0.1:8000", "/user/"),
+        Uri.http(ip, "/user/"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(a.toJson()));
     debugPrint(response.statusCode.toString());

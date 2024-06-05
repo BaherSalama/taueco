@@ -1,496 +1,178 @@
+import 'dart:ffi';
+
+import 'package:econome/logic/logic.dart';
 import 'package:econome/style/style.dart';
 import 'package:econome/widget/indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class PieChartSample2 extends StatefulWidget {
-  const PieChartSample2({super.key});
+enum Graphes { balance, tags, wallets }
+
+class PieChartSample3 extends ConsumerStatefulWidget {
+  const PieChartSample3({super.key});
 
   @override
-  State<StatefulWidget> createState() => PieChart2State();
+  ConsumerState<PieChartSample3> createState() => PieChartSample3State();
 }
 
-class PieChart2State extends State {
-  int touchedIndex = -1;
-
+class PieChartSample3State extends ConsumerState<PieChartSample3> {
+  int g = 3;
+  int touchedIndex = 0;
+  int sad=3;
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: Row(
-        children: <Widget>[
-          const SizedBox(
-            height: 18,
-          ),
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedIndex = -1;
-                          return;
-                        }
-                        touchedIndex = pieTouchResponse
-                            .touchedSection!.touchedSectionIndex;
-                      });
-                    },
-                  ),
-                  borderData: FlBorderData(
-                    show: false,
-                  ),
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 40,
-                  sections: showingSections(),
-                ),
-              ),
+    final AsyncValue<Map<String,double>> balance = ref.watch(balanceProvider(sad));
+    List<List<Widget>> mainContents = [
+      switch (balance) {
+        AsyncData(:final value) => <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: 
+                List.generate(value.length,(i){
+                return Indicator(
+                  color: colorArray[i],
+                  text: value.keys.toList()[i],
+                  isSquare: false,
+                  size: touchedIndex == i ? 18 : 16,
+                  textColor: touchedIndex == i
+                      ? AppColors.mainTextColor1
+                      : AppColors.mainTextColor3,
+                );})
             ),
-          ),
-          const Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Indicator(
-                color: AppColors.contentColorBlue,
-                text: 'First',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Indicator(
-                color: AppColors.contentColorYellow,
-                text: 'Second',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Indicator(
-                color: AppColors.contentColorPurple,
-                text: 'Third',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Indicator(
-                color: AppColors.contentColorGreen,
-                text: 'Fourth',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 18,
-              ),
+            Expanded(
+              child: AspectRatio(
+              aspectRatio: 1,
+              child: PieChart(PieChartData(
+                pieTouchData: PieTouchData(
+                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                    setState(() {
+                      if (!event.isInterestedForInteractions ||
+                          pieTouchResponse == null ||
+                          pieTouchResponse.touchedSection == null) {
+                        touchedIndex = -1;
+                        return;
+                      }
+                      touchedIndex =
+                          pieTouchResponse.touchedSection!.touchedSectionIndex;
+                    });
+                  },
+                ),
+                borderData: FlBorderData(
+                  show: false,
+                ),
+                sectionsSpace: 0,
+                centerSpaceRadius: 0,
+                sections: showingSections(value.values.toList()),
+              )),
+            ))
+          ],
+        _ => [Text("sad")]
+      }
+    ];
+    return AspectRatio(
+        aspectRatio: 1.3,
+        child: Column(children: [
+          SegmentedButton<int>(
+            style: SegmentedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              selectedForegroundColor: Colors.white,
+              selectedBackgroundColor: Colors.black,
+            ),
+            segments: const <ButtonSegment<int>>[
+              ButtonSegment<int>(
+                  value: 0,
+                  label: Text('Balance'),
+                  icon: Icon(Icons.calendar_view_day)),
+              ButtonSegment<int>(
+                  value: 1,
+                  label: Text('Tags'),
+                  icon: Icon(Icons.calendar_view_week)),
+              ButtonSegment<int>(
+                  value: 2,
+                  label: Text('Wallets'),
+                  icon: Icon(Icons.calendar_view_week)),
             ],
+            selected: <int>{g},
+            onSelectionChanged: (Set<int> newSelection) {
+              setState(() {
+                g = newSelection.first;
+                sad = newSelection.first;
+              });
+            },
           ),
-          const SizedBox(
-            width: 28,
-          ),
-        ],
-      ),
-    );
+          ...mainContents[0],
+        ]));
   }
 
-  List<PieChartSectionData> showingSections() {
-    return List.generate(4, (i) {
+  List<PieChartSectionData> showingSections(List<double> a) {
+    return List.generate(a.length, (i) {
       final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
+      final fontSize = isTouched ? 20.0 : 16.0;
+      final radius = isTouched ? 110.0 : 100.0;
+      final widgetSize = isTouched ? 55.0 : 40.0;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: AppColors.contentColorBlue,
-            value: 40,
-            title: '40%',
+      return PieChartSectionData(
+            color: colorArray[i],
+            value: a[i].abs(),
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
+              color: const Color(0xffffffff),
               shadows: shadows,
             ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: AppColors.contentColorYellow,
-            value: 30,
-            title: '30%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
+            badgeWidget: _Badge(
+              'assets/icons/ophthalmology-svgrepo-com.svg',
+              size: widgetSize,
+              borderColor: AppColors.contentColorBlack,
             ),
+            badgePositionPercentageOffset: .98,
           );
-        case 2:
-          return PieChartSectionData(
-            color: AppColors.contentColorPurple,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-        case 3:
-          return PieChartSectionData(
-            color: AppColors.contentColorGreen,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-        default:
-          throw Error();
-      }
+
     });
   }
 }
 
-class PieChartSample1 extends StatefulWidget {
-  const PieChartSample1({super.key});
-
-  @override
-  State<StatefulWidget> createState() => PieChartSample1State();
-}
-
-class PieChartSample1State extends State {
-  int touchedIndex = -1;
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: Column(
-        children: <Widget>[
-          const SizedBox(
-            height: 28,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Indicator(
-                color: AppColors.contentColorBlue,
-                text: 'One',
-                isSquare: false,
-                size: touchedIndex == 0 ? 18 : 16,
-                textColor: touchedIndex == 0
-                    ? AppColors.mainTextColor1
-                    : AppColors.mainTextColor3,
-              ),
-              Indicator(
-                color: AppColors.contentColorYellow,
-                text: 'Two',
-                isSquare: false,
-                size: touchedIndex == 1 ? 18 : 16,
-                textColor: touchedIndex == 1
-                    ? AppColors.mainTextColor1
-                    : AppColors.mainTextColor3,
-              ),
-              Indicator(
-                color: AppColors.contentColorPink,
-                text: 'Three',
-                isSquare: false,
-                size: touchedIndex == 2 ? 18 : 16,
-                textColor: touchedIndex == 2
-                    ? AppColors.mainTextColor1
-                    : AppColors.mainTextColor3,
-              ),
-              Indicator(
-                color: AppColors.contentColorGreen,
-                text: 'Four',
-                isSquare: false,
-                size: touchedIndex == 3 ? 18 : 16,
-                textColor: touchedIndex == 3
-                    ? AppColors.mainTextColor1
-                    : AppColors.mainTextColor3,
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 18,
-          ),
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedIndex = -1;
-                          return;
-                        }
-                        touchedIndex = pieTouchResponse
-                            .touchedSection!.touchedSectionIndex;
-                      });
-                    },
-                  ),
-                  startDegreeOffset: 180,
-                  borderData: FlBorderData(
-                    show: false,
-                  ),
-                  sectionsSpace: 1,
-                  centerSpaceRadius: 0,
-                  sections: showingSections(),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<PieChartSectionData> showingSections() {
-    return List.generate(
-      4,
-      (i) {
-        final isTouched = i == touchedIndex;
-        const color0 = AppColors.contentColorBlue;
-        const color1 = AppColors.contentColorYellow;
-        const color2 = AppColors.contentColorPink;
-        const color3 = AppColors.contentColorGreen;
-
-        switch (i) {
-          case 0:
-            return PieChartSectionData(
-              color: color0,
-              value: 25,
-              title: '',
-              radius: 80,
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
-            );
-          case 1:
-            return PieChartSectionData(
-              color: color1,
-              value: 25,
-              title: '',
-              radius: 65,
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
-            );
-          case 2:
-            return PieChartSectionData(
-              color: color2,
-              value: 25,
-              title: '',
-              radius: 60,
-              titlePositionPercentageOffset: 0.6,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
-            );
-          case 3:
-            return PieChartSectionData(
-              color: color3,
-              value: 25,
-              title: '',
-              radius: 70,
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
-            );
-          default:
-            throw Error();
-        }
-      },
-    );
-  }
-}
-
-class PieChartSample extends StatefulWidget {
-  const PieChartSample({super.key});
-
-  @override
-  State<StatefulWidget> createState() => PieCharteState();
-}
-
-class PieCharteState extends State {
-  int touchedIndex = -1;
+class _Badge extends StatelessWidget {
+  const _Badge(
+    this.svgAsset, {
+    required this.size,
+    required this.borderColor,
+  });
+  final String svgAsset;
+  final double size;
+  final Color borderColor;
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: Column(
-        children: <Widget>[
-          const SizedBox(
-            height: 18,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Indicator(
-                color: AppColors.contentColorBlue,
-                text: 'One',
-                isSquare: false,
-                size: touchedIndex == 0 ? 18 : 16,
-                textColor: touchedIndex == 0
-                    ? AppColors.mainTextColor1
-                    : AppColors.mainTextColor3,
-              ),
-              Indicator(
-                color: AppColors.contentColorYellow,
-                text: 'Two',
-                isSquare: false,
-                size: touchedIndex == 1 ? 18 : 16,
-                textColor: touchedIndex == 1
-                    ? AppColors.mainTextColor1
-                    : AppColors.mainTextColor3,
-              ),
-              Indicator(
-                color: AppColors.contentColorPink,
-                text: 'Three',
-                isSquare: false,
-                size: touchedIndex == 2 ? 18 : 16,
-                textColor: touchedIndex == 2
-                    ? AppColors.mainTextColor1
-                    : AppColors.mainTextColor3,
-              ),
-              Indicator(
-                color: AppColors.contentColorGreen,
-                text: 'Four',
-                isSquare: false,
-                size: touchedIndex == 3 ? 18 : 16,
-                textColor: touchedIndex == 3
-                    ? AppColors.mainTextColor1
-                    : AppColors.mainTextColor3,
-              ),
-            ],
-          ),
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedIndex = -1;
-                          return;
-                        }
-                        touchedIndex = pieTouchResponse
-                            .touchedSection!.touchedSectionIndex;
-                      });
-                    },
-                  ),
-                  borderData: FlBorderData(
-                    show: false,
-                  ),
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 40,
-                  sections: eshowingSections(),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 28,
+    return AnimatedContainer(
+      duration: PieChart.defaultDuration,
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: borderColor,
+          width: 2,
+        ),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withOpacity(.5),
+            offset: const Offset(3, 3),
+            blurRadius: 3,
           ),
         ],
       ),
+      padding: EdgeInsets.all(size * .15),
+      child: Center(
+        child: SvgPicture.asset(
+          svgAsset,
+        ),
+      ),
     );
-  }
-
-  List<PieChartSectionData> eshowingSections() {
-    return List.generate(4, (i) {
-      final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
-      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: AppColors.contentColorBlue,
-            value: 40,
-            title: '40%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: AppColors.contentColorYellow,
-            value: 30,
-            title: '30%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-        case 2:
-          return PieChartSectionData(
-            color: AppColors.contentColorPurple,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-        case 3:
-          return PieChartSectionData(
-            color: AppColors.contentColorGreen,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-        default:
-          throw Error();
-      }
-    });
   }
 }

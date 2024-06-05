@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
 
+
+List<Color> colorArray = [ 
+  Color(0xFF4CAF50), //GREEN 
+  Color(0xFFFF3D00), //RED 
+  Color(0xFFEEFF41),//YELLOW 
+  Color(0xFF9FA8DA), //INDIGO  
+  Color(0xFF303F9F), // DARK INDIGO 
+  Color(0xFF536DFE), // INDIGO ACCENT 
+  Color(0xFFFFFF99), // BLACK INDIGO 
+  Color(0xFF2196F3), // BLUE 
+  Color(0xFF64FFDA), //TEAL  
+  Color(0xFFFFAB40)// ORANGE];
+];
 class AppColors {
   static const Color primary = Color(0xFBFBFB);
   static const Color menuBackground = Color(0xFBFBFB);

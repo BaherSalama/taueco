@@ -1,18 +1,13 @@
 // main.dart
 import 'dart:convert';
 
-import 'package:econome/app/user/login_page.dart';
 import 'package:econome/logic/logic.dart';
-import 'package:econome/models/user.dart';
 import 'package:econome/models/wallet.dart';
 import 'package:econome/widget/bigbutton.dart';
-import 'package:econome/widget/passwordinput.dart';
 import 'package:econome/widget/textinput.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routefly/routefly.dart';
-import 'package:http/http.dart' as http;
 
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});

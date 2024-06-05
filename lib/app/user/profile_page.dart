@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
+import 'package:routefly/routefly.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -13,7 +14,12 @@ class ProfilePage extends StatelessWidget {
           title: const Text('Profile'),
         ),
         body: ListView(children: [
-          ListTile()
+          ListTile(
+            title: Text("padeieaiede"),
+            onTap: (){
+              Routefly.push("setting");
+            },
+          )
         ]) 
       );
   }

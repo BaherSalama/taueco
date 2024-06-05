@@ -1,6 +1,7 @@
 // main.dart
 import 'dart:convert';
 
+import 'package:econome/logic/logic.dart';
 import 'package:econome/models/user.dart';
 import 'package:econome/widget/bigbutton.dart';
 import 'package:econome/widget/passwordinput.dart';
@@ -12,7 +13,7 @@ import 'package:routefly/routefly.dart';
 import 'package:http/http.dart' as http;
 
 String? rawCookies;
-
+String? user;
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -34,7 +35,7 @@ class _HomePageState extends State<LoginPage> {
         User(password: pass.text, email: email.text, username: username.text);
     debugPrint(a.toJson().toString());
     http.Response response = await http.post(
-        Uri.http("127.0.0.1:8000", "/user/login"),
+        Uri.http(ip, "/user/login"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(a.toJson()));
     debugPrint(response.statusCode.toString());
@@ -43,6 +44,7 @@ class _HomePageState extends State<LoginPage> {
         // save/process cookies
         rawCookies = response.headers['set-cookie']!;
       }
+      user = a.email;
     debugPrint("noice");
     debugPrint(rawCookies);
       return true;

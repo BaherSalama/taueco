@@ -9,65 +9,40 @@ class Eduration {
   Eduration({this.months, this.weeks, this.days, this.hours, this.minutes, this.seconds});
 }
 
-Eduration parseDuration(String input, {String separator = ' '}) {
-  final parts = input.split(separator).map((t) => t.trim()).toList();
-
+Eduration parseDuration(String? input, {String separator = ' '}) {
   int? months;
   int? weeks;
   int? days;
   int? hours;
   int? minutes;
   int? seconds;
-
-  for (String part in parts) {
-    final match = RegExp(r'^(\d+)(M|w|d|h|m|s)$').matchAsPrefix(part);
-    if (match == null) throw FormatException('Invalid duration format');
-
-    int value = int.parse(match.group(1)!);
-    String durationUnit = match.group(2)!; // Use a more descriptive variable name
-
+  if (input != null && input.isNotEmpty){
+  final parts = input.split(separator).map((t) => t.trim()).toList();
+    int? value = int.parse(parts[0]);
+    String? durationUnit = parts[1];
     switch (durationUnit) {
-      case 'M':
-        if (months != null) {
-          throw FormatException('Months specified multiple times');
-        }
+      case 'months':
         months = value;
         break;
-      case 'w':
-        if (weeks != null) {
-          throw FormatException('Weeks specified multiple times');
-        }
+      case 'weeks':
         weeks = value;
         break;
-      case 'd':
-        if (days != null) {
-          throw FormatException('Days specified multiple times');
-        }
+      case 'days':
         days = value;
         break;
-      case 'h':
-        if (hours != null) {
-          throw FormatException('Hours specified multiple times');
-        }
+      case 'hours':
         hours = value;
         break;
-      case 'm':
-        if (minutes != null) {
-          throw FormatException('Minutes specified multiple times');
-        }
+      case 'minutes':
         minutes = value;
         break;
-      case 's':
-        if (seconds != null) {
-          throw FormatException('Seconds specified multiple times');
-        }
+      case 'seconds':
         seconds = value;
         break;
       default:
         throw FormatException('Invalid duration unit $durationUnit');
     }
   }
-
   return Eduration(
     months: months ?? 0,
     weeks: weeks ?? 0,
@@ -77,3 +52,5 @@ Eduration parseDuration(String input, {String separator = ' '}) {
     seconds: seconds ?? 0,
   );
 }
+
+
