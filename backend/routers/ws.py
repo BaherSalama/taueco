@@ -1,5 +1,3 @@
-import asyncio
-from datetime import time
 from fastapi import APIRouter, Depends, WebSocket,BackgroundTasks
 from sqlmodel import select
 from models import *
@@ -8,28 +6,7 @@ from cookie import cookie,verifier
 from sqlalchemy import func, text
 import threading
 
-async def checktasks():
-    # Simulate a slow operation
-    await asyncio.sleep(1)
-    # time.sleep(1)
-    with Session(engine) as session:
-        statement = select(Node,text("datetime(node.date,node.interval)")).where(text("(julianday(node.date,node.interval)- julianday('now','+3 hours')) < 0 AND abs(node.total)-abs(node.amount) >= abs(node.amount)"))
-        statement2 = select(Node.user).where(text("(julianday(node.date,node.interval)-julianday('now','+3 hours')) < 0 AND abs(node.total)-abs(node.amount) >= abs(node.amount)"))
-        results = session.exec(statement)
-        results2 = session.exec(statement2)
-        change = results.all()
-        notify = results2.all()
-        for i,j in change:
-            clone = Node(**i.model_dump())
-            clone.id = None
-            clone.date = j
-            clone.total -= clone.amount
-            i.interval = ""
-            session.add(clone)
-            session.add(i)
-            session.commit()
-        print(notify)
-        return notify
+
 
 
 router = APIRouter()

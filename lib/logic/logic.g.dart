@@ -64,20 +64,6 @@ final themeProvider = AutoDisposeNotifierProvider<theme, ThemeMode>.internal(
 );
 
 typedef _$theme = AutoDisposeNotifier<ThemeMode>;
-String _$wsHash() => r'ace5579ebc47c572a545bd617ad940e109d1cc59';
-
-/// See also [Ws].
-@ProviderFor(Ws)
-final wsProvider = AutoDisposeNotifierProvider<Ws, void>.internal(
-  Ws.new,
-  name: r'wsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$wsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$Ws = AutoDisposeNotifier<void>;
 String _$balanceHash() => r'64c311c79b80bfb201e389b078cbf08b4d731eda';
 
 /// Copied from Dart SDK

@@ -164,26 +164,6 @@ class theme extends _$theme {
 }
 
 @riverpod
-class Ws extends _$Ws {
-  @override
-  void build() async {
-  final channel = WebSocketChannel.connect(Uri.parse('ws://$ip/$user'));
-
-  /// Listen for all incoming data
-  channel.stream.listen(
-    (data) {
-      ref.read(nodesProvider.notifier).up();
-      // ref.read(balanceProvider(0).notifier).up();
-      //    ref.read(balanceProvider(1).notifier).up();
-      //       ref.read(balanceProvider(2).notifier).up();
-    },
-    onError: (error) => print(error),
-  );
-  }
-}
-
-
-@riverpod
 class Balance extends _$Balance{
   @override
   Future<Map<String,double>> build(int sad) async {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:econome/logic/logic.dart';
 import 'package:econome/models/eduration.dart';
@@ -39,11 +40,26 @@ DateTime addDurationToDate(DateTime date,
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   int currentPageIndex = 0;
+  late Timer _timer;
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      setState(() {
+        ref.read(nodesProvider.notifier).up();
+      });
+    });
+
+  }
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<Wallet>> wallet = ref.watch(walletsProvider);
     final AsyncValue<List<Node>> nodes = ref.watch(nodesProvider);
-    ref.watch(wsProvider);
     dynamic media = MediaQuery.of(context);
     List<Widget> _mainContents = [
       CustomScrollView(slivers: [

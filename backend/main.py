@@ -1,12 +1,13 @@
 from contextlib import asynccontextmanager
+from lib2to3.pytree import Node
 import threading
 from fastapi import FastAPI, BackgroundTasks
-from db import SQLModel, engine
-from sqlmodel import SQLModel
+from sqlalchemy import select, text
+from db import  engine
 from routers import node, user, wallet, tag,ws, state
-
+from models import *
 import uvicorn
-
+import time
 # startup event
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -22,17 +23,28 @@ app.include_router(tag.router)
 app.include_router(ws.router)
 app.include_router(state.router)
 
-
-def sad():
-    while True:
-        ws.yarab = ws.checktasks()
-        print("sadeaieea")
+class BackgroundTasks(threading.Thread):
+    def run(self,*args,**kwargs):
+        while True:
+            with Session(engine) as session:
+                statement = select(Node,text("datetime(node.date,node.interval)")).where(text("(julianday(node.date,node.interval)- julianday('now','+3 hours')) < 0 AND abs(node.total)-abs(node.amount) >= abs(node.amount)"))
+                results = session.exec(statement)
+                change = results.all()
+                for i,j in change:
+                    clone = Node(**i.model_dump())
+                    clone.id = None
+                    clone.date = j
+                    clone.total -= clone.amount
+                    i.interval = ""
+                    session.add(clone)
+                    session.add(i)
+                    session.commit()
+            time.sleep(1)
 
 
 if __name__ == '__main__':
-    # background_thread = threading.Thread(target=sad)
-    # background_thread.start()
-
+    t = BackgroundTasks()
+    t.start()
     uvicorn.run("main:app",
                 host='127.0.0.1',
                 port=8000,
