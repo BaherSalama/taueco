@@ -5,13 +5,12 @@ from sqlmodel import select
 from models import *
 from db import engine
 from cookie import cookie,verifier
-import parsedatetime as pdt
 from sqlalchemy import func, text
 import threading
 
 async def checktasks():
     # Simulate a slow operation
-    await asyncio.sleep(60)
+    await asyncio.sleep(1)
     # time.sleep(1)
     with Session(engine) as session:
         statement = select(Node,text("datetime(node.date,node.interval)")).where(text("(julianday(node.date,node.interval)- julianday('now','+3 hours')) < 0 AND abs(node.total)-abs(node.amount) >= abs(node.amount)"))

@@ -9,6 +9,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 enum Graphes { balance, tags, wallets }
+List<List<String>> Svgs =[
+   [],
+   [ "assets/icon/food.svg", "assets/icon/fun.svg", "assets/icon/hospital.svg","assets/icon/Utility.svg" ],
+      ["assets/icon/money-recive.svg"  , "assets/icon/money-send.svg", "assets/icon/money-send.svg", "assets/icon/money-send.svg" ],
+];
 
 class PieChartSample3 extends ConsumerStatefulWidget {
   const PieChartSample3({super.key});
@@ -18,9 +23,9 @@ class PieChartSample3 extends ConsumerStatefulWidget {
 }
 
 class PieChartSample3State extends ConsumerState<PieChartSample3> {
-  int g = 3;
+  int g = 2;
   int touchedIndex = 0;
-  int sad=3;
+  int sad=2;
   @override
   Widget build(BuildContext context) {
     final AsyncValue<Map<String,double>> balance = ref.watch(balanceProvider(sad));
@@ -84,7 +89,7 @@ class PieChartSample3State extends ConsumerState<PieChartSample3> {
             segments: const <ButtonSegment<int>>[
               ButtonSegment<int>(
                   value: 0,
-                  label: Text('Balance'),
+                  label: Text('Wallets'),
                   icon: Icon(Icons.calendar_view_day)),
               ButtonSegment<int>(
                   value: 1,
@@ -92,7 +97,7 @@ class PieChartSample3State extends ConsumerState<PieChartSample3> {
                   icon: Icon(Icons.calendar_view_week)),
               ButtonSegment<int>(
                   value: 2,
-                  label: Text('Wallets'),
+                  label: Text('Balance'),
                   icon: Icon(Icons.calendar_view_week)),
             ],
             selected: <int>{g},
@@ -125,7 +130,7 @@ class PieChartSample3State extends ConsumerState<PieChartSample3> {
               shadows: shadows,
             ),
             badgeWidget: _Badge(
-              'assets/icons/ophthalmology-svgrepo-com.svg',
+            sad == 0 ? "assets/icon/wallet.svg" : Svgs[sad][i],
               size: widgetSize,
               borderColor: AppColors.contentColorBlack,
             ),

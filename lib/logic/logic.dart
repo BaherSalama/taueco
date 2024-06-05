@@ -173,6 +173,9 @@ class Ws extends _$Ws {
   channel.stream.listen(
     (data) {
       ref.read(nodesProvider.notifier).up();
+      // ref.read(balanceProvider(0).notifier).up();
+      //    ref.read(balanceProvider(1).notifier).up();
+      //       ref.read(balanceProvider(2).notifier).up();
     },
     onError: (error) => print(error),
   );
