@@ -8,6 +8,9 @@ import 'package:econome/widget/textinput.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routefly/routefly.dart';
+
+final List<String> times = ["seconds","minutes","hours","days","months"];
+
 class AddNodePage extends ConsumerStatefulWidget {
   const AddNodePage({super.key});
 
@@ -20,6 +23,9 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
   TextEditingController amount = TextEditingController();
   TextEditingController total = TextEditingController();
   TextEditingController interval = TextEditingController();
+  String time=times.first;
+
+
   final TextEditingController colorController = TextEditingController();
   Tag? selectedTag;
   Wallet? selectedwallet;
@@ -33,6 +39,7 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
     amount.dispose();
     total.dispose();
     interval.dispose();
+    colorController.dispose();
     super.dispose();
   }
 
@@ -49,9 +56,9 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
               constraints: BoxConstraints(maxWidth: 300),
               child: Form(
                 key: _formKey,
-                child: ListView(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    // crossAxisAlignment: CrossAxisAlignment.stretch,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InputText(
                           controller: name,
@@ -73,6 +80,11 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
                             return null;
                           }),
                       SizedBox(height: 50),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                      children: [
+                      Flexible(child: 
+                      
                       InputText(
                           controller: interval,
                           name: "Interval",
@@ -82,6 +94,24 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
                             // }
                             return null;
                           }),
+                      ),
+                      DropdownMenu<String>(
+                        label: Text("Tag"),
+                        onSelected: (String? newValue) {
+                          setState(() {
+                            time = newValue!;
+                            print(newValue);
+                          });
+                        },
+                        dropdownMenuEntries: times.map(
+                          (data) =>
+                            DropdownMenuEntry<String>(
+                              value: data,
+                              label: data,
+                            )
+                        ).toList(),
+                      ),    
+                      ]),
                       SizedBox(height: 50),
                       InputText(
                           controller: total,
@@ -160,7 +190,7 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
                             if (await ref.read(nodesProvider.notifier).add(
                               Node(name: name.text,
                               amount:double.parse(amount.text),
-                              interval: interval.text,
+                              interval: interval.text+" "+time,
                               tag: selectedTag!.name!,
                               total:double.parse(total.text),
                               type: 0,wallet: selectedwallet!.id!))

@@ -5,6 +5,7 @@ import 'package:econome/models/eduration.dart';
 import 'package:econome/models/node.dart';
 import 'package:econome/models/wallet.dart';
 import 'package:econome/widget/piechart.dart';
+import 'package:econome/widget/timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -73,10 +74,11 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     dynamic media = MediaQuery.of(context);
     List<Widget> _mainContents = [
       CustomScrollView(slivers: [
-        SliverGrid.count(
-          crossAxisCount: media.size.width <= 600 ? 1 : 2,
+        SliverList.list(
+          // crossAxisCount: media.size.width <= 600 ? 1 : 2,
           children: [
             PieChartSample3(balance: balance,sad: sad,g:g, c:changepie),
+            Timeline()
           ],
         ),
         SliverAppBar(

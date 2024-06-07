@@ -1,0 +1,147 @@
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include "uart_arduino.h"
+#include "pipe.h"
+#include "gpio.h"
+#include "db.h"
+
+using namespace std;
+using namespace restc_cpp;
+
+extern string sharedValue;
+extern string alertURL;
+extern string lockURL;
+extern string unlockURL;
+extern string responseURL;
+extern string unlockNotiURL;
+
+void sleepMilliseconds(int milliseconds) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
+}
+
+int main() {
+
+    string alert, lock, unlock, response, unlockNoti;
+    int previous = 0;
+    int count = 0;
+    bool authFlag = false;
+
+    // Open the pipe
+    openPipe(PIPE_PATH);
+
+    // Start the readFromPipe function on a new thread
+    std::thread monitorThread(readFromPipe, PIPE_PATH);
+
+    openSerialPort(ARDUINO_UNO);
+
+    while(true)
+    {
+        cout << sharedValue << endl;
+        if (sharedValue.empty())
+        {
+            sharedValue = "0";
+        }
+        int sharedNum = stoi(sharedValue);
+        if (sharedNum == previous)
+        {
+            if (authFlag)
+            {
+                count++;
+                if (count == 3)
+                    previous = 0;
+                break;
+            }
+        }
+        else if (sharedNum != previous)
+        {
+            switch (sharedNum) {
+                case 0:
+                    if (previous == 3)
+                    {
+                        cout << "Authorized and paying attention\n";
+                        serial_sendData("r");
+                        sleepMilliseconds(50);
+                        serial_sendData("p");
+                        sleepMilliseconds(50);
+                        serial_sendData("a");
+                        sleepMilliseconds(50);
+                        serial_sendData("n");
+                        sleepMilliseconds(50);
+                        serial_sendData("h");
+                        sleepMilliseconds(50);
+                    }
+                    break;
+                case 1:
+                    cout << "Distracted\n";
+                    for (int i = 0; i < 7; i++)
+                    {
+                        serial_sendData("c");
+                    }
+                    previous = sharedNum;
+                    break;
+                case 2:
+                    cout << "Sudden Brake\n";
+                    serial_sendData("vv");
+                    previous = sharedNum;
+                    break;
+                case 3:
+                    cout << "Full Stop\n";
+                    serial_sendData("m");
+                    sleepMilliseconds(50);
+                    serial_sendData("s");
+                    sleepMilliseconds(50);
+                    serial_sendData("f");
+                    sleepMilliseconds(50);
+                    serial_sendData("l");
+                    sleepMilliseconds(50);
+                    updateVar(responseURL,"true");
+                    sleep(10);
+                    serial_sendData("n");
+                    previous = sharedNum;
+                    break;
+                case 9:
+                    count++;
+                    if (count > 3)
+                    {
+                        cout << "Unauthorized\n";
+                        serial_sendData("m");
+                        updateVar(unlockNotiURL,"true");
+                        previous = sharedNum;
+                        count = 0;
+                        authFlag = false;
+                        cout << "ana 5alst\n";
+                    }
+                    authFlag = true;
+                    break;
+                default:
+                    /*Do Nothing*/
+                    break;
+            }
+        }
+        if (getData(alertURL) == "true")
+        {
+            cout << "Alert\n";
+            serial_sendData("s");
+            sleepMilliseconds(50);
+            serial_sendData("f");
+            sleep(5);
+            serial_sendData("n");
+            sleepMilliseconds(50);
+            serial_sendData("h");
+            updateVar(alertURL,"false");
+        }
+        if (getData(lockURL) == "true")
+        {
+            cout << "Lock\n";
+            serial_sendData("m");
+            updateVar(lockURL,"false");
+        }
+        if (getData(unlockURL) == "true")
+        {
+            cout << "Unlock\n";
+            serial_sendData("r");
+            updateVar(unlockURL,"false");
+        }
+    }
+}
