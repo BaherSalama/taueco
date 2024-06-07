@@ -4,33 +4,41 @@ import 'package:econome/logic/logic.dart';
 import 'package:econome/style/style.dart';
 import 'package:econome/widget/indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-enum Graphes { balance, tags, wallets }
+import 'package:freezed_annotation/freezed_annotation.dart';
 List<List<String>> Svgs =[
    [],
    [ "assets/icon/food.svg", "assets/icon/fun.svg", "assets/icon/hospital.svg","assets/icon/Utility.svg" ],
       ["assets/icon/money-recive.svg"  , "assets/icon/money-send.svg", "assets/icon/money-send.svg", "assets/icon/money-send.svg" ],
 ];
 
+typedef MyCallback = void Function(int value);
 class PieChartSample3 extends ConsumerStatefulWidget {
-  const PieChartSample3({super.key});
+  final AsyncValue<Map<String, double>> balance;
+  final int g;
+  final int sad;
+  MyCallback c;
 
+  PieChartSample3({
+    super.key,
+    required this.balance,
+    required this.g,
+    required this.sad,
+    required this.c,
+  });
   @override
   ConsumerState<PieChartSample3> createState() => PieChartSample3State();
 }
 
 class PieChartSample3State extends ConsumerState<PieChartSample3> {
-  int g = 2;
   int touchedIndex = 0;
-  int sad=2;
   @override
   Widget build(BuildContext context) {
-    final AsyncValue<Map<String,double>> balance = ref.watch(balanceProvider(sad));
     List<List<Widget>> mainContents = [
-      switch (balance) {
+      switch (widget.balance) {
         AsyncData(:final value) => <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -100,12 +108,9 @@ class PieChartSample3State extends ConsumerState<PieChartSample3> {
                   label: Text('Balance'),
                   icon: Icon(Icons.calendar_view_week)),
             ],
-            selected: <int>{g},
+            selected: <int>{widget.g},
             onSelectionChanged: (Set<int> newSelection) {
-              setState(() {
-                g = newSelection.first;
-                sad = newSelection.first;
-              });
+              widget.c(newSelection.first);
             },
           ),
           ...mainContents[0],
@@ -130,7 +135,7 @@ class PieChartSample3State extends ConsumerState<PieChartSample3> {
               shadows: shadows,
             ),
             badgeWidget: _Badge(
-            sad == 0 ? "assets/icon/wallet.svg" : Svgs[sad][i],
+            widget.sad == 0 ? "assets/icon/wallet.svg" : Svgs[widget.sad][i],
               size: widgetSize,
               borderColor: AppColors.contentColorBlack,
             ),

@@ -41,13 +41,22 @@ DateTime addDurationToDate(DateTime date,
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   int currentPageIndex = 0;
   late Timer _timer;
+  int sad=0;
+  int g=0;
+  void changepie(int a) {
+    setState(() {
+      g=a;
+      sad = a;
+    });
+  }
   @override
   void initState() {
     super.initState();
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-      setState(() {
+        // print(sad);
         ref.read(nodesProvider.notifier).up();
-      });
+        ref.read(balanceProvider(sad).notifier).up();
+        // print(sad);
     });
 
   }
@@ -60,13 +69,14 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   Widget build(BuildContext context) {
     final AsyncValue<List<Wallet>> wallet = ref.watch(walletsProvider);
     final AsyncValue<List<Node>> nodes = ref.watch(nodesProvider);
+    final AsyncValue<Map<String,double>>  balance = ref.watch(balanceProvider(sad));
     dynamic media = MediaQuery.of(context);
     List<Widget> _mainContents = [
       CustomScrollView(slivers: [
         SliverGrid.count(
           crossAxisCount: media.size.width <= 600 ? 1 : 2,
           children: [
-            PieChartSample3(),
+            PieChartSample3(balance: balance,sad: sad,g:g, c:changepie),
           ],
         ),
         SliverAppBar(

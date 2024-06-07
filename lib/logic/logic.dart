@@ -32,7 +32,6 @@ class Wallets extends _$Wallets {
         final List<dynamic> json = jsonDecode(response.body);
         final List<Wallet> x =
             json.map((wallet) => Wallet.fromJson(wallet)).toList();
-        print(x);
         return x;
       } else {
         // Handle unsuccessful request (e.g., print error or return empty list)
@@ -87,7 +86,6 @@ class Nodes extends _$Nodes {
         final List<dynamic> json = jsonDecode(response.body);
         final List<Node> x =
             json.map((wallet) => Node.fromJson(wallet)).toList();
-        print(x);
         return x;
       } else {
         // Handle unsuccessful request (e.g., print error or return empty list)

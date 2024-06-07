@@ -20,7 +20,7 @@ final tagsProvider = AutoDisposeFutureProvider<List<Tag>>.internal(
 );
 
 typedef TagsRef = AutoDisposeFutureProviderRef<List<Tag>>;
-String _$walletsHash() => r'3a3689b4a49229892d9d4e5b1aa2900180ccb371';
+String _$walletsHash() => r'94039dc05b745d48d1bcd9aa744c52c5847f297b';
 
 /// See also [Wallets].
 @ProviderFor(Wallets)
@@ -35,7 +35,7 @@ final walletsProvider =
 );
 
 typedef _$Wallets = AutoDisposeAsyncNotifier<List<Wallet>>;
-String _$nodesHash() => r'd99abfdb0b9d68e3640532779c90cc217bde874a';
+String _$nodesHash() => r'badc31ceff06d80b32804514fd03fb2a5e70508a';
 
 /// See also [Nodes].
 @ProviderFor(Nodes)
