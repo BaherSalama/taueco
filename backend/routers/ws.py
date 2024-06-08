@@ -14,7 +14,6 @@ router = APIRouter()
 @router.websocket("/{user_id}")
 async def websocket_endpoint(websocket: WebSocket,user_id):
     await websocket.accept()
-    print(user_id)
     while True:
         a = await checktasks()
         if user_id in a:

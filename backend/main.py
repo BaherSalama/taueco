@@ -27,7 +27,7 @@ class BackgroundTasks(threading.Thread):
     def run(self,*args,**kwargs):
         while True:
             with Session(engine) as session:
-                statement = select(Node,text("datetime(node.date,node.interval)")).where(text("(julianday(node.date,node.interval)- julianday('now','+3 hours')) < 0 AND abs(node.total)-abs(node.amount) >= abs(node.amount)"))
+                statement = select(Node,text("datetime(node.date,node.interval)")).where(text("(julianday(node.date,node.interval)- julianday('now','+3 hours')) < 0"))
                 results = session.exec(statement)
                 change = results.all()
                 for i,j in change:
@@ -35,11 +35,13 @@ class BackgroundTasks(threading.Thread):
                     clone.id = None
                     clone.date = j
                     clone.total -= clone.amount
+                    if abs(clone.total)-abs(clone.amount) <= 0:
+                        clone.interval = ""
                     i.interval = ""
                     session.add(clone)
                     session.add(i)
                     session.commit()
-            time.sleep(1)
+            time.sleep(5)
 
 
 if __name__ == '__main__':
@@ -50,4 +52,5 @@ if __name__ == '__main__':
                 port=8000,
                 log_level="info",
                 reload=True)
+    t.join()
     

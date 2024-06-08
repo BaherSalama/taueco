@@ -1,10 +1,14 @@
 // main.dart
+import 'package:econome/logic/logic.dart';
+import 'package:econome/models/node.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:relative_time/relative_time.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 import 'package:flutter/material.dart';
 
 class Timeline extends StatelessWidget {
-  const Timeline({super.key});
-
+  Timeline({super.key, required this.nodes});
+  AsyncValue<List<Node>> nodes;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,7 +19,13 @@ class Timeline extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(padding: const EdgeInsets.all(10.0)),
-            _DeliveryProcesses(processes: _data(0).deliveryProcesses),
+            switch (nodes) {
+              AsyncData(:final value) => Outertimeline(processes: value.where((e)=> e.interval!.isNotEmpty).toList()),
+              AsyncError(:final error, :final stackTrace) =>
+                Text(error.toString()),
+              _ => const CircularProgressIndicator(),
+            },
+            
             Padding(padding: const EdgeInsets.all(10.0)),
           ],
         ),
@@ -24,62 +34,10 @@ class Timeline extends StatelessWidget {
   }
 }
 
-class _InnerTimeline extends StatelessWidget {
-  const _InnerTimeline({
-    required this.messages,
-  });
+class Outertimeline extends StatelessWidget {
+  const Outertimeline({Key? key, required this.processes}) : super(key: key);
 
-  final List<_DeliveryMessage> messages;
-
-  @override
-  Widget build(BuildContext context) {
-    bool isEdgeIndex(int index) {
-      return index == 0 || index == messages.length + 1;
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: FixedTimeline.tileBuilder(
-        theme: TimelineTheme.of(context).copyWith(
-          nodePosition: 0,
-          connectorTheme: TimelineTheme.of(context).connectorTheme.copyWith(
-                thickness: 1.0,
-              ),
-          indicatorTheme: TimelineTheme.of(context).indicatorTheme.copyWith(
-                size: 10.0,
-                position: 0.5,
-              ),
-        ),
-        builder: TimelineTileBuilder(
-          indicatorBuilder: (_, index) =>
-              !isEdgeIndex(index) ? Indicator.outlined(borderWidth: 1.0) : null,
-          startConnectorBuilder: (_, index) => Connector.solidLine(),
-          endConnectorBuilder: (_, index) => Connector.solidLine(),
-          contentsBuilder: (_, index) {
-            if (isEdgeIndex(index)) {
-              return null;
-            }
-
-            return Padding(
-              padding: EdgeInsets.only(left: 8.0),
-              child: Text(messages[index - 1].toString()),
-            );
-          },
-          itemExtentBuilder: (_, index) => isEdgeIndex(index) ? 10.0 : 30.0,
-          nodeItemOverlapBuilder: (_, index) =>
-              isEdgeIndex(index) ? true : null,
-          itemCount: messages.length + 2,
-        ),
-      ),
-    );
-  }
-}
-
-class _DeliveryProcesses extends StatelessWidget {
-  const _DeliveryProcesses({Key? key, required this.processes})
-      : super(key: key);
-
-  final List<_DeliveryProcess> processes;
+  final List<Node> processes;
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
@@ -105,8 +63,6 @@ class _DeliveryProcesses extends StatelessWidget {
             connectionDirection: ConnectionDirection.before,
             itemCount: processes.length,
             contentsBuilder: (_, index) {
-              if (processes[index].isCompleted) return null;
-
               return Padding(
                 padding: EdgeInsets.only(left: 8.0),
                 child: Column(
@@ -119,32 +75,22 @@ class _DeliveryProcesses extends StatelessWidget {
                             fontSize: 18.0,
                           ),
                     ),
-                    _InnerTimeline(messages: processes[index].messages),
+                    _InnerTimeline(messages: processes[index]),
                   ],
                 ),
               );
             },
             indicatorBuilder: (_, index) {
-              if (processes[index].isCompleted) {
-                return DotIndicator(
-                  color: Color.fromARGB(146, 86, 19, 202),
-                  child: Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 12.0,
-                  ),
-                );
-              } else {
-                return OutlinedDotIndicator(
-                  borderWidth: 2.5,
-                );
-              }
+              return DotIndicator(
+                color: Color.fromARGB(146, 86, 19, 202),
+                child: Icon(
+                  Icons.timelapse_outlined,
+                  color: Colors.white,
+                  size: 12.0,
+                ),
+              );
             },
-            connectorBuilder: (_, index, ___) => SolidLineConnector(
-              color: processes[index].isCompleted
-                  ? Color.fromARGB(255, 138, 126, 242)
-                  : null,
-            ),
+            connectorBuilder: (_, index, ___) => SolidLineConnector(),
           ),
         ),
       ),
@@ -152,88 +98,56 @@ class _DeliveryProcesses extends StatelessWidget {
   }
 }
 
-_OrderInfo _data(int id) => _OrderInfo(
-      id: id,
-      date: DateTime.now(),
-      driverInfo: _DriverInfo(
-        name: 'Philipe',
-        thumbnailUrl:
-            'https://i.pinimg.com/originals/08/45/81/084581e3155d339376bf1d0e17979dc6.jpg',
-      ),
-      deliveryProcesses: [
-        _DeliveryProcess(
-          'Package Process',
-          messages: [
-            _DeliveryMessage('8:30am', 'Package received by driver'),
-            _DeliveryMessage('11:30am', 'Reached halfway mark'),
-          ],
-        ),
-        _DeliveryProcess(
-          'sad',
-          messages: [
-            _DeliveryMessage('8:30am', 'Package received by driver'),
-            _DeliveryMessage('11:30am', 'Reached halfway mark'),
-          ],
-        ),
-        _DeliveryProcess(
-          'In Transit',
-          messages: [
-            _DeliveryMessage('13:00pm', 'Driver arrived at destination'),
-            _DeliveryMessage('11:35am', 'Package delivered by m.vassiliades'),
-          ],
-        ),
-        _DeliveryProcess.complete(),
-      ],
-    );
-
-class _OrderInfo {
-  const _OrderInfo({
-    required this.id,
-    required this.date,
-    required this.driverInfo,
-    required this.deliveryProcesses,
+class _InnerTimeline extends StatelessWidget {
+  const _InnerTimeline({
+    required this.messages,
   });
 
-  final int id;
-  final DateTime date;
-  final _DriverInfo driverInfo;
-  final List<_DeliveryProcess> deliveryProcesses;
-}
-
-class _DriverInfo {
-  const _DriverInfo({
-    required this.name,
-    required this.thumbnailUrl,
-  });
-
-  final String name;
-  final String thumbnailUrl;
-}
-
-class _DeliveryProcess {
-  const _DeliveryProcess(
-    this.name, {
-    this.messages = const [],
-  });
-
-  const _DeliveryProcess.complete()
-      : this.name = 'Done',
-        this.messages = const [];
-
-  final String name;
-  final List<_DeliveryMessage> messages;
-
-  bool get isCompleted => name == 'Done';
-}
-
-class _DeliveryMessage {
-  const _DeliveryMessage(this.createdAt, this.message);
-
-  final String createdAt; // final DateTime createdAt;
-  final String message;
+  final Node messages;
 
   @override
-  String toString() {
-    return '$createdAt $message';
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: FixedTimeline(
+          theme: TimelineTheme.of(context).copyWith(
+            nodePosition: 0,
+            connectorTheme: TimelineTheme.of(context).connectorTheme.copyWith(
+                  thickness: 1.0,
+                ),
+            indicatorTheme: TimelineTheme.of(context).indicatorTheme.copyWith(
+                  size: 10.0,
+                  position: 0.5,
+                ),
+          ),
+          children: [
+            TimelineTile(
+              contents: Card(
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(RelativeTime.locale(const Locale('en'))
+                                      .format(add_interval_to_date(messages.date,messages.interval))),
+                ),
+              ),
+              node: TimelineNode(
+                indicator: DotIndicator(),
+                startConnector: SolidLineConnector(),
+                endConnector: SolidLineConnector(),
+              ),
+            ),
+            TimelineTile(
+              contents: Card(
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("amount: "+ messages.amount.toString()),
+                ),
+              ),
+              node: TimelineNode(
+                indicator: DotIndicator(),
+                startConnector: SolidLineConnector(),
+              ),
+            )
+          ]),
+    );
   }
 }

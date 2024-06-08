@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:econome/app/user/login_page.dart';
+import 'package:econome/models/eduration.dart';
 import 'package:econome/models/node.dart';
 import 'package:econome/models/tag.dart';
 import 'package:econome/models/wallet.dart';
@@ -188,4 +189,28 @@ class Balance extends _$Balance{
   void up(){
     ref.invalidateSelf();
   }
+}
+
+
+
+DateTime add_interval_to_date(DateTime? d,String? i){
+  var y = parseDuration(i);
+  var z = Duration(
+      days: y.days!,
+      hours: y.hours!,
+      minutes: y.minutes!,
+      seconds: y.seconds!);
+  var w = addMonths(d!, y.months!);
+  return w.add(z);
+}
+
+DateTime addMonths(DateTime date, int months) {
+  if (months != 0) {
+    final newYear = date.year +
+        (months / 12).floor(); // Calculate new year (integer division)
+    final newMonth =
+        (date.month + months % 12) % 12; // Adjust month within 1-12 range
+    return DateTime(newYear, newMonth, date.day); // Create new DateTime object
+  }
+  return date;
 }

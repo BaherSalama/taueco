@@ -24,6 +24,7 @@ async def get_node(session_data: User = Depends(verifier)):
 async def add_node(node: Node,session_data: User = Depends(verifier)):
     with Session(engine) as session:
         node.user = session_data.email
+        node.total -= node.amount
         session.add(node)
         session.commit()
         session.refresh(node)

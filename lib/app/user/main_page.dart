@@ -14,6 +14,8 @@ import 'package:relative_time/relative_time.dart';
 import 'package:routefly/routefly.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+
+
 class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
 
@@ -21,16 +23,6 @@ class MyHomePage extends ConsumerStatefulWidget {
   ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-DateTime addMonths(DateTime date, int months) {
-  if (months != 0) {
-    final newYear = date.year +
-        (months / 12).floor(); // Calculate new year (integer division)
-    final newMonth =
-        (date.month + months % 12) % 12; // Adjust month within 1-12 range
-    return DateTime(newYear, newMonth, date.day); // Create new DateTime object
-  }
-  return date;
-}
 
 DateTime addDurationToDate(DateTime date,
     {int seconds = 0, int minutes = 0, int hours = 0, int months = 0}) {
@@ -42,43 +34,46 @@ DateTime addDurationToDate(DateTime date,
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   int currentPageIndex = 0;
   late Timer _timer;
-  int sad=0;
-  int g=0;
+  int sad = 0;
+  int g = 0;
   void changepie(int a) {
     setState(() {
-      g=a;
+      g = a;
       sad = a;
     });
   }
+
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-        // print(sad);
-        ref.read(nodesProvider.notifier).up();
-        ref.read(balanceProvider(sad).notifier).up();
-        // print(sad);
+    _timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
+      // print(sad);
+      ref.read(nodesProvider.notifier).up();
+      ref.read(balanceProvider(sad).notifier).up();
+      // print(sad);
     });
-
   }
+
   @override
   void dispose() {
     _timer.cancel();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<Wallet>> wallet = ref.watch(walletsProvider);
     final AsyncValue<List<Node>> nodes = ref.watch(nodesProvider);
-    final AsyncValue<Map<String,double>>  balance = ref.watch(balanceProvider(sad));
+    final AsyncValue<Map<String, double>> balance =
+        ref.watch(balanceProvider(sad));
     dynamic media = MediaQuery.of(context);
     List<Widget> _mainContents = [
       CustomScrollView(slivers: [
         SliverList.list(
           // crossAxisCount: media.size.width <= 600 ? 1 : 2,
           children: [
-            PieChartSample3(balance: balance,sad: sad,g:g, c:changepie),
-            Timeline()
+            PieChartSample3(balance: balance, sad: sad, g: g, c: changepie),
+            Timeline(nodes: nodes),
           ],
         ),
         SliverAppBar(
@@ -92,15 +87,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             reverse: true,
             itemCount: value.length,
             itemBuilder: (BuildContext context, int index) {
-              var x = value[index].date;
-              var y = parseDuration(value[index].interval!);
-              var z = Duration(
-                  days: y.days!,
-                  hours: y.hours!,
-                  minutes: y.minutes!,
-                  seconds: y.seconds!);
-              var w = addMonths(x!, y.months!);
-              w = w.add(z);
+              var w = add_interval_to_date(value[index].date, value[index].interval);
               return PieMenu(
                 actions: [
                   PieAction(
@@ -156,8 +143,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         AsyncError(:final error, :final stackTrace) => Text(error.toString()),
         _ => const CircularProgressIndicator(),
       },
-      ListView(children: const [
-      ]),
+      ListView(children: const []),
       switch (wallet) {
         AsyncData(:final value) => ListView.builder(
             itemCount: value.length,
