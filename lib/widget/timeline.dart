@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 class Timeline extends StatelessWidget {
   Timeline({super.key, required this.nodes});
   AsyncValue<List<Node>> nodes;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,7 +21,14 @@ class Timeline extends StatelessWidget {
           children: [
             Padding(padding: const EdgeInsets.all(10.0)),
             switch (nodes) {
-              AsyncData(:final value) => Outertimeline(processes: value.where((e)=> e.interval!.isNotEmpty).toList()),
+              AsyncData(:final value) => 
+              Outertimeline(processes: value
+              .where((e)=> e.interval!.isNotEmpty)
+              .toList()
+              ..sort((a,b) =>
+              add_interval_to_date(a.date,a.interval)
+              .compareTo(add_interval_to_date(b.date,b.interval))
+              )),
               AsyncError(:final error, :final stackTrace) =>
                 Text(error.toString()),
               _ => const CircularProgressIndicator(),
@@ -38,6 +46,7 @@ class Outertimeline extends StatelessWidget {
   const Outertimeline({Key? key, required this.processes}) : super(key: key);
 
   final List<Node> processes;
+  
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
