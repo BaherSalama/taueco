@@ -34,7 +34,7 @@ async def get_balance(item_id :int,session_data: User = Depends(verifier)):
                 ''')
                 results = session.exec(statement,params={"email":session_data.email})
                 a = results.all()
-                b = {"Income":a[0][0],"Expense":a[0][1]}
+                b = {"Income":float(a[0][0]),"Expense":float(a[0][1])}
                 return b
         results = session.exec(statement,params={"email":session_data.email})
         a = results.all()

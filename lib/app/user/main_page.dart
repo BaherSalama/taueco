@@ -19,7 +19,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
-  
+
   @override
   ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
@@ -85,12 +85,33 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
           pinned: true,
         )
       ]),
-      NodeView(
-        nodes: nodes,
-        tags: selectedTag?.name??null,
-        walltes: selectedwallet?.id??null,
-      ),
-      ListView(children: const []),
+      switch (nodes) {
+        AsyncData(:final value) => NodeView(
+            value: value
+                .where((e) =>
+                    (selectedwallet != null
+                        ? selectedwallet?.id == e.wallet
+                        : true) &&
+                    (selectedTag == null ? true : selectedTag?.name == e.tag))
+                .toList()),
+        AsyncError(:final error, :final stackTrace) => Text(error.toString()),
+        _ => const CircularProgressIndicator(),
+      },
+      switch (nodes) {
+        AsyncData(:final value) => NodeView(
+            value: value
+                .where((e) =>
+                    (selectedwallet != null
+                        ? selectedwallet?.id == e.wallet
+                        : true) &&
+                    (selectedTag == null ? true : selectedTag?.name == e.tag)
+                    &&
+                    (e.type == 0)
+                )
+                .toList()),
+        AsyncError(:final error, :final stackTrace) => Text(error.toString()),
+        _ => const CircularProgressIndicator(),
+      },
       switch (wallet) {
         AsyncData(:final value) => ListView.builder(
             itemCount: value.length,

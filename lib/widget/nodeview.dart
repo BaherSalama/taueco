@@ -7,30 +7,8 @@ import 'package:relative_time/relative_time.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 import 'package:flutter/material.dart';
 
-class NodeView extends StatelessWidget {
-  NodeView({super.key, required this.nodes,required this.tags,required this.walltes});
-  String? tags;
-  int? walltes;
-  AsyncValue<List<Node>> nodes;
-
-  @override
-  Widget build(BuildContext context) {
-    return switch (nodes) {
-      AsyncData(:final value) => 
-      Filtered(
-      value: value
-      .where((e)=>
-      (walltes!=null ? walltes == e.wallet : true) &&
-      (tags ==null ? true:tags == e.tag)
-      ).toList()),
-      AsyncError(:final error, :final stackTrace) => Text(error.toString()),
-      _ => const CircularProgressIndicator(),
-    };
-  }
-}
-
-class Filtered extends ConsumerWidget {
-  const Filtered({Key? key, required this.value}) : super(key: key);
+class NodeView extends ConsumerWidget {
+  const NodeView({Key? key, required this.value}) : super(key: key);
 
   final List<Node> value;
 
