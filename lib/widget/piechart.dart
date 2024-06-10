@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+
 List<List<String>> Svgs =[
    [],
    [ "assets/icon/food.svg", "assets/icon/fun.svg", "assets/icon/hospital.svg","assets/icon/Utility.svg" ],
