@@ -63,7 +63,7 @@ class PieChartSample3State extends ConsumerState<PieChartSample3> {
                   size: touchedIndex == i ? 18 : 16,
                   textColor: touchedIndex == i
                       ? AppColors.mainTextColor1
-                      : AppColors.mainTextColor3,
+                      : Color.fromARGB(255, 142, 142, 143),
                 );
               })),
           Expanded(

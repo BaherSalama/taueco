@@ -35,7 +35,7 @@ class NodeView extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                        color: Color.fromARGB(120, 0, 170, 255),
+                        color: Color.fromARGB(119, 152, 86, 210),
                         offset: Offset.zero,
                         blurRadius: 5)
                   ]),

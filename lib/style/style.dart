@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 
 
 List<Color> colorArray = [ 
-  Color(0xFF4CAF50), //GREEN 
-  Color(0xFFFF3D00), //RED 
-  Color(0xFFEEFF41),//YELLOW 
-  Color(0xFF9FA8DA), //INDIGO  
+  Color.fromARGB(255, 172, 160, 240), //GREEN 
+  Color.fromARGB(255, 133, 112, 253), //RED 
+  Color.fromARGB(255, 71, 70, 76),//black
+
+
+  Color.fromARGB(255, 31, 32, 37),
   Color(0xFF303F9F), // DARK INDIGO 
   Color(0xFF536DFE), // INDIGO ACCENT 
-  Color(0xFFFFFF99), // BLACK INDIGO 
-  Color(0xFF2196F3), // BLUE 
-  Color(0xFF64FFDA), //TEAL  
-  Color(0xFFFFAB40)// ORANGE];
+
+
+  Color.fromARGB(255, 109, 107, 117), // BLACK INDIGO 
+  Color.fromARGB(188, 97, 12, 255), // BLUE 
+  Color.fromARGB(255, 0, 0, 0), //TEAL  
 ];
 class AppColors {
   static const Color primary = Color(0xFBFBFB);
@@ -46,12 +49,12 @@ class Style {
     ),
     appBarTheme: const AppBarTheme(centerTitle: true),
      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color.fromARGB(255, 255, 255, 255),
-        primary: Color.fromARGB(255, 255, 255, 255),
+        seedColor: Color.fromRGBO(255, 255, 255, 1),
+        primary: Color.fromARGB(255, 0, 0, 0),
     // colorScheme: const ColorScheme(
     //     background: Colors.white,
     //     primary: Color.fromARGB(169, 255, 255, 255),
-    //     brightness: Brightness.light,
+    //     brightness: Brightness.light
     //     onPrimary: Color.fromARGB(97, 0, 0, 0),
     //     secondary: Color(0x13152B),
     //     onSecondary: Color(0x0D0E0F),

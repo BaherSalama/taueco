@@ -71,12 +71,12 @@ app.include_router(state.router)
 @app.get("/ai",dependencies=[Depends(cookie)])
 async def get_ai(session_data: User = Depends(verifier)):
     if (inflation < gold):
-        return {"massage":"acording to the data provided i would recomend that you invest in Gold"}
+        return {"massage":"Considering the data, gold could be a suitable investment for your portfolio."}
     else:
         if (inflation>2.5):
-            return {"massage":"acording to the data provided i would recomend that Take a lone from a bank"}
+            return {"massage":"Based on the information you've shared, a bank loan might be a good option for you."}
         else:
-            return {"massage":"acording to the data provided i would recomend investing in stock"}
+            return {"massage":"Based on the information you've shared, investing in stocks could be a potential option for you."}
 class BackgroundTasks(threading.Thread):
     def run(self,*args,**kwargs):
         while True:

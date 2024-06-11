@@ -93,15 +93,31 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         ),
         SliverList.list(children: [
           Timeline(nodes: nodes),
-          Card(
-            margin: EdgeInsets.all(20.0),
-            child: Text(switch (ai) {
+          Container(
+             decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color.fromARGB(119, 152, 86, 210),
+                        offset: Offset.zero,
+                        blurRadius: 5)
+            ]),
+            margin: EdgeInsets.all(17.0),
+            padding: EdgeInsets.all(20),
+            
+            child: 
+            Flex(direction: Axis.horizontal,children: [ SvgPicture.asset(
+                  "assets/icon/AI.svg",
+                  semanticsLabel: 'A red up arrow',
+                  fit: BoxFit.contain),
+              Flexible(child: Text(switch (ai) {
               AsyncData(:final value) => value ?? "mad",
               _ => "sad"
-            }),
-          ),
+            }))],)
+            ),
         ]),
-      ]),
+      ],),
       switch (nodes) {
         AsyncData(:final value) => NodeView(
             value: value
@@ -213,13 +229,13 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: PieMenu(
+      floatingActionButton: currentPageIndex==0 ? null: PieMenu(
         theme: PieTheme(
             buttonTheme: PieButtonTheme(
-                backgroundColor: Colors.black, iconColor: Colors.red)),
+                backgroundColor: Colors.black, iconColor:Color.fromARGB(255, 172, 160, 240))),
         child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).cardColor.withBlue(100),
+              color: Color.fromARGB(255, 172, 160, 240),
               borderRadius: BorderRadius.circular(16),
             ),
             padding: EdgeInsets.all(16),
@@ -286,7 +302,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                                 SizedBox(height: 50),
                               ]),
                               Flex(direction: Axis.horizontal, children: [
-                                Text("walllet: "),
+                                Text("wallet: "),
                                 DropdownMenu<Wallet>(
                                   label: Text("wallet"),
                                   onSelected: (Wallet? newValue) {
@@ -334,28 +350,41 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                   currentPageIndex = index;
                 });
               },
-              indicatorColor: Color(0xEEECFB),  
+              indicatorColor: Color.fromARGB(255, 205, 196, 255),  
               selectedIndex: currentPageIndex,
-              destinations: const <Widget>[
+              destinations: <Widget>[
                 NavigationDestination(
                   label: "Home",
-                  icon: Icon(Icons.cloud_outlined),
+                  icon: SvgPicture.asset(
+                  "assets/icon/Home.svg",
+                  semanticsLabel: 'A red up arrow',
+                  fit: BoxFit.contain)
                 ),
                 NavigationDestination(
-                  icon: Badge(child: Icon(Icons.notifications_sharp)),
+                  icon: Badge(child: SvgPicture.asset(
+                  "assets/icon/arrow-2.svg",
+                  semanticsLabel: 'A red up arrow',
+                  fit: BoxFit.contain)
+                ),
                   label: 'Transactions',
                 ),
                 NavigationDestination(
                   icon: Badge(
                     label: Text('2'),
-                    child: Icon(Icons.messenger_sharp),
+                    child: SvgPicture.asset(
+                  "assets/icon/cup.svg",
+                  semanticsLabel: 'A red up arrow',
+                  fit: BoxFit.contain)
                   ),
                   label: 'Goals',
                 ),
                 NavigationDestination(
                   icon: Badge(
                     label: Text('2'),
-                    child: Icon(Icons.messenger_sharp),
+                    child: SvgPicture.asset(
+                  "assets/icon/wallet.svg",
+                  semanticsLabel: 'A red up arrow',
+                  fit: BoxFit.contain)
                   ),
                   label: 'Wallets',
                 ),

@@ -13,30 +13,32 @@ class Timeline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 360.0,
-      child: Card(
-        margin: EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(padding: const EdgeInsets.all(10.0)),
-            switch (nodes) {
-              AsyncData(:final value) => 
-              Outertimeline(processes: value
-              .where((e)=> e.interval!.isNotEmpty)
-              .toList()
-              ..sort((a,b) =>
-              add_interval_to_date(a.date,a.interval)
-              .compareTo(add_interval_to_date(b.date,b.interval))
-              )),
-              AsyncError(:final error, :final stackTrace) =>
-                Text(error.toString()),
-              _ => const CircularProgressIndicator(),
-            },
-            
-            Padding(padding: const EdgeInsets.all(10.0)),
-          ],
-        ),
+      decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+                color: Color.fromARGB(119, 152, 86, 210),
+                offset: Offset.zero,
+                blurRadius: 5)
+          ]),
+      margin: EdgeInsets.all(17.0),
+      padding: EdgeInsets.all(20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(padding: const EdgeInsets.all(10.0)),
+          switch (nodes) {
+            AsyncData(:final value) => Outertimeline(
+                processes: value.where((e) => e.interval!.isNotEmpty).toList()
+                  ..sort((a, b) => add_interval_to_date(a.date, a.interval)
+                      .compareTo(add_interval_to_date(b.date, b.interval)))),
+            AsyncError(:final error, :final stackTrace) =>
+              Text(error.toString()),
+            _ => const CircularProgressIndicator(),
+          },
+          Padding(padding: const EdgeInsets.all(10.0)),
+        ],
       ),
     );
   }
@@ -46,7 +48,7 @@ class Outertimeline extends StatelessWidget {
   const Outertimeline({Key? key, required this.processes}) : super(key: key);
 
   final List<Node> processes;
-  
+
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
@@ -134,8 +136,8 @@ class _InnerTimeline extends StatelessWidget {
               contents: Card(
                 child: Container(
                   padding: EdgeInsets.all(8.0),
-                  child: Text(RelativeTime.locale(const Locale('en'))
-                                      .format(add_interval_to_date(messages.date,messages.interval))),
+                  child: Text(RelativeTime.locale(const Locale('en')).format(
+                      add_interval_to_date(messages.date, messages.interval))),
                 ),
               ),
               node: TimelineNode(
@@ -148,7 +150,7 @@ class _InnerTimeline extends StatelessWidget {
               contents: Card(
                 child: Container(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("amount: "+ messages.amount.toString()),
+                  child: Text("amount: " + messages.amount.toString()),
                 ),
               ),
               node: TimelineNode(
