@@ -52,6 +52,7 @@ dependencies:
   flutter_settings_ui: ^3.0.1
   relative_time: ^5.0.0
   web_socket_channel: ^3.0.0
+  typewritertext: ^3.0.6
 
 dev_dependencies:
   flutter_test:

@@ -16,6 +16,7 @@ import 'package:pie_menu/pie_menu.dart';
 import 'package:relative_time/relative_time.dart';
 import 'package:routefly/routefly.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:typewritertext/typewritertext.dart';
 
 class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
@@ -72,52 +73,59 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         ref.watch(balanceProvider(sad));
     dynamic media = MediaQuery.of(context);
     List<Widget> _mainContents = [
-      CustomScrollView(slivers: [
-        SliverAppBar(
-          automaticallyImplyLeading: true,
-          centerTitle: true,
-          title: Text("Graphs"),
-          pinned: true,
-        ),
-        SliverList.list(
-          // crossAxisCount: media.size.width <= 600 ? 1 : 2,
-          children: [
-            PieChartSample3(balance: balance, sad: sad, g: g, c: changepie),
-          ],
-        ),
-        SliverAppBar(
-          automaticallyImplyLeading: true,
-          centerTitle: true,
-          title: Text("Timeline"),
-          pinned: true,
-        ),
-        SliverList.list(children: [
-          Timeline(nodes: nodes),
-          Container(
-             decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color.fromARGB(119, 152, 86, 210),
-                        offset: Offset.zero,
-                        blurRadius: 5)
-            ]),
-            margin: EdgeInsets.all(17.0),
-            padding: EdgeInsets.all(20),
-            
-            child: 
-            Flex(direction: Axis.horizontal,children: [ SvgPicture.asset(
-                  "assets/icon/AI.svg",
-                  semanticsLabel: 'A red up arrow',
-                  fit: BoxFit.contain),
-              Flexible(child: Text(switch (ai) {
-              AsyncData(:final value) => value ?? "mad",
-              _ => "sad"
-            }))],)
-            ),
-        ]),
-      ],),
+      CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            automaticallyImplyLeading: true,
+            centerTitle: true,
+            title: Text("Graphs"),
+            pinned: true,
+          ),
+          SliverList.list(
+            // crossAxisCount: media.size.width <= 600 ? 1 : 2,
+            children: [
+              PieChartSample3(balance: balance, sad: sad, g: g, c: changepie),
+            ],
+          ),
+          SliverAppBar(
+            automaticallyImplyLeading: true,
+            centerTitle: true,
+            title: Text("Timeline"),
+            pinned: true,
+          ),
+          SliverList.list(children: [
+            Timeline(nodes: nodes),
+            Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color.fromARGB(119, 152, 86, 210),
+                          offset: Offset.zero,
+                          blurRadius: 5)
+                    ]),
+                margin: EdgeInsets.all(17.0),
+                padding: EdgeInsets.all(20),
+                child: Flex(
+                  direction: Axis.horizontal,
+                  children: [
+                    SvgPicture.asset("assets/icon/AI.svg",
+                        semanticsLabel: 'A red up arrow', fit: BoxFit.contain),
+                    Flexible(
+                        child: switch (ai) {
+                      AsyncData(:final value) => TypeWriter.text(
+                            value!,
+                            duration: const Duration(milliseconds: 50),
+                          ) ??
+                          Text("mad"),
+                      _ => Text("sad")
+                    })
+                  ],
+                )),
+          ]),
+        ],
+      ),
       switch (nodes) {
         AsyncData(:final value) => NodeView(
             value: value
@@ -229,117 +237,129 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: currentPageIndex==0 ? null: PieMenu(
-        theme: PieTheme(
-            buttonTheme: PieButtonTheme(
-                backgroundColor: Colors.black, iconColor:Color.fromARGB(255, 172, 160, 240))),
-        child: Container(
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 172, 160, 240),
-              borderRadius: BorderRadius.circular(16),
+      floatingActionButton: currentPageIndex == 0
+          ? null
+          : PieMenu(
+              theme: PieTheme(
+                  buttonTheme: PieButtonTheme(
+                      backgroundColor: Colors.black,
+                      iconColor: Color.fromARGB(255, 172, 160, 240))),
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 172, 160, 240),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: EdgeInsets.all(16),
+                  child: Text("Hold")),
+              actions: [
+                PieAction(
+                  tooltip: const Text('Add'),
+                  onSelect: () => switch (currentPageIndex) {
+                    1 => Routefly.pushNavigate("add_node"),
+                    3 => Routefly.pushNavigate("add_wallet"),
+                    _ => null
+                  },
+                  child: const Icon(Icons.add), // Can be any widget
+                ),
+                PieAction(
+                  tooltip: const Text('Search'),
+                  onSelect: () => showModalBottomSheet(
+                      isScrollControlled: true,
+                      elevation: 5,
+                      context: context,
+                      builder: (ctx) => Padding(
+                            padding: EdgeInsets.only(
+                                top: 15,
+                                left: 15,
+                                right: 15,
+                                bottom:
+                                    MediaQuery.of(ctx).viewInsets.bottom + 15),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flex(
+                                  direction: Axis.vertical,
+                                  children: [
+                                    Flex(direction: Axis.horizontal, children: [
+                                      Text("tag: "),
+                                      DropdownMenu<Tag>(
+                                        label: Text("Tag"),
+                                        onSelected: (Tag? newValue) {
+                                          setState(() {
+                                            selectedTag = newValue!;
+                                            print(newValue);
+                                          });
+                                        },
+                                        dropdownMenuEntries: tags.when(
+                                          data: (data) => data
+                                              .map<DropdownMenuEntry<Tag>>(
+                                                  (tag) {
+                                            return DropdownMenuEntry<Tag>(
+                                              value: tag,
+                                              label: tag.name!,
+                                            );
+                                          }).toList(),
+                                          loading: () => [
+                                            DropdownMenuEntry(
+                                              value: null!,
+                                              label: 'loading',
+                                            ),
+                                          ],
+                                          error: (error, stack) => [
+                                            DropdownMenuEntry(
+                                                value: null!, label: "failed"),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 50),
+                                    ]),
+                                    Flex(direction: Axis.horizontal, children: [
+                                      Text("wallet: "),
+                                      DropdownMenu<Wallet>(
+                                        label: Text("wallet"),
+                                        onSelected: (Wallet? newValue) {
+                                          setState(() {
+                                            selectedwallet = newValue!;
+                                          });
+                                        },
+                                        dropdownMenuEntries: wallet.when(
+                                          data: (data) => data
+                                              .map<DropdownMenuEntry<Wallet>>(
+                                                  (tag) {
+                                            return DropdownMenuEntry<Wallet>(
+                                              value: tag,
+                                              label: tag.name!,
+                                            );
+                                          }).toList(),
+                                          loading: () => [
+                                            DropdownMenuEntry(
+                                              value: null!,
+                                              label: 'loading',
+                                            ),
+                                          ],
+                                          error: (error, stack) => [
+                                            DropdownMenuEntry(
+                                                value: null!, label: "failed"),
+                                          ],
+                                        ),
+                                      ),
+                                    ]),
+                                    TextButton(
+                                        onPressed: () {
+                                          selectedTag = null;
+                                          selectedwallet = null;
+                                        },
+                                        child: Text("Reset"))
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )),
+                  child: const Icon(Icons.search), // Can be any widget
+                ),
+              ],
             ),
-            padding: EdgeInsets.all(16),
-            child: Text("Hold")),
-        actions: [
-          PieAction(
-            tooltip: const Text('Add'),
-            onSelect: () => switch (currentPageIndex) {
-              1 => Routefly.pushNavigate("add_node"),
-              3 => Routefly.pushNavigate("add_wallet"),
-              _ => null
-            },
-            child: const Icon(Icons.add), // Can be any widget
-          ),
-          PieAction(
-            tooltip: const Text('Search'),
-            onSelect: () => showModalBottomSheet(
-                isScrollControlled: true,
-                elevation: 5,
-                context: context,
-                builder: (ctx) => Padding(
-                      padding: EdgeInsets.only(
-                          top: 15,
-                          left: 15,
-                          right: 15,
-                          bottom: MediaQuery.of(ctx).viewInsets.bottom + 15),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flex(
-                            direction: Axis.vertical,
-                            children: [
-                              Flex(direction: Axis.horizontal, children: [
-                                Text("tag: "),
-                                DropdownMenu<Tag>(
-                                  label: Text("Tag"),
-                                  onSelected: (Tag? newValue) {
-                                    setState(() {
-                                      selectedTag = newValue!;
-                                      print(newValue);
-                                    });
-                                  },
-                                  dropdownMenuEntries: tags.when(
-                                    data: (data) =>
-                                        data.map<DropdownMenuEntry<Tag>>((tag) {
-                                      return DropdownMenuEntry<Tag>(
-                                        value: tag,
-                                        label: tag.name!,
-                                      );
-                                    }).toList(),
-                                    loading: () => [
-                                      DropdownMenuEntry(
-                                        value: null!,
-                                        label: 'loading',
-                                      ),
-                                    ],
-                                    error: (error, stack) => [
-                                      DropdownMenuEntry(
-                                          value: null!, label: "failed"),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 50),
-                              ]),
-                              Flex(direction: Axis.horizontal, children: [
-                                Text("wallet: "),
-                                DropdownMenu<Wallet>(
-                                  label: Text("wallet"),
-                                  onSelected: (Wallet? newValue) {
-                                    setState(() {
-                                      selectedwallet = newValue!;
-                                    });
-                                  },
-                                  dropdownMenuEntries: wallet.when(
-                                    data: (data) => data
-                                        .map<DropdownMenuEntry<Wallet>>((tag) {
-                                      return DropdownMenuEntry<Wallet>(
-                                        value: tag,
-                                        label: tag.name!,
-                                      );
-                                    }).toList(),
-                                    loading: () => [
-                                      DropdownMenuEntry(
-                                        value: null!,
-                                        label: 'loading',
-                                      ),
-                                    ],
-                                    error: (error, stack) => [
-                                      DropdownMenuEntry(
-                                          value: null!, label: "failed"),
-                                    ],
-                                  ),
-                                ),
-                              ]),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )),
-            child: const Icon(Icons.search), // Can be any widget
-          ),
-        ],
-      ),
       bottomNavigationBar: media.size.width <= 600
           ? NavigationBar(
               backgroundColor: Colors.transparent,
@@ -350,42 +370,34 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                   currentPageIndex = index;
                 });
               },
-              indicatorColor: Color.fromARGB(255, 205, 196, 255),  
+              indicatorColor: Color.fromARGB(255, 205, 196, 255),
               selectedIndex: currentPageIndex,
               destinations: <Widget>[
                 NavigationDestination(
-                  label: "Home",
-                  icon: SvgPicture.asset(
-                  "assets/icon/Home.svg",
-                  semanticsLabel: 'A red up arrow',
-                  fit: BoxFit.contain)
-                ),
+                    label: "Home",
+                    icon: SvgPicture.asset("assets/icon/Home.svg",
+                        semanticsLabel: 'A red up arrow', fit: BoxFit.contain)),
                 NavigationDestination(
-                  icon: Badge(child: SvgPicture.asset(
-                  "assets/icon/arrow-2.svg",
-                  semanticsLabel: 'A red up arrow',
-                  fit: BoxFit.contain)
-                ),
+                  icon: Badge(
+                      child: SvgPicture.asset("assets/icon/arrow-2.svg",
+                          semanticsLabel: 'A red up arrow',
+                          fit: BoxFit.contain)),
                   label: 'Transactions',
                 ),
                 NavigationDestination(
                   icon: Badge(
-                    label: Text('2'),
-                    child: SvgPicture.asset(
-                  "assets/icon/cup.svg",
-                  semanticsLabel: 'A red up arrow',
-                  fit: BoxFit.contain)
-                  ),
+                      label: Text('2'),
+                      child: SvgPicture.asset("assets/icon/cup.svg",
+                          semanticsLabel: 'A red up arrow',
+                          fit: BoxFit.contain)),
                   label: 'Goals',
                 ),
                 NavigationDestination(
                   icon: Badge(
-                    label: Text('2'),
-                    child: SvgPicture.asset(
-                  "assets/icon/wallet.svg",
-                  semanticsLabel: 'A red up arrow',
-                  fit: BoxFit.contain)
-                  ),
+                      label: Text('2'),
+                      child: SvgPicture.asset("assets/icon/wallet.svg",
+                          semanticsLabel: 'A red up arrow',
+                          fit: BoxFit.contain)),
                   label: 'Wallets',
                 ),
               ],
