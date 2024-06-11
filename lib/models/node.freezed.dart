@@ -22,7 +22,8 @@ Node _$NodeFromJson(Map<String, dynamic> json) {
 mixin _$Node {
   int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  int get type => throw _privateConstructorUsedError;
+  bool get isgoal => throw _privateConstructorUsedError;
+  bool get current => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   double get total => throw _privateConstructorUsedError;
   int get wallet => throw _privateConstructorUsedError;
@@ -43,7 +44,8 @@ abstract class $NodeCopyWith<$Res> {
   $Res call(
       {int? id,
       String name,
-      int type,
+      bool isgoal,
+      bool current,
       double amount,
       double total,
       int wallet,
@@ -67,7 +69,8 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? type = null,
+    Object? isgoal = null,
+    Object? current = null,
     Object? amount = null,
     Object? total = null,
     Object? wallet = null,
@@ -84,10 +87,14 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as int,
+      isgoal: null == isgoal
+          ? _value.isgoal
+          : isgoal // ignore: cast_nullable_to_non_nullable
+              as bool,
+      current: null == current
+          ? _value.current
+          : current // ignore: cast_nullable_to_non_nullable
+              as bool,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -126,7 +133,8 @@ abstract class _$$NodeImplCopyWith<$Res> implements $NodeCopyWith<$Res> {
   $Res call(
       {int? id,
       String name,
-      int type,
+      bool isgoal,
+      bool current,
       double amount,
       double total,
       int wallet,
@@ -147,7 +155,8 @@ class __$$NodeImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? type = null,
+    Object? isgoal = null,
+    Object? current = null,
     Object? amount = null,
     Object? total = null,
     Object? wallet = null,
@@ -164,10 +173,14 @@ class __$$NodeImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as int,
+      isgoal: null == isgoal
+          ? _value.isgoal
+          : isgoal // ignore: cast_nullable_to_non_nullable
+              as bool,
+      current: null == current
+          ? _value.current
+          : current // ignore: cast_nullable_to_non_nullable
+              as bool,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -202,7 +215,8 @@ class _$NodeImpl implements _Node {
   _$NodeImpl(
       {this.id,
       required this.name,
-      required this.type,
+      required this.isgoal,
+      required this.current,
       required this.amount,
       required this.total,
       required this.wallet,
@@ -218,7 +232,9 @@ class _$NodeImpl implements _Node {
   @override
   final String name;
   @override
-  final int type;
+  final bool isgoal;
+  @override
+  final bool current;
   @override
   final double amount;
   @override
@@ -234,7 +250,7 @@ class _$NodeImpl implements _Node {
 
   @override
   String toString() {
-    return 'Node(id: $id, name: $name, type: $type, amount: $amount, total: $total, wallet: $wallet, tag: $tag, interval: $interval, date: $date)';
+    return 'Node(id: $id, name: $name, isgoal: $isgoal, current: $current, amount: $amount, total: $total, wallet: $wallet, tag: $tag, interval: $interval, date: $date)';
   }
 
   @override
@@ -244,7 +260,8 @@ class _$NodeImpl implements _Node {
             other is _$NodeImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.type, type) || other.type == type) &&
+            (identical(other.isgoal, isgoal) || other.isgoal == isgoal) &&
+            (identical(other.current, current) || other.current == current) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.total, total) || other.total == total) &&
             (identical(other.wallet, wallet) || other.wallet == wallet) &&
@@ -256,8 +273,8 @@ class _$NodeImpl implements _Node {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, type, amount, total, wallet, tag, interval, date);
+  int get hashCode => Object.hash(runtimeType, id, name, isgoal, current,
+      amount, total, wallet, tag, interval, date);
 
   @JsonKey(ignore: true)
   @override
@@ -277,7 +294,8 @@ abstract class _Node implements Node {
   factory _Node(
       {final int? id,
       required final String name,
-      required final int type,
+      required final bool isgoal,
+      required final bool current,
       required final double amount,
       required final double total,
       required final int wallet,
@@ -292,7 +310,9 @@ abstract class _Node implements Node {
   @override
   String get name;
   @override
-  int get type;
+  bool get isgoal;
+  @override
+  bool get current;
   @override
   double get amount;
   @override

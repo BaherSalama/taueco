@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routefly/routefly.dart';
 
-final List<String> times = ["seconds","minutes","hours","days","months"];
+final List<String> times = ["seconds", "minutes", "hours", "days", "months"];
 
 class AddNodePage extends ConsumerStatefulWidget {
   const AddNodePage({super.key});
@@ -23,14 +23,15 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
   TextEditingController amount = TextEditingController();
   TextEditingController total = TextEditingController();
   TextEditingController interval = TextEditingController();
-  String time=times.first;
-
+  String time = times.first;
 
   final TextEditingController colorController = TextEditingController();
   Tag? selectedTag;
   Wallet? selectedwallet;
   var _formKey = GlobalKey<FormState>();
   var isLoading = false;
+  bool isgoal = false;
+  bool iscurrent = false;
 
   @override
   void dispose() {
@@ -80,37 +81,33 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
                             return null;
                           }),
                       SizedBox(height: 50),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                      children: [
-                      Flexible(child: 
-                      
-                      InputText(
-                          controller: interval,
-                          name: "Interval",
-                          validator: (value) {
-                            // if (value!.isEmpty) {
-                            //   return 'Must be more than 8 letters';
-                            // }
-                            return null;
-                          }),
-                      ),
-                      DropdownMenu<String>(
-                        label: Text("Tag"),
-                        onSelected: (String? newValue) {
-                          setState(() {
-                            time = newValue!;
-                            print(newValue);
-                          });
-                        },
-                        dropdownMenuEntries: times.map(
-                          (data) =>
-                            DropdownMenuEntry<String>(
-                              value: data,
-                              label: data,
-                            )
-                        ).toList(),
-                      ),    
+                      Row(mainAxisSize: MainAxisSize.min, children: [
+                        Flexible(
+                          child: InputText(
+                              controller: interval,
+                              name: "Interval",
+                              validator: (value) {
+                                // if (value!.isEmpty) {
+                                //   return 'Must be more than 8 letters';
+                                // }
+                                return null;
+                              }),
+                        ),
+                        DropdownMenu<String>(
+                          label: Text("Tag"),
+                          onSelected: (String? newValue) {
+                            setState(() {
+                              time = newValue!;
+                              print(newValue);
+                            });
+                          },
+                          dropdownMenuEntries: times
+                              .map((data) => DropdownMenuEntry<String>(
+                                    value: data,
+                                    label: data,
+                                  ))
+                              .toList(),
+                        ),
                       ]),
                       SizedBox(height: 50),
                       InputText(
@@ -179,6 +176,20 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
                         ),
                       ),
                       SizedBox(height: 50),
+                      Checkbox(
+                          value: isgoal,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isgoal = value!;
+                            });
+                          }),
+                      Checkbox(
+                          value: iscurrent,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              iscurrent = value!;
+                            });
+                          }),
                       BigButton(
                           name: "add Transaction",
                           tap: () async {
@@ -187,14 +198,15 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
                               return;
                             }
                             _formKey.currentState?.save();
-                            if (await ref.read(nodesProvider.notifier).add(
-                              Node(name: name.text,
-                              amount:double.parse(amount.text),
-                              interval: interval.text+" "+time,
-                              tag: selectedTag!.name!,
-                              total:double.parse(total.text),
-                              type: 0,wallet: selectedwallet!.id!))
-                            ) {
+                            if (await ref.read(nodesProvider.notifier).add(Node(
+                                name: name.text,
+                                amount: double.parse(amount.text),
+                                interval: interval.text + " " + time,
+                                tag: selectedTag!.name!,
+                                total: double.parse(total.text),
+                                isgoal: isgoal,
+                                current: iscurrent,
+                                wallet: selectedwallet!.id!))) {
                               Routefly.pop(context);
                             } else {
                               const s = SnackBar(content: Text('Cant add'));

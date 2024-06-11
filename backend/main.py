@@ -1,17 +1,61 @@
 from contextlib import asynccontextmanager
 from lib2to3.pytree import Node
 import threading
-from fastapi import FastAPI, BackgroundTasks
+from fastapi import Depends, FastAPI, BackgroundTasks
 from sqlalchemy import select, text
 from db import  engine
 from routers import node, user, wallet, tag,ws, state
 from models import *
 import uvicorn
 import time
+import pandas as pd
+from sklearn.ensemble import ExtraTreesRegressor
+from cookie import cookie,verifier
+
+# Read datasets
+inflation = 0
+gold = 0
+
+def Ai():
+
+    data = pd.read_csv('./InflationIndicator_pro.csv')
+
+    clf = ExtraTreesRegressor(random_state=1)
+
+    target_features = ["InterestRate","XAU_Price","gdp_rate","USD_EGP"]
+    target = data[target_features]
+    X = ["year","month","day"]
+    clf.fit(data[X],target)
+
+    # Get today's date
+    today = pd.Timestamp.today()
+
+    # Use DateOffset for efficient month addition
+    one_month_offset = pd.DateOffset(weeks=4)
+
+    # Generate end date (one month after today)
+    end_date = today + one_month_offset
+
+    # Create a date range from today to the end date (inclusive)
+    date_range = pd.date_range(start=today, end=end_date, freq='D')  # Daily frequency
+    df = pd.DataFrame({
+        'year': date_range.year,
+        'month': date_range.month,
+        'day': date_range.day,
+    })
+
+
+    val_predictions = clf.predict(df)
+    global inflation
+    inflation = (val_predictions[0,0]- val_predictions[-1,0]) / val_predictions[0,0]
+    global gold 
+    gold = (val_predictions[0,1]- val_predictions[-1,1]) / val_predictions[0,1]
+    # Print the generated month of dates
 # startup event
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     SQLModel.metadata.create_all(engine)
+    Ai()
     yield
 
 
@@ -23,6 +67,16 @@ app.include_router(tag.router)
 app.include_router(ws.router)
 app.include_router(state.router)
 
+
+@app.get("/ai",dependencies=[Depends(cookie)])
+async def get_ai(session_data: User = Depends(verifier)):
+    if (inflation < gold):
+        return {"massage":"acording to the data provided i would recomend that you invest in Gold"}
+    else:
+        if (inflation>2.5):
+            return {"massage":"acording to the data provided i would recomend that Take a lone from a bank"}
+        else:
+            return {"massage":"acording to the data provided i would recomend investing in stock"}
 class BackgroundTasks(threading.Thread):
     def run(self,*args,**kwargs):
         while True:
@@ -34,14 +88,16 @@ class BackgroundTasks(threading.Thread):
                     clone = Node(**i.model_dump())
                     clone.id = None
                     clone.date = j
+                    if clone.total < clone.amount:
+                        clone.amount = clone.total
                     clone.total -= clone.amount
-                    if abs(clone.total)-abs(clone.amount) <= 0:
+                    if abs(clone.total) == 0:
                         clone.interval = ""
                     i.interval = ""
                     session.add(clone)
                     session.add(i)
                     session.commit()
-            time.sleep(5)
+            time.sleep(1)
 
 
 if __name__ == '__main__':

@@ -214,3 +214,16 @@ DateTime addMonths(DateTime date, int months) {
   }
   return date;
 }
+
+@riverpod
+Future<String?> ai(AiRef ref) async {
+  final response = await http.get(
+    Uri.http(ip, '/ai'),
+    headers: {
+      'Content-Type': 'application/json',
+      'Cookie': rawCookies!
+    }, // Assuming secure cookie handling
+  );
+  final Map<String,String> json = jsonDecode(response.body).cast<String, String>();
+  return json["massage"];
+}

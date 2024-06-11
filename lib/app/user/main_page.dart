@@ -48,7 +48,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(Duration(seconds: 30), (Timer timer) {
+    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       // print(sad);
       ref.read(nodesProvider.notifier).up();
       ref.read(balanceProvider(sad).notifier).up();
@@ -67,23 +67,40 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     final AsyncValue<List<Wallet>> wallet = ref.watch(walletsProvider);
     final AsyncValue<List<Node>> nodes = ref.watch(nodesProvider);
     final AsyncValue<List<Tag>> tags = ref.watch(tagsProvider);
+    final AsyncValue<String?> ai = ref.watch(aiProvider);
     final AsyncValue<Map<String, double>> balance =
         ref.watch(balanceProvider(sad));
     dynamic media = MediaQuery.of(context);
     List<Widget> _mainContents = [
       CustomScrollView(slivers: [
+        SliverAppBar(
+          automaticallyImplyLeading: true,
+          centerTitle: true,
+          title: Text("Graphes"),
+          pinned: true,
+        ),
         SliverList.list(
           // crossAxisCount: media.size.width <= 600 ? 1 : 2,
           children: [
             PieChartSample3(balance: balance, sad: sad, g: g, c: changepie),
-            Timeline(nodes: nodes),
           ],
         ),
         SliverAppBar(
+          automaticallyImplyLeading: true,
           centerTitle: true,
-          title: Text("sad"),
+          title: Text("TimeLine"),
           pinned: true,
-        )
+        ),
+        SliverList.list(children: [
+          Timeline(nodes: nodes),
+          Card(
+            margin: EdgeInsets.all(20.0),
+            child: Text(switch (ai) {
+              AsyncData(:final value) => value ?? "mad",
+              _ => "sad"
+            }),
+          ),
+        ]),
       ]),
       switch (nodes) {
         AsyncData(:final value) => NodeView(
@@ -92,7 +109,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                     (selectedwallet != null
                         ? selectedwallet?.id == e.wallet
                         : true) &&
-                    (selectedTag == null ? true : selectedTag?.name == e.tag))
+                    (selectedTag == null ? true : selectedTag?.name == e.tag) &&
+                    (!e.isgoal))
                 .toList()),
         AsyncError(:final error, :final stackTrace) => Text(error.toString()),
         _ => const CircularProgressIndicator(),
@@ -104,10 +122,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                     (selectedwallet != null
                         ? selectedwallet?.id == e.wallet
                         : true) &&
-                    (selectedTag == null ? true : selectedTag?.name == e.tag)
-                    &&
-                    (e.type == 0)
-                )
+                    (selectedTag == null ? true : selectedTag?.name == e.tag) &&
+                    (e.isgoal))
                 .toList()),
         AsyncError(:final error, :final stackTrace) => Text(error.toString()),
         _ => const CircularProgressIndicator(),
@@ -238,7 +254,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                             direction: Axis.vertical,
                             children: [
                               Flex(direction: Axis.horizontal, children: [
-                                Text("wallets: "),
+                                Text("tag: "),
                                 DropdownMenu<Tag>(
                                   label: Text("Tag"),
                                   onSelected: (Tag? newValue) {
@@ -270,7 +286,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                                 SizedBox(height: 50),
                               ]),
                               Flex(direction: Axis.horizontal, children: [
-                                Text("tag: "),
+                                Text("walllet: "),
                                 DropdownMenu<Wallet>(
                                   label: Text("wallet"),
                                   onSelected: (Wallet? newValue) {

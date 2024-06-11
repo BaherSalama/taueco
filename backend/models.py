@@ -27,7 +27,8 @@ class Tag(SQLModel,table=True):
 class Node(SQLModel,table=True):
     id: int | None = Field(default=None, primary_key=True)
     name: str
-    type: int
+    isgoal: bool
+    current: bool
     total: float
     amount: float
     interval : str

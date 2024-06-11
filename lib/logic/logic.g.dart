@@ -20,6 +20,20 @@ final tagsProvider = AutoDisposeFutureProvider<List<Tag>>.internal(
 );
 
 typedef TagsRef = AutoDisposeFutureProviderRef<List<Tag>>;
+String _$aiHash() => r'694fb6112ee86d3780194e67dae89ceb49d61c8b';
+
+/// See also [ai].
+@ProviderFor(ai)
+final aiProvider = AutoDisposeFutureProvider<String?>.internal(
+  ai,
+  name: r'aiProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$aiHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AiRef = AutoDisposeFutureProviderRef<String?>;
 String _$walletsHash() => r'94039dc05b745d48d1bcd9aa744c52c5847f297b';
 
 /// See also [Wallets].

@@ -39,3 +39,14 @@ async def delete_node(node: Node,session_data: User = Depends(verifier)):
         for i in session.exec(a).all():
             session.delete(i)
         session.commit()
+
+
+
+# @router.update("/",dependencies=[Depends(cookie)])
+# async def update_node(node: Node,session_data: User = Depends(verifier)):
+#     print(node)
+#     with Session(engine) as session:
+#         a=select(Node).where(Node.name == node.name and Node.user == session_data.email)
+#         for i in session.exec(a).all():
+#             session.delete(i)
+#         session.commit()

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'node.freezed.dart';
@@ -8,7 +10,8 @@ class Node with _$Node {
   factory Node({
     int? id,
     required String name,
-    required int type,
+    required bool isgoal,
+    required bool current,
     required double amount,
     required double total,
     required int wallet,

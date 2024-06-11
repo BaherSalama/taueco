@@ -9,7 +9,8 @@ part of 'node.dart';
 _$NodeImpl _$$NodeImplFromJson(Map<String, dynamic> json) => _$NodeImpl(
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String,
-      type: (json['type'] as num).toInt(),
+      isgoal: json['isgoal'] as bool,
+      current: json['current'] as bool,
       amount: (json['amount'] as num).toDouble(),
       total: (json['total'] as num).toDouble(),
       wallet: (json['wallet'] as num).toInt(),
@@ -23,7 +24,8 @@ Map<String, dynamic> _$$NodeImplToJson(_$NodeImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'type': instance.type,
+      'isgoal': instance.isgoal,
+      'current': instance.current,
       'amount': instance.amount,
       'total': instance.total,
       'wallet': instance.wallet,
