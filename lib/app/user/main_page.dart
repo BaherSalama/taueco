@@ -76,7 +76,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         SliverAppBar(
           automaticallyImplyLeading: true,
           centerTitle: true,
-          title: Text("Graphes"),
+          title: Text("Graphs"),
           pinned: true,
         ),
         SliverList.list(
@@ -88,7 +88,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         SliverAppBar(
           automaticallyImplyLeading: true,
           centerTitle: true,
-          title: Text("TimeLine"),
+          title: Text("Timeline"),
           pinned: true,
         ),
         SliverList.list(children: [
