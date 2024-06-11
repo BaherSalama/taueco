@@ -15,7 +15,7 @@ List<Color> colorArray = [
 ];
 class AppColors {
   static const Color primary = Color(0xFBFBFB);
-  static const Color menuBackground = Color(0xFBFBFB);
+  static const Color menuBackground = Color.fromARGB(255, 255, 255, 255);
   static const Color itemsBackground = Color(0xA9A0EA);
   static const Color pageBackground = Color(0xFBFBFB);
   static const Color mainTextColor1 = Colors.black;
@@ -45,18 +45,22 @@ class Style {
       displayColor: Colors.pink,
     ),
     appBarTheme: const AppBarTheme(centerTitle: true),
+     colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color.fromARGB(255, 255, 255, 255),
+        primary: Color.fromARGB(255, 255, 255, 255),
     // colorScheme: const ColorScheme(
-    //     background: Color(0xFBFBFBFF),
-    //     primary: Color(0xA9A0EAFF),
+    //     background: Colors.white,
+    //     primary: Color.fromARGB(169, 255, 255, 255),
     //     brightness: Brightness.light,
-    //     onPrimary: Color(0x624DF0ff),
+    //     onPrimary: Color.fromARGB(97, 0, 0, 0),
     //     secondary: Color(0x13152B),
     //     onSecondary: Color(0x0D0E0F),
-    //     error: Color(0xF60000),
+    //     error: Color.fromARGB(0, 255, 31, 31),
     //     onError: Color(0xF60000),
-    //     onBackground: Color(0xFBFBFB),
-    //     surface: Color(0xFBFBFBFF),
-    // onSurface: Color(0xFBFBFBFF))
+    //     onBackground: Color(0xA9A0EA),
+    //     surface: Color.fromARGB(249, 255, 255, 255),
+    // onSurface: Color.fromARGB(250, 0, 0, 0)
+    )
   );
   static ThemeData dark = ThemeData(
       appBarTheme: const AppBarTheme(centerTitle: true),

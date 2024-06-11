@@ -15,8 +15,11 @@ class AppPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset("assets/icon/Group.svg",
-                    semanticsLabel: 'A red up arrow',fit: BoxFit.contain,),
+                SvgPicture.asset(
+                  "assets/icon/Group.svg",
+                  semanticsLabel: 'A red up arrow',
+                  fit: BoxFit.contain,
+                ),
                 const Text('econome',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontFamily: 'zendots', fontSize: 50)),
@@ -28,21 +31,16 @@ class AppPage extends StatelessWidget {
                       'finances in a smart, and '
                       'efficient manner.',
                       textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey),
                     )),
 
-                SizedBox(height: 50),
-                BigButton(name: "lets go", tap: ()=> Routefly.push("user/login")), // TextButton(
-                //   style: TextButton.styleFrom(
-                //     backgroundColor: Colors.green,
-                //     elevation: 5,
-                //     minimumSize: Size(100, 50),
-                //     shadowColor: Colors.black,
-                //     shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(30)),
-                //   ),
-                //   onPressed: () => Routefly.pushNavigate("/user/signup"),
-                //   child: Text("sad"),
-                // ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+
+                BigButton(
+                    name: "Get Started",
+                    tap: () => Routefly.push("user/login")), 
               ],
             ),
           ),

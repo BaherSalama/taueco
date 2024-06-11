@@ -17,16 +17,17 @@ class BigButton extends StatelessWidget {
             surfaceTintColor: Colors.white,
             color: Colors.white,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             elevation: 10,
             child: InkWell(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(30),
                 onTap: tap,
                 child: SizedBox(
                   height: 60,
                   child: Center(
                     child: Text(
                       name,
+                      style: const TextStyle(fontWeight: FontWeight.bold)
                     ),
                   ),
                 ))));

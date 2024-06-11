@@ -334,7 +334,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                   currentPageIndex = index;
                 });
               },
-              indicatorColor: Colors.amber,
+              indicatorColor: Color(0xEEECFB),  
               selectedIndex: currentPageIndex,
               destinations: const <Widget>[
                 NavigationDestination(
@@ -378,7 +378,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               },
               labelType: NavigationRailLabelType.all,
               selectedLabelTextStyle: const TextStyle(
-                color: Colors.amber,
+                color: Color.fromARGB(255, 16, 7, 50),
               ),
               unselectedLabelTextStyle: const TextStyle(),
               // navigation rail items

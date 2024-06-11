@@ -15,7 +15,7 @@ class ProfilePage extends StatelessWidget {
         ),
         body: ListView(children: [
           ListTile(
-            title: Text("padeieaiede"),
+            title: Text("Profile"),
             onTap: (){
               Routefly.push("setting");
             },

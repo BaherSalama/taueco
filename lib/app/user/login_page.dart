@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 
 String? rawCookies;
 String? user;
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -34,19 +35,18 @@ class _HomePageState extends State<LoginPage> {
     var a =
         User(password: pass.text, email: email.text, username: username.text);
     debugPrint(a.toJson().toString());
-    http.Response response = await http.post(
-        Uri.http(ip, "/user/login"),
+    http.Response response = await http.post(Uri.http(ip, "/user/login"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(a.toJson()));
     debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
-      if(response.headers['set-cookie'] != null) {
+      if (response.headers['set-cookie'] != null) {
         // save/process cookies
         rawCookies = response.headers['set-cookie']!;
       }
       user = a.email;
-    debugPrint("noice");
-    debugPrint(rawCookies);
+      debugPrint("noice");
+      debugPrint(rawCookies);
       return true;
     }
     return false;
@@ -88,6 +88,12 @@ class _HomePageState extends State<LoginPage> {
                             return null;
                           }),
                       SizedBox(height: 50),
+                      // RichText( text: const TextSpan(
+                      //           text: "Password",
+                      //           style: TextStyle(
+                      //               fontWeight: FontWeight.bold,
+                      //               color: Colors.black
+                      //           ))),
                       PasswordText(
                           controller: pass,
                           name: "Password",
@@ -105,13 +111,16 @@ class _HomePageState extends State<LoginPage> {
                           },
                           child: RichText(
                             text: const TextSpan(
-                                text: "don't have an accuount ",
-                                style: TextStyle(color: Colors.black),
+                                text: "Don’t have an account yet? ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                  color: Color(0xff7d7d84),
+                                ),
                                 children: [
                                   TextSpan(
-                                    text: "signup",
+                                    text: "Sign Up",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.w500,
                                         color: Colors.black),
                                   )
                                 ]),
@@ -128,8 +137,8 @@ class _HomePageState extends State<LoginPage> {
                             if (await _submit()) {
                               Routefly.navigate("user/main");
                             } else {
-                              const s =
-                                  SnackBar(content: Text('Email or password wrong'));
+                              const s = SnackBar(
+                                  content: Text('Email or password wrong'));
                               ScaffoldMessenger.of(context).showSnackBar(s);
                             }
                           })
