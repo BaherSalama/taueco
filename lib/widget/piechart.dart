@@ -52,47 +52,52 @@ class PieChartSample3State extends ConsumerState<PieChartSample3> {
   Widget build(BuildContext context) {
     Widget mainContents = switch (widget.balance) {
       AsyncData(:final value) => Expanded(
-            child: Column(children: [
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(value.length, (i) {
-                return Indicator(
-                  color: colorArray[i],
-                  text: value.keys.toList()[i],
-                  isSquare: false,
-                  size: touchedIndex == i ? 18 : 16,
-                  textColor: touchedIndex == i
-                      ? AppColors.mainTextColor1
-                      : Color.fromARGB(255, 142, 142, 143),
-                );
-              })),
-          Expanded(
-              child: AspectRatio(
-            aspectRatio: 0.8,
-            child: PieChart(PieChartData(
-              pieTouchData: PieTouchData(
-                touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                  setState(() {
-                    if (!event.isInterestedForInteractions ||
-                        pieTouchResponse == null ||
-                        pieTouchResponse.touchedSection == null) {
-                      touchedIndex = -1;
-                      return;
-                    }
-                    touchedIndex =
-                        pieTouchResponse.touchedSection!.touchedSectionIndex;
-                  });
-                },
-              ),
-              borderData: FlBorderData(
-                show: false,
-              ),
-              sectionsSpace: 0,
-              centerSpaceRadius: 0,
-              sections: showingSections(value.values.toList()),
-            )),
-          ))
-        ])),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              Wrap(
+                spacing: 10,
+                runAlignment: WrapAlignment.center,
+                  direction: Axis.horizontal,
+                  children: List.generate(value.length, (i) {
+                    return Indicator(
+                      color: colorArray[i],
+                      text: value.keys.toList()[i],
+                      isSquare: false,
+                      size: touchedIndex == i ? 18 : 16,
+                      textColor: touchedIndex == i
+                          ? AppColors.mainTextColor1
+                          : Color.fromARGB(255, 142, 142, 143),
+                    );
+                  })),
+              Expanded(
+                  child: AspectRatio(
+                aspectRatio: 0.8,
+                child: PieChart(PieChartData(
+                  pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      setState(() {
+                        if (!event.isInterestedForInteractions ||
+                            pieTouchResponse == null ||
+                            pieTouchResponse.touchedSection == null) {
+                          touchedIndex = -1;
+                          return;
+                        }
+                        touchedIndex = pieTouchResponse
+                            .touchedSection!.touchedSectionIndex;
+                      });
+                    },
+                  ),
+                  borderData: FlBorderData(
+                    show: false,
+                  ),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 0,
+                  sections: showingSections(value.values.toList()),
+                )),
+              ))
+            ])),
       _ => Expanded(child: CircularProgressIndicator())
     };
     return SizedBox(
