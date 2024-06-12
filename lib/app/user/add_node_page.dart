@@ -50,7 +50,7 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
     final AsyncValue<List<Wallet>> wallets = ref.watch(walletsProvider);
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Signup'),
+          title: const Text('Add Node'),
         ),
         body: Center(
           child: Container(
@@ -175,7 +175,9 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 50),
+                      SizedBox(height: 20),
+                      Flex(direction: Axis.horizontal,children: [
+                      Text("Goal"),
                       Checkbox(
                           value: isgoal,
                           onChanged: (bool? value) {
@@ -183,13 +185,7 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
                               isgoal = value!;
                             });
                           }),
-                      Checkbox(
-                          value: iscurrent,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              iscurrent = value!;
-                            });
-                          }),
+                      ]),
                       BigButton(
                           name: "add Transaction",
                           tap: () async {

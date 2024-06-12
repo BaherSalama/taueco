@@ -88,7 +88,7 @@ class BackgroundTasks(threading.Thread):
                     clone = Node(**i.model_dump())
                     clone.id = None
                     clone.date = j
-                    if clone.total < clone.amount:
+                    if abs(clone.total) < abs(clone.amount):
                         clone.amount = clone.total
                     clone.total -= clone.amount
                     if abs(clone.total) == 0:

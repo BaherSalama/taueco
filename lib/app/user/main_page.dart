@@ -255,7 +255,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 PieAction(
                   tooltip: const Text('Add'),
                   onSelect: () => switch (currentPageIndex) {
-                    1 => Routefly.pushNavigate("add_node"),
+                    1||2 => Routefly.pushNavigate("add_node"),
                     3 => Routefly.pushNavigate("add_wallet"),
                     _ => null
                   },
