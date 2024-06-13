@@ -108,6 +108,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 margin: EdgeInsets.all(17.0),
                 padding: EdgeInsets.all(20),
                 child: Flex(
+                  mainAxisSize: MainAxisSize.max,
                   direction: Axis.horizontal,
                   children: [
                     SvgPicture.asset("assets/icon/AI.svg",
@@ -115,6 +116,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                     Flexible(
                         child: switch (ai) {
                       AsyncData(:final value) => TypeWriter.text(
+                            maintainSize: false,
+                            softWrap: true,
                             value!,
                             duration: const Duration(milliseconds: 50),
                           ) ??
@@ -255,7 +258,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 PieAction(
                   tooltip: const Text('Add'),
                   onSelect: () => switch (currentPageIndex) {
-                    1||2 => Routefly.pushNavigate("add_node"),
+                    1 || 2 => Routefly.pushNavigate("add_node"),
                     3 => Routefly.pushNavigate("add_wallet"),
                     _ => null
                   },
@@ -375,14 +378,14 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               destinations: <Widget>[
                 NavigationDestination(
                     label: "Home",
-                    icon: SvgPicture.asset("assets/icon/Home.svg",
+                    icon: SvgPicture.asset("assets/icon/home.svg",
                         semanticsLabel: 'A red up arrow', fit: BoxFit.contain)),
                 NavigationDestination(
                   icon: Badge(
                       child: SvgPicture.asset("assets/icon/arrow-2.svg",
                           semanticsLabel: 'A red up arrow',
                           fit: BoxFit.contain)),
-                  label: 'Transactions',
+                  label: 'Transaction',
                 ),
                 NavigationDestination(
                   icon: Badge(
@@ -393,11 +396,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                   label: 'Goals',
                 ),
                 NavigationDestination(
-                  icon: Badge(
-                      label: Text('2'),
-                      child: SvgPicture.asset("assets/icon/wallet.svg",
-                          semanticsLabel: 'A red up arrow',
-                          fit: BoxFit.contain)),
+                  icon: SvgPicture.asset("assets/icon/wallet.svg",
+                      semanticsLabel: 'A red up arrow', fit: BoxFit.contain),
                   label: 'Wallets',
                 ),
               ],

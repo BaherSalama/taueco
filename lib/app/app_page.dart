@@ -8,12 +8,7 @@ class AppPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: ListView(
               children: [
                 SvgPicture.asset(
                   "assets/icon/Group.svg",
@@ -22,7 +17,7 @@ class AppPage extends StatelessWidget {
                 ),
                 const Text('econome',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontFamily: 'zendots', fontSize: 50)),
+                    style: TextStyle(fontFamily: 'zendots', fontSize: 45)),
                 ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 300),
                     child: const Text(
@@ -41,11 +36,12 @@ class AppPage extends StatelessWidget {
                 BigButton(
                     name: "Get Started",
                     tap: () => Routefly.push("user/login")), 
+                    
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }

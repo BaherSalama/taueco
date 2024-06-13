@@ -57,9 +57,8 @@ class _AddNodeState extends ConsumerState<AddNodePage> {
               constraints: BoxConstraints(maxWidth: 300),
               child: Form(
                 key: _formKey,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                child: ListView(
+                  shrinkWrap: true,
                     children: [
                       InputText(
                           controller: name,
